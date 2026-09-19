@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.media-source/
+artifacts/
+coverage/
+src/assets/*.zip
+.env*

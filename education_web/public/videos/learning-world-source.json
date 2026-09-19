@@ -1,0 +1,216 @@
+{
+  "source": "src/assets/ezgif-869e7c93d25206b9-jpg.zip",
+  "sourceSha256": "31b268e84bf3a9d10d25af925bc94cf7e6a6ef96c96085653c2768bc284783c3",
+  "output": "public/videos/learning-world-zip.mp4",
+  "outputSha256": "58866b0a47b6696b37e6ba79d31bad269135f61aba069f14881e8829a098da45",
+  "frameCount": 50,
+  "frameRate": 10,
+  "durationSeconds": 5,
+  "timingNote": "ZIP has no frame timing; 10 fps is an encoding choice, not recovered source timing.",
+  "comparison": {
+    "method": "All frames in sequence order, SSIM",
+    "ssim": 0.996701
+  },
+  "frames": [
+    {
+      "name": "ezgif-frame-001.jpg",
+      "sha256": "7671e77a1f5a1a0c1295b7f62d047e59d629fe150170b5f7c33101f7bdfcc449"
+    },
+    {
+      "name": "ezgif-frame-002.jpg",
+      "sha256": "2ef7babd9186e056229b99ce60198e939fb8517c6653e4687999c9bd7b6be5cc"
+    },
+    {
+      "name": "ezgif-frame-003.jpg",
+      "sha256": "a1e55d762e5941dfeb8aac061349c9e5f0179f4ab3b4c5f1b6b5249623bef78a"
+    },
+    {
+      "name": "ezgif-frame-004.jpg",
+      "sha256": "e8c60cdb6396cf9ee8f1311eed15297e487ceb65c9e461acf48408ef2e84f02f"
+    },
+    {
+      "name": "ezgif-frame-005.jpg",
+      "sha256": "3240571ffd87e7d21e5bba4a6402c6dce767824427c4b6c279c8ef2f5562467c"
+    },
+    {
+      "name": "ezgif-frame-006.jpg",
+      "sha256": "0a2d100da2f8c3dd1d5acaea710b1ac66d85ced0b14c8f58dc0b856df56c1b6b"
+    },
+    {
+      "name": "ezgif-frame-007.jpg",
+      "sha256": "0ccae45f7631f538fa47c22f32f2066939941f729e4fb30e424fa9d83e0ac63e"
+    },
+    {
+      "name": "ezgif-frame-008.jpg",
+      "sha256": "f72e76eeaa67aefe8b1d716d9d3da9b119076f123399a5b8fdc342581c1a9222"
+    },
+    {
+      "name": "ezgif-frame-009.jpg",
+      "sha256": "c9ef687736b46096b3b9173c9837770170108d9463277c3c7a7f36c43a4b5a0e"
+    },
+    {
+      "name": "ezgif-frame-010.jpg",
+      "sha256": "042c1d995a62e5f1fdcb520ebddff5db893ebb3e7cac57011ed87f720ef6a671"
+    },
+    {
+      "name": "ezgif-frame-011.jpg",
+      "sha256": "b45e109cf04e44d56f510ac478d0f7543f579add3099e9288d7513d3b6acf188"
+    },
+    {
+      "name": "ezgif-frame-012.jpg",
+      "sha256": "0a40c482375e7d033481c3a5aa0b719bc4741790947bca26a9898faedc70957e"
+    },
+    {
+      "name": "ezgif-frame-013.jpg",
+      "sha256": "931aff87a669eb53eb1b57410df69c124c5898f17c5355718b0275a5c8e78eee"
+    },
+    {
+      "name": "ezgif-frame-014.jpg",
+      "sha256": "ff6647bdb8dd54a74222adf95d435f523ba55124bc7aa2d00f2d268a8d76803c"
+    },
+    {
+      "name": "ezgif-frame-015.jpg",
+      "sha256": "e6e0f55bb43b2a36c1efc679c6acabce4a441007c530118106128d7ad2a691d4"
+    },
+    {
+      "name": "ezgif-frame-016.jpg",
+      "sha256": "70113fb56aeb76c46d4877b815efa22985286c58b30c6212cac8d6b1c3a9b458"
+    },
+    {
+      "name": "ezgif-frame-017.jpg",
+      "sha256": "31995b6f2f50466e3983614db5d75154e6d497c2fdc712e0aee402a376b7b8f7"
+    },
+    {
+      "name": "ezgif-frame-018.jpg",
+      "sha256": "ffbf078f312e9fa7a1ca715277f1d15ce953f45ac02e513eeb819eafe4749ee5"
+    },
+    {
+      "name": "ezgif-frame-019.jpg",
+      "sha256": "f1eaff509c22c05f073ef303b2b02f9964cdbc5d441b81ce6060ec455ce5de63"
+    },
+    {
+      "name": "ezgif-frame-020.jpg",
+      "sha256": "2077341eb521e01ec9e7586d7488cd6ddceb208f20fd562dcfd80486623a636b"
+    },
+    {
+      "name": "ezgif-frame-021.jpg",
+      "sha256": "24e806b2a41b3afab75f30eea6eb55c87fb54f7ef6ccfe6e636a9e13e8b1780c"
+    },
+    {
+      "name": "ezgif-frame-022.jpg",
+      "sha256": "a1c647788d6770a5b51b21f18b392402636475c63b26175712bc60f771c2ffcd"
+    },
+    {
+      "name": "ezgif-frame-023.jpg",
+      "sha256": "2d3273ab1f54e2437a67a6d1d248bf017112fefcc19b23e85d89df9e7b8a958c"
+    },
+    {
+      "name": "ezgif-frame-024.jpg",
+      "sha256": "530e6515edbf38f44b9a90afa2bff233d627c0496fedbf9a83ba3cbfae095f85"
+    },
+    {
+      "name": "ezgif-frame-025.jpg",
+      "sha256": "92b9d4a1add128ae3d4cff0b2443742f5bb2c48c7ecfbd5d15415d6107a34874"
+    },
+    {
+      "name": "ezgif-frame-026.jpg",
+      "sha256": "0371acd8f83017aabd09164148d848ce9e511556855c8763236bd6710bb84202"
+    },
+    {
+      "name": "ezgif-frame-027.jpg",
+      "sha256": "9eb8399239e0000ccd19f01fde53ca0b2de008259c55b116afb30f783c92ce91"
+    },
+    {
+      "name": "ezgif-frame-028.jpg",
+      "sha256": "f597eeacbeecaafa34a6c0069e7691e7315d7bbc4599152932720293f70c0ba1"
+    },
+    {
+      "name": "ezgif-frame-029.jpg",
+      "sha256": "7cae8a45cb6b4da3d40b093b561425a7103bcd8c3497847227bb0548f0a4b5ad"
+    },
+    {
+      "name": "ezgif-frame-030.jpg",
+      "sha256": "7ab7c518220b22346a55347d003716c66e53900b108f7dbe1016efebbfddddf0"
+    },
+    {
+      "name": "ezgif-frame-031.jpg",
+      "sha256": "d9aadf80dd1cf3951730512bb9a04c367cecafd5dd47a918e011bb28c0e4c9b2"
+    },
+    {
+      "name": "ezgif-frame-032.jpg",
+      "sha256": "7e5061699f28876b6d6670d69cf612d33ca9f044e9e04b438bfa02295f34c9b5"
+    },
+    {
+      "name": "ezgif-frame-033.jpg",
+      "sha256": "49ce26ffb909a38492071c37f71ac113b721d56cf1cddaa91fe060677411963f"
+    },
+    {
+      "name": "ezgif-frame-034.jpg",
+      "sha256": "ea87e2f1be18908d2c907f5faeefd82e485b9237006b2f59405d6a234243820b"
+    },
+    {
+      "name": "ezgif-frame-035.jpg",
+      "sha256": "1a5bd6cbf8bf9d1bbaf109878d4942490100a530112ca2a47407f930838ed765"
+    },
+    {
+      "name": "ezgif-frame-036.jpg",
+      "sha256": "b0bb2d999e63b9ee84398100cb28ccf8c08df9646bea9833591321f1027b0ce3"
+    },
+    {
+      "name": "ezgif-frame-037.jpg",
+      "sha256": "788b1653a88012f0b83c6b60583f08a5e8522472f750011a6e14842e9976c70d"
+    },
+    {
+      "name": "ezgif-frame-038.jpg",
+      "sha256": "fa516311ffe1afd9748ca5e7c9baf11d1f150f918dfc1b682f9eb00ba7ad16f1"
+    },
+    {
+      "name": "ezgif-frame-039.jpg",
+      "sha256": "6e4a878fee7750b5c0a42047445cf44734e1edda7de7fff1975c2150eb7dc781"
+    },
+    {
+      "name": "ezgif-frame-040.jpg",
+      "sha256": "020f0b79a49878cabc27376bce18b5c22a1fc9d0378d8ca1aa96769f14f6c8dc"
+    },
+    {
+      "name": "ezgif-frame-041.jpg",
+      "sha256": "c70537380cf66f82dd8f903b08de5c45900bd5acbfb1c04a891e174356ceae13"
+    },
+    {
+      "name": "ezgif-frame-042.jpg",
+      "sha256": "1e1b38fa2a2a5e7e403bbcc000953508216ae3e9e87328e2bcb98f884ae39101"
+    },
+    {
+      "name": "ezgif-frame-043.jpg",
+      "sha256": "c3294adaf8a7ca6ab5692f380ee883604f1a26f70e8865e4ef47041b44201be6"
+    },
+    {
+      "name": "ezgif-frame-044.jpg",
+      "sha256": "7f43e688d5228f72a6a4fe5e2d874018dc638bde1387c57cc222a0c4c452cde7"
+    },
+    {
+      "name": "ezgif-frame-045.jpg",
+      "sha256": "707c84d47cbda247d8fcfc721e86dff9fe9d6cfb97d29761013d80c32f5792b1"
+    },
+    {
+      "name": "ezgif-frame-046.jpg",
+      "sha256": "5963d2731ef58ececc42421bc2290d3d60520ea2278f0c4109c3ba7ba3b39403"
+    },
+    {
+      "name": "ezgif-frame-047.jpg",
+      "sha256": "51d619611d97918513e2eed67a36d3a0bc5af3b64c5b22858ae9158f1512119e"
+    },
+    {
+      "name": "ezgif-frame-048.jpg",
+      "sha256": "55fd5d11500816532bdf57ab068307723888710483a024a3db7e8d4f7c467d41"
+    },
+    {
+      "name": "ezgif-frame-049.jpg",
+      "sha256": "c01c3152f09db1b0c752cec21657c29fdcf81781feb96c738f8a8bfa9e34c4e3"
+    },
+    {
+      "name": "ezgif-frame-050.jpg",
+      "sha256": "23e5e77f592b7233f7636666665c98f0e1198f94e297771785026a58597e8402"
+    }
+  ]
+}

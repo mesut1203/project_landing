@@ -1,0 +1,13 @@
+node_modules/
+dist/
+tmp/
+test-results/
+playwright-report/
+tests/
+scripts/
+playwright.config.ts
+src/assets/*.zip
+*.md
+*.log
+.env
+.env.*

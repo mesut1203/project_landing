@@ -1,0 +1,46 @@
+{
+  "name": "education_web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "format": "prettier --write src tests vite.config.ts vitest.config.ts",
+    "media:fetch": "node scripts/fetch-intro-media.mjs",
+    "media:build": "node scripts/build-intro.mjs",
+    "media:world": "node scripts/build-scroll-video.mjs",
+    "test:scroll-browser": "node scripts/qa-scroll-world.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource/be-vietnam-pro": "^5.3.0",
+    "@phosphor-icons/react": "^2.1.10",
+    "@radix-ui/react-dialog": "^1.1.23",
+    "@tailwindcss/vite": "^4.3.3",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "jsdom": "^29.1.1",
+    "oxlint": "^1.81.0",
+    "playwright-core": "^1.63.0",
+    "prettier": "^3.9.6",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.0"
+  },
+  "optionalDependencies": {
+    "@ffmpeg-installer/win32-x64": "4.1.0"
+  }
+}

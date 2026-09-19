@@ -1,0 +1,12 @@
+.agents/
+.aider-desk/
+.tmp/
+node_modules/
+dist/
+design-system/
+test-results/
+test-results-production/
+playwright-report/
+tests/
+src/assets/*.zip
+*.tsbuildinfo

@@ -1,0 +1,130 @@
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('../media/fonts/barlow-condensed-latin-700-normal.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('../media/fonts/barlow-condensed-latin-800-italic.woff2') format('woff2');
+  font-style: italic;
+  font-weight: 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('../media/fonts/dm-sans-latin-400-normal.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('../media/fonts/dm-sans-latin-500-normal.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+  --color-bg: #171614;
+  --color-surface: #211f1c;
+  --color-text: #f4eddf;
+  --color-muted: #b7b0a4;
+  --color-accent: #c93626;
+  --color-line: rgba(244, 237, 223, 0.18);
+  --color-button-text: #fff8eb;
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --radius-image: 8px;
+  --radius-button: 999px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wordmark {
+  display: inline-block;
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: -0.065em;
+  line-height: 1.1;
+  text-decoration: none;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  min-height: 52px;
+  padding: 14px 24px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-button);
+  background: var(--color-accent);
+  color: var(--color-button-text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  cursor: pointer;
+  transition: transform 220ms var(--ease-out), opacity 220ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button:hover { transform: translateY(-2px); }
+  .button:hover .button-arrow { transform: translateX(3px); }
+}
+
+.button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.button:focus-visible,
+.wordmark:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 5px;
+}
+
+.button--outline {
+  border-color: rgba(244, 237, 223, 0.45);
+  background: transparent;
+  color: var(--color-text);
+}
+
+.button-arrow {
+  display: inline-block;
+  font-size: 20px;
+  line-height: 1;
+  transition: transform 220ms var(--ease-out);
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button,
+  .button-arrow {
+    transition: none;
+  }
+
+  .button:hover,
+  .button:active,
+  .button:hover .button-arrow {
+    transform: none;
+  }
+}

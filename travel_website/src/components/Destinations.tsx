@@ -1,0 +1,127 @@
+import { useState } from 'react'
+import { content, type DestinationCategory } from '../data/content'
+import { Arrow } from './Icon'
+import { Reveal } from './Reveal'
+import { SectionTransition } from './SectionTransition'
+export function Destinations({ onChoose }: { onChoose: (id: string) => void }) {
+  const [filter, setFilter] = useState<DestinationCategory>('all')
+  const { destinations, interlude } = content
+  const items = destinations.items.filter(
+    (item) => filter === 'all' || item.category === filter,
+  )
+  return (
+    <>
+      <SectionTransition>
+        <section
+          id="destinations"
+          className="destinations-section section-space"
+          aria-labelledby="destinations-heading"
+          tabIndex={-1}
+        >
+          <div className="shell">
+            <Reveal className="destination-heading">
+              <div>
+                <p className="eyebrow text-accent">{destinations.eyebrow}</p>
+                <h2 id="destinations-heading" className="section-heading">
+                  {destinations.heading}
+                  <br />
+                  <em>{destinations.emphasis}</em>
+                </h2>
+              </div>
+              <p className="body-copy">{destinations.description}</p>
+            </Reveal>
+            <div className="destination-tools">
+              <div
+                className="filters"
+                role="group"
+                aria-label={content.a11y.filter}
+              >
+                {destinations.filters.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    aria-pressed={filter === item.id}
+                    onClick={() => setFilter(item.id)}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+              <span className="result-count" role="status">
+                {destinations.count(items.length)}
+              </span>
+            </div>
+            <div className="destination-grid">
+              {items.map((item, index) => (
+                <Reveal
+                  key={`${filter}-${item.id}`}
+                  className="destination-reveal"
+                  delay={index * 100}
+                >
+                  <article className="destination-card">
+                    <a
+                      className="destination-photo"
+                      href="#plan-trip"
+                      onClick={() => onChoose(item.id)}
+                      aria-label={`${destinations.choose}: ${item.name}`}
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.alt}
+                        width="1280"
+                        height="720"
+                        loading="lazy"
+                      />
+                      <span className="destination-number">{item.number}</span>
+                      <span className="destination-tag">{item.mood}</span>
+                      <span className="image-arrow">
+                        <Arrow diagonal />
+                      </span>
+                    </a>
+                    <p className="eyebrow destination-location">
+                      {item.location}
+                    </p>
+                    <h3>{item.name}</h3>
+                    <p className="destination-description">
+                      {item.description}
+                    </p>
+                    <a
+                      className="text-link"
+                      href="#plan-trip"
+                      onClick={() => onChoose(item.id)}
+                    >
+                      {destinations.choose}
+                      <Arrow />
+                    </a>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
+            <p className="image-note">{destinations.imageNote}</p>
+          </div>
+        </section>
+      </SectionTransition>
+      <SectionTransition>
+        <section className="interlude" aria-label={interlude.eyebrow}>
+          <img
+            src={interlude.image}
+            alt=""
+            width="1280"
+            height="720"
+            loading="lazy"
+          />
+          <div className="interlude-shade" />
+          <Reveal className="interlude-content" stagger>
+            <p className="eyebrow">{interlude.eyebrow}</p>
+            <p className="interlude-quote">
+              {interlude.line}
+              <br />
+              <em>{interlude.emphasis}</em>
+            </p>
+            <span className="interlude-line" />
+          </Reveal>
+        </section>
+      </SectionTransition>
+    </>
+  )
+}

@@ -1,0 +1,16 @@
+node_modules/
+dist/
+*.local
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db
+tmp/
+test-results/
+playwright-report/
+.vercel/
+
+.vercel
+.env*

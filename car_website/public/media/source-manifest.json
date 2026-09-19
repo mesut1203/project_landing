@@ -1,0 +1,14 @@
+{
+  "source": "src\\assets\\ezgif-7893fd5aaba20c46-jpg.zip",
+  "frames": 160,
+  "width": 1280,
+  "height": 720,
+  "fps": 16,
+  "webpBytes": 2963468,
+  "portraitChainAvailable": false,
+  "limitations": [
+    "Source watermark and manufacturer badges retained",
+    "Vehicle identity changes between shots",
+    "Source contains cuts; seamless camera continuity cannot be created by the scrubber"
+  ]
+}

@@ -1,0 +1,432 @@
+.learning-world {
+  padding-top: 92px;
+  background: #f0f1eb;
+  border-top: 1px solid var(--line);
+}
+.world-heading {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 48px;
+  align-items: end;
+  padding-bottom: 48px;
+}
+.world-heading h2 {
+  font-size: clamp(40px, 4.6vw, 66px);
+  margin: 18px 0 0;
+  letter-spacing: -2.8px;
+}
+.world-introduction {
+  max-width: 370px;
+  justify-self: end;
+}
+.world-introduction > p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.85;
+  text-wrap: pretty;
+}
+.world-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  font-size: 11px;
+  color: var(--ink);
+}
+.world-track {
+  --world-nav-height: calc(104px + env(safe-area-inset-top, 0px));
+  height: 340svh;
+  padding-bottom: 24px;
+  position: relative;
+}
+.world-stage {
+  --world-progress: 0;
+  position: sticky;
+  top: var(--world-nav-height);
+  width: min(1440px, calc(100% - 48px));
+  height: min(810px, calc(100svh - var(--world-nav-height) - 16px));
+  min-height: 420px;
+  margin-inline: auto;
+  isolation: isolate;
+  border-radius: 16px;
+  overflow: clip;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #fffdf5;
+  background: #202820;
+}
+.world-media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+.world-media img,
+.world-media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.world-media video {
+  opacity: 0;
+}
+.world-media video.is-painted {
+  opacity: 1;
+}
+.world-stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    rgb(18 28 29 / 46%),
+    transparent 26%,
+    rgb(13 25 27 / 12%) 38%,
+    rgb(13 25 27 / 85%) 100%
+  );
+}
+.world-topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 36px;
+  font-size: 11px;
+}
+.world-topline > span {
+  letter-spacing: 0.3px;
+}
+.world-topline a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  gap: 10px;
+  text-underline-offset: 5px;
+}
+.world-topline a:hover {
+  text-decoration: underline;
+}
+.world-story {
+  padding: 0 48px 28px;
+}
+.world-steps {
+  display: grid;
+  padding: 0;
+  margin: 0 0 30px;
+  list-style: none;
+  max-width: 500px;
+}
+.world-step {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 240ms ease,
+    transform 400ms var(--ease-out);
+  pointer-events: none;
+}
+.world-step.is-active {
+  opacity: 1;
+  transform: none;
+}
+.world-step-label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--sun);
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+.world-step-label > span {
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  padding-right: 14px;
+  border-right: 1px solid rgb(247 205 75 / 45%);
+}
+.world-step h3 {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 3.5vw, 52px);
+  font-weight: 750;
+  line-height: 1.08;
+  letter-spacing: -1.7px;
+  max-width: 440px;
+  text-wrap: balance;
+  margin: 0 0 16px;
+}
+.world-step-description {
+  max-width: 410px;
+  color: #e6e9df;
+  font-size: 13px;
+  line-height: 1.8;
+  text-wrap: pretty;
+}
+.world-chapters {
+  display: flex;
+  gap: 30px;
+}
+.world-chapter {
+  flex: 1;
+  min-width: 0;
+  min-height: 54px;
+  padding: 0;
+  text-align: left;
+  color: #d5dbd2;
+  background: transparent;
+  border: 0;
+  transition: color 180ms ease;
+}
+.world-chapter-line {
+  display: block;
+  height: 2px;
+  background: rgb(255 253 245 / 28%);
+}
+.world-chapter-line i {
+  display: block;
+  height: 100%;
+  background: var(--sun);
+  transform-origin: left;
+}
+.world-chapter-0 i {
+  transform: scaleX(var(--chapter-0, 0));
+}
+.world-chapter-1 i {
+  transform: scaleX(var(--chapter-1, 0));
+}
+.world-chapter-2 i {
+  transform: scaleX(var(--chapter-2, 0));
+}
+.world-chapter-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 14px;
+  font-size: 13px;
+}
+.world-chapter-name > span {
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.65;
+}
+.world-chapter-name svg {
+  margin-left: auto;
+  opacity: 0;
+  transform: translate(-3px, 3px);
+  transition:
+    opacity 180ms,
+    transform 180ms;
+}
+.world-chapter.is-active,
+.world-chapter:hover {
+  color: #fffdf5;
+}
+.world-chapter.is-active .world-chapter-name svg,
+.world-chapter:hover svg {
+  opacity: 1;
+  transform: none;
+}
+.world-chapter:active {
+  transform: translateY(1px);
+}
+.world-stage :focus-visible {
+  outline-color: var(--sun);
+  outline-offset: 5px;
+}
+@media (max-width: 767px) {
+  .learning-world {
+    padding-top: 62px;
+  }
+  .world-heading {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding-bottom: 32px;
+  }
+  .world-heading h2 {
+    font-size: clamp(34px, 8.2vw, 50px);
+    letter-spacing: -1.8px;
+  }
+  .world-introduction {
+    justify-self: start;
+    max-width: 440px;
+  }
+  .world-introduction > p {
+    font-size: 13px;
+  }
+  .world-hint {
+    margin-top: 14px;
+  }
+  .world-track {
+    --world-nav-height: calc(88px + env(safe-area-inset-top, 0px));
+    height: 280svh;
+  }
+  .world-stage {
+    width: calc(100% - 24px);
+    min-height: 0;
+    height: auto;
+    background: #e5e8df;
+    color: var(--ink);
+    border-radius: 12px;
+  }
+  .world-media {
+    position: relative;
+    inset: auto;
+    flex-shrink: 0;
+    aspect-ratio: 16 / 9;
+    z-index: 0;
+  }
+  .world-media img,
+  .world-media video {
+    object-fit: contain;
+  }
+  .world-stage::before {
+    display: none;
+  }
+  .world-topline {
+    padding: 6px 20px 0;
+    justify-content: end;
+    font-size: 10px;
+  }
+  .world-topline > span {
+    display: none;
+  }
+  .world-story {
+    padding: 6px 22px 22px;
+  }
+  .world-steps {
+    margin-bottom: 20px;
+    max-width: none;
+  }
+  .world-step-label {
+    color: #596847;
+    margin-bottom: 10px;
+    font-size: 10px;
+  }
+  .world-step-label > span {
+    border-color: #a7b49b;
+  }
+  .world-step h3 {
+    font-size: clamp(26px, 7.2vw, 38px);
+    letter-spacing: -1.1px;
+    max-width: 340px;
+    margin-bottom: 12px;
+  }
+  .world-step-description {
+    color: #526151;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .world-chapters {
+    gap: 18px;
+  }
+  .world-chapter {
+    color: #6b7865;
+    min-height: 44px;
+  }
+  .world-chapter.is-active,
+  .world-chapter:hover {
+    color: var(--ink);
+  }
+  .world-chapter-line {
+    background: #b8c0af;
+  }
+  .world-chapter-line i {
+    background: #5e7045;
+  }
+  .world-chapter-name {
+    font-size: 11px;
+    gap: 8px;
+    padding-top: 12px;
+  }
+  .world-chapter-name svg {
+    display: none;
+  }
+  .world-stage :focus-visible {
+    outline-color: var(--blue);
+  }
+}
+.world-static {
+  height: auto;
+  padding-bottom: 32px;
+}
+.world-static .world-stage {
+  position: relative;
+  top: 0;
+  height: auto;
+  min-height: 0;
+}
+.world-static .world-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  inset: auto;
+  z-index: 0;
+}
+.world-static .world-stage::before {
+  display: none;
+}
+.world-static .world-story {
+  padding-top: 22px;
+}
+.world-static .world-steps {
+  max-width: none;
+  gap: 30px;
+}
+.world-static .world-step {
+  grid-area: auto;
+  opacity: 1;
+  transform: none;
+}
+.world-static .world-chapters {
+  display: none;
+}
+@media (max-height: 650px) and (min-width: 768px) {
+  .world-topline {
+    padding-block: 12px;
+  }
+  .world-story {
+    padding: 0 36px 18px;
+  }
+  .world-steps {
+    margin-bottom: 18px;
+  }
+  .world-step h3 {
+    font-size: 36px;
+    max-width: 440px;
+  }
+}
+@media (max-height: 560px) {
+  .world-track {
+    height: auto;
+  }
+  .world-stage {
+    position: relative;
+    top: 0;
+    min-height: 0;
+    height: auto;
+  }
+  .world-media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    z-index: 0;
+  }
+  .world-stage::before {
+    display: none;
+  }
+  .world-story {
+    padding-top: 20px;
+  }
+  .world-steps {
+    gap: 28px;
+  }
+  .world-step {
+    grid-area: auto;
+    opacity: 1;
+    transform: none;
+  }
+  .world-chapters {
+    display: none;
+  }
+}

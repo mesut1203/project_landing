@@ -1,0 +1,8 @@
+node_modules/
+dist/
+tmp/
+test-results/
+playwright-report/
+src/assets/*.zip
+src/assets/*.mp4
+src/assets/hero.png

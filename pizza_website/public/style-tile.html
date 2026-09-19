@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#171614" />
+    <meta name="description" content="The Fiamma Pizza House visual identity: warm charcoal, tomato red, generous typography, honest food imagery, and considered motion." />
+    <title>Style tile | Fiamma Pizza House</title>
+    <link rel="stylesheet" href="./styles/brand.css" />
+    <style>
+      .style-tile, .style-tile * { box-sizing: border-box; }
+      .style-tile { margin: 0; background: var(--color-bg); color: var(--color-text); font: 400 16px/1.6 var(--font-body); -webkit-font-smoothing: antialiased; }
+      .style-tile h1, .style-tile h2, .style-tile h3, .style-tile p, .style-tile figure { margin: 0; }
+      .style-tile a:not(.button) { color: inherit; }
+      .style-tile button { -webkit-tap-highlight-color: transparent; }
+      .style-tile a:focus-visible, .style-tile button:focus-visible { outline: 2px solid var(--color-text); outline-offset: 6px; }
+      .style-tile .skip-link { position: absolute; top: 12px; left: 12px; z-index: 10; padding: 10px 18px; background: var(--color-text); color: var(--color-bg); transform: translateY(-150%); }
+      .style-tile .skip-link:focus { transform: translateY(0); }
+      .tile-shell { width: min(1320px, calc(100% - 112px)); margin-inline: auto; }
+      .tile-header { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 88px; border-bottom: 1px solid var(--color-line); }
+      .tile-header .wordmark { font-size: 36px; }
+      .tile-header nav a { display: inline-flex; align-items: center; gap: 20px; min-height: 44px; text-decoration: none; font-size: 13px; }
+      .tile-header nav a:hover { text-decoration: underline; text-underline-offset: 5px; }
+      .tile-intro { display: grid; grid-template-columns: 1.1fr 1fr; align-items: end; gap: 64px; padding: 88px 0 70px; }
+      .tile-intro h1 { margin-top: 18px; font: 700 clamp(64px, 7.8vw, 108px)/.95 var(--font-display); letter-spacing: -.035em; }
+      .tile-intro > p { max-width: 420px; margin-bottom: 3px; color: var(--color-muted); font-size: 17px; }
+      .identity-stage { display: grid; grid-template-columns: 1.1fr 1fr; min-height: 400px; overflow: hidden; border-radius: var(--radius-image); background: var(--color-surface); }
+      .identity-mark { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 44px; }
+      .identity-mark .wordmark { font-size: clamp(100px, 13vw, 185px); padding-right: .08em; }
+      .identity-mark > p { margin-top: 16px; font-size: 11px; letter-spacing: .22em; text-transform: uppercase; }
+      .identity-stage figure { min-height: 400px; }
+      .identity-stage img { display: block; width: 100%; height: 100%; min-height: 400px; object-fit: cover; object-position: 62% center; }
+      .tile-section { margin-top: 88px; padding-top: 28px; border-top: 1px solid var(--color-line); }
+      .section-label { margin-bottom: 34px !important; font-size: 14px; font-weight: 500; }
+      .palette { display: grid; grid-template-columns: 1.25fr 1fr 1fr .85fr; gap: 20px; }
+      .swatch-color { height: 136px; border-radius: var(--radius-image); }
+      .swatch-charcoal { background: var(--color-bg); border: 1px solid var(--color-line); }
+      .swatch-tomato { background: var(--color-accent); }
+      .swatch-cream { background: var(--color-text); }
+      .swatch-ash { background: var(--color-muted); }
+      .style-tile .swatch-info { display: flex; justify-content: space-between; gap: 12px; margin-top: 16px; font-size: 12px; }
+      .swatch-info span { color: var(--color-muted); }
+      .palette-note { max-width: 610px; margin-top: 26px !important; color: var(--color-muted); font-size: 13px; }
+      .type-display { display: grid; grid-template-columns: 160px 1fr; gap: 40px; }
+      .type-meta { padding-top: 6px; color: var(--color-muted); font-size: 12px; }
+      .type-meta strong { display: block; color: var(--color-text); font-weight: 500; margin-bottom: 5px; }
+      .display-specimen { max-width: 780px; font: 700 clamp(68px, 8.4vw, 116px)/.94 var(--font-display); letter-spacing: -.032em; }
+      .type-body { display: grid; grid-template-columns: 160px 1.25fr 1fr; gap: 40px; margin-top: 56px; }
+      .body-specimen p { max-width: 460px; font-size: 18px; line-height: 1.65; }
+      .alphabet { color: var(--color-muted); font-size: 17px; line-height: 1.8; overflow-wrap: anywhere; }
+      .details-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 90px; }
+      .button-specimens { display: flex; align-items: flex-start; gap: 15px; flex-wrap: wrap; }
+      .button-caption { margin-top: 12px !important; color: var(--color-muted); font-size: 12px; }
+      .details-note { max-width: 435px; margin-top: 30px !important; color: var(--color-muted); font-size: 14px; }
+      .voice-sample { font: 700 clamp(42px, 4.5vw, 58px)/1 var(--font-display); letter-spacing: -.02em; }
+      .voice-note { margin-top: 22px !important; color: var(--color-muted); font-size: 14px; max-width: 410px; }
+      .motion-layout { display: grid; grid-template-columns: .76fr 1.4fr; gap: 74px; align-items: center; }
+      .motion-copy h3 { max-width: 250px; font: 700 48px/1 var(--font-display); letter-spacing: -.02em; }
+      .motion-copy > p { max-width: 285px; margin-top: 20px; color: var(--color-muted); font-size: 14px; }
+      .motion-controls { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+      .motion-controls .button { min-height: 44px; padding: 10px 18px; font-size: 12px; }
+      .motion-stage { display: grid; min-height: 325px; overflow: hidden; place-items: center; border-radius: var(--radius-image); background: var(--color-surface); }
+      .motion-art { width: 100%; text-align: center; }
+      .motion-art .wordmark { font-size: clamp(92px, 9vw, 140px); padding-right: .08em; }
+      .motion-art p { margin-top: 15px; font-size: 11px; text-transform: uppercase; letter-spacing: .18em; }
+      .motion-art.is-playing { animation: reveal-study 1400ms var(--ease-out) both; }
+      .motion-art.is-paused { animation-play-state: paused; }
+      .motion-status { min-height: 22px; margin-top: 15px !important; color: var(--color-muted); font-size: 12px; }
+      .tile-footer { display: flex; justify-content: space-between; gap: 24px; margin-top: 88px; padding: 28px 0 38px; border-top: 1px solid var(--color-line); color: var(--color-muted); font-size: 12px; }
+      .tile-footer a { text-underline-offset: 5px; }
+      @keyframes reveal-study { from { opacity: 0; transform: translateY(30px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+      @media (min-width: 1440px) { .identity-stage figure, .identity-stage img { min-height: 440px; } }
+      @media (max-width: 1023px) {
+        .tile-shell { width: calc(100% - 64px); }
+        .tile-intro { gap: 40px; padding-top: 64px; }
+        .identity-stage, .identity-stage figure, .identity-stage img { min-height: 320px; }
+        .identity-mark { padding: 28px; }
+        .swatch-info { flex-direction: column; gap: 0; }
+        .type-display { grid-template-columns: 130px 1fr; gap: 28px; }
+        .type-body { grid-template-columns: 130px 1fr; gap: 28px; }
+        .alphabet { grid-column: 2; }
+        .details-grid { gap: 45px; }
+        .motion-layout { gap: 40px; grid-template-columns: .85fr 1fr; }
+      }
+      @media (max-width: 767px) {
+        .tile-shell { width: calc(100% - 40px); }
+        .tile-header { min-height: 76px; }
+        .tile-header nav a { gap: 10px; font-size: 12px; }
+        .tile-intro { grid-template-columns: 1fr; gap: 28px; padding: 52px 0 44px; }
+        .tile-intro h1 { font-size: clamp(54px, 17.6vw, 70px); }
+        .tile-intro > p { font-size: 15px; max-width: 370px; }
+        .identity-stage { grid-template-columns: 1fr; }
+        .identity-mark { min-height: 250px; }
+        .identity-mark .wordmark { font-size: clamp(80px, 26vw, 120px); }
+        .identity-stage figure, .identity-stage img { min-height: 0; height: 260px; }
+        .tile-section { margin-top: 60px; padding-top: 22px; }
+        .palette { grid-template-columns: 1fr 1fr; gap: 26px 16px; }
+        .swatch-color { height: 105px; }
+        .style-tile .swatch-info { flex-direction: row; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
+        .type-display, .type-body { grid-template-columns: 1fr; gap: 24px; }
+        .type-body { margin-top: 42px; }
+        .display-specimen { font-size: clamp(62px, 12vw, 90px); }
+        .alphabet { grid-column: auto; max-width: 370px; font-size: 16px; }
+        .body-specimen p { font-size: 17px; }
+        .details-grid { grid-template-columns: 1fr; gap: 0; }
+        .details-note { margin-top: 22px !important; }
+        .motion-layout { grid-template-columns: 1fr; gap: 30px; }
+        .motion-copy h3, .motion-copy > p { max-width: 350px; }
+        .motion-stage { min-height: 270px; }
+        .motion-art .wordmark { font-size: clamp(80px, 27vw, 110px); }
+        .tile-footer { flex-direction: column; gap: 14px; margin-top: 60px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .motion-art.is-playing { animation: none; opacity: 1; transform: none; }
+      }
+    </style>
+  </head>
+  <body class="style-tile">
+    <a class="skip-link" href="#main">Skip to brand style tile</a>
+    <div class="tile-shell">
+      <header class="tile-header">
+        <a class="wordmark" href="./" aria-label="Fiamma Pizza House home">fiamma.</a>
+        <nav aria-label="Style tile navigation"><a href="./">Back to the house <span aria-hidden="true">↗</span></a></nav>
+      </header>
+      <main id="main">
+        <section class="tile-intro" aria-labelledby="tile-title">
+          <div><p class="eyebrow">Fiamma Pizza House</p><h1 id="tile-title">A little fire.<br />A lot of feeling.</h1></div>
+          <p>A visual identity for unhurried nights. Charcoal, tomato red, generous type, and the warmth of a pizza straight from the oven.</p>
+        </section>
+
+        <section class="identity-stage" aria-label="Fiamma wordmark and photography direction">
+          <div class="identity-mark"><span class="wordmark">fiamma.</span><p>Pizza House</p></div>
+          <figure><img src="./media/sequence/frame-001.jpg" alt="A pizza with blistered crust, melted cheese, and fresh basil on a wooden table" width="1280" height="720" /></figure>
+        </section>
+
+        <section class="tile-section" aria-labelledby="palette-title">
+          <h2 class="section-label" id="palette-title">The house palette</h2>
+          <div class="palette">
+            <div><div class="swatch-color swatch-charcoal"></div><p class="swatch-info">Charcoal <span>#171614</span></p></div>
+            <div><div class="swatch-color swatch-tomato"></div><p class="swatch-info">Tomato <span>#C93626</span></p></div>
+            <div><div class="swatch-color swatch-cream"></div><p class="swatch-info">Cream <span>#F4EDDF</span></p></div>
+            <div><div class="swatch-color swatch-ash"></div><p class="swatch-info">Warm ash <span>#B7B0A4</span></p></div>
+          </div>
+          <p class="palette-note">Charcoal is the canvas. Cream carries the story. Warm ash supports it. Tomato red is reserved for the moments that invite you in.</p>
+        </section>
+
+        <section class="tile-section" aria-labelledby="type-title">
+          <h2 class="section-label" id="type-title">Typography</h2>
+          <div class="type-display">
+            <div class="type-meta"><strong>Barlow Condensed</strong>Display · Bold<br />Sentence case</div>
+            <p class="display-specimen">The good kind<br />of late.</p>
+          </div>
+          <div class="type-body">
+            <div class="type-meta"><strong>DM Sans</strong>Body · Regular<br />Warm. Direct. Human.</div>
+            <div class="body-specimen"><p>A neighborhood pizza room for long tables, warm slices, and the last drink that becomes two.</p></div>
+            <p class="alphabet" aria-label="DM Sans letter and number specimen">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj<br />Kk Ll Mm Nn Oo Pp Qq Rr Ss<br />Tt Uu Vv Ww Xx Yy Zz<br />0123456789 &amp; ? !</p>
+          </div>
+        </section>
+
+        <div class="details-grid">
+          <section class="tile-section" aria-labelledby="buttons-title">
+            <h2 class="section-label" id="buttons-title">An open invitation</h2>
+            <div class="button-specimens">
+              <div><a class="button" href="./#visit">Book a table <span class="button-arrow" aria-hidden="true">↗</span></a><p class="button-caption">Primary action</p></div>
+              <div><a class="button button--outline" href="./#menu">See the menu <span class="button-arrow" aria-hidden="true">↗</span></a><p class="button-caption">Secondary action</p></div>
+            </div>
+            <p class="details-note">Soft, pill-shaped buttons. A small lift on hover. A clear focus ring for keyboard navigation. Always room to tap.</p>
+          </section>
+          <section class="tile-section" aria-labelledby="voice-title">
+            <h2 class="section-label" id="voice-title">The way we sound</h2>
+            <p class="voice-sample">Pull up a chair.</p>
+            <p class="voice-note">Short sentences, an easy rhythm, and the kind of welcome you would give a friend. Let the food do the talking.</p>
+          </section>
+        </div>
+
+        <section class="tile-section" aria-labelledby="motion-title">
+          <h2 class="section-label" id="motion-title">Motion, with room to breathe</h2>
+          <div class="motion-layout">
+            <div class="motion-copy">
+              <h3>A gentle entrance.</h3>
+              <p>A small upward movement and a soft fade bring the story into focus. No looping distractions, just a considered arrival.</p>
+              <div class="motion-controls">
+                <button class="button" id="replay-motion" type="button" aria-controls="motion-art">Replay motion</button>
+                <button class="button button--outline" id="pause-motion" type="button" aria-controls="motion-art" aria-pressed="false">Pause motion</button>
+              </div>
+              <p id="motion-status" class="motion-status" role="status" aria-live="polite">Ready to play. Reduced motion is respected.</p>
+            </div>
+            <div class="motion-stage"><div class="motion-art" id="motion-art"><span class="wordmark">fiamma.</span><p>Good food. Longer nights.</p></div></div>
+          </div>
+        </section>
+      </main>
+      <footer class="tile-footer"><p>Fiamma Pizza House. Visual identity and motion study.</p><a href="./">Return to the landing page</a></footer>
+    </div>
+    <script>
+      (() => {
+        const art = document.getElementById('motion-art');
+        const replay = document.getElementById('replay-motion');
+        const pause = document.getElementById('pause-motion');
+        const status = document.getElementById('motion-status');
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+        let replayFrame = 0;
+
+        function resetPause() {
+          art.classList.remove('is-paused');
+          pause.setAttribute('aria-pressed', 'false');
+          pause.textContent = 'Pause motion';
+        }
+
+        function syncPreference() {
+          if (reduced.matches) {
+            cancelAnimationFrame(replayFrame);
+            art.classList.remove('is-playing');
+            resetPause();
+            status.textContent = 'Reduced motion is on. The identity stays still.';
+          } else {
+            status.textContent = 'Ready to play. Reduced motion is respected.';
+          }
+        }
+
+        replay.addEventListener('click', () => {
+          cancelAnimationFrame(replayFrame);
+          art.classList.remove('is-playing');
+          resetPause();
+          if (reduced.matches) {
+            status.textContent = 'Reduced motion is on. The identity stays still.';
+            return;
+          }
+          replayFrame = requestAnimationFrame(() => {
+            replayFrame = requestAnimationFrame(() => {
+              art.classList.add('is-playing');
+              status.textContent = 'Playing the entrance study.';
+            });
+          });
+        });
+
+        pause.addEventListener('click', () => {
+          if (reduced.matches) {
+            status.textContent = 'Reduced motion is on. The identity stays still.';
+            return;
+          }
+          const running = art.getAnimations().some(animation => animation.playState !== 'finished');
+          if (!running) {
+            status.textContent = 'Choose Replay motion to start the study.';
+            return;
+          }
+          const paused = art.classList.toggle('is-paused');
+          pause.setAttribute('aria-pressed', String(paused));
+          pause.textContent = paused ? 'Resume motion' : 'Pause motion';
+          status.textContent = paused ? 'Motion paused.' : 'Motion resumed.';
+        });
+
+        art.addEventListener('animationend', () => {
+          resetPause();
+          status.textContent = 'Study complete. Replay whenever you like.';
+        });
+        reduced.addEventListener('change', syncPreference);
+        syncPreference();
+      })();
+    </script>
+  </body>
+</html>

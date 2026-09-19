@@ -1,0 +1,357 @@
+import AxeBuilder from '@axe-core/playwright'
+import { expect, test, type Page } from '@playwright/test'
+
+async function openLanding(page: Page) {
+  await page.goto('/')
+  await expect(page.getByRole('heading', { level: 1, name: 'The good kind of late.' })).toBeVisible()
+  await page.evaluate(() => document.fonts.ready)
+}
+
+async function loadPageImages(page: Page) {
+  await page.evaluate(async () => {
+    const step = Math.max(300, Math.floor(innerHeight * 0.8))
+    for (let y = 0; y < document.documentElement.scrollHeight; y += step) {
+      window.scrollTo({ top: y, behavior: 'instant' })
+      await new Promise(resolve => setTimeout(resolve, 80))
+    }
+  })
+  await expect.poll(
+    () => page.locator('img').evaluateAll(images => images.every(image => image.complete && image.naturalWidth > 0)),
+    { timeout: 20_000, message: 'Every displayed photograph should load successfully' },
+  ).toBe(true)
+}
+
+async function frameNumber(page: Page) {
+  return page.locator('.hero-media img').evaluate(image => Number((image as HTMLImageElement).dataset.frame))
+}
+
+async function assertNoHorizontalOverflow(page: Page) {
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)
+  expect(overflow, 'The page should not scroll horizontally').toBeLessThanOrEqual(1)
+}
+
+test('the menu, navigation, and keyboard focus provide working paths', async ({ page }) => {
+  const errors: string[] = []
+  page.on('pageerror', error => errors.push(error.message))
+  await openLanding(page)
+
+  const menu = page.locator('#menu')
+  await expect(menu.getByRole('heading', { level: 3 })).toHaveCount(3)
+  await expect(menu.getByRole('heading', { name: 'Tonight, eat well.' })).toBeVisible()
+  for (const name of ['The Red One', 'Hot Honey', 'Green Market']) {
+    await expect(menu.getByText(name, { exact: true })).toBeVisible()
+  }
+  for (const text of [
+    'Tomato, fior di latte, basil, olive oil.',
+    'Spicy soppressata, mozzarella, hot honey, oregano.',
+    'Broccolini, taleggio, lemon, chili, sesame.',
+    '$18', '$22', '$21',
+  ]) {
+    await expect(menu.getByText(text, { exact: true })).toBeVisible()
+  }
+  expect(await page.locator('body').innerText()).not.toContain(String.fromCharCode(8212))
+
+  await page.keyboard.press('Tab')
+  const firstFocus = await page.evaluate(() => {
+    const element = document.activeElement as HTMLElement | null
+    if (!element) return null
+    const style = getComputedStyle(element)
+    return { tag: element.tagName, outline: style.outlineStyle, width: style.outlineWidth }
+  })
+  expect(firstFocus?.tag).toBe('A')
+  expect(firstFocus?.outline).not.toBe('none')
+  expect(firstFocus?.width).not.toBe('0px')
+
+  for (const [name, section, heading] of [
+    ['Menu', '#menu', 'Tonight, eat well.'],
+    ['Visit', '#visit', 'Pull up a chair.'],
+  ]) {
+    await page.locator('header').getByRole('link', { name, exact: true }).click()
+    await expect(page).toHaveURL(new RegExp(`${section}$`))
+    const target = page.locator(section).getByRole('heading', { name: heading, exact: true })
+    await expect.poll(async () => {
+      const [targetBox, headerBox] = await Promise.all([
+        target.boundingBox(), page.locator('header').boundingBox(),
+      ])
+      return targetBox && headerBox ? targetBox.y >= headerBox.y + headerBox.height - 1 : false
+    }, { message: `${name} heading should sit below the fixed header` }).toBe(true)
+    await expect.poll(async () => (await target.boundingBox())?.y ?? Infinity).toBeLessThan(900)
+  }
+
+  const styleTile = page.locator('footer').getByRole('link', { name: /style tile/i })
+  await expect(styleTile).toHaveAttribute('href', /style-tile\.html/)
+  expect(errors).toEqual([])
+})
+
+for (const viewport of [
+  { width: 1440, height: 900 },
+  { width: 1280, height: 720 },
+  { width: 390, height: 844 },
+  { width: 375, height: 812 },
+  { width: 768, height: 1024 },
+  { width: 1024, height: 768 },
+  { width: 320, height: 700 },
+]) {
+  test(`layout and photography work at ${viewport.width}x${viewport.height}`, async ({ page }, testInfo) => {
+    await page.setViewportSize(viewport)
+    await openLanding(page)
+    await assertNoHorizontalOverflow(page)
+    const heroHeading = page.getByRole('heading', { level: 1, name: 'The good kind of late.' })
+    const titleBox = await heroHeading.boundingBox()
+    expect(titleBox).not.toBeNull()
+    expect(titleBox!.x).toBeGreaterThanOrEqual(0)
+    expect(titleBox!.x + titleBox!.width).toBeLessThanOrEqual(viewport.width + 1)
+
+    const heroCta = page.locator('#home').getByRole('link', { name: /book a table/i })
+    const ctaBox = await heroCta.boundingBox()
+    expect(ctaBox, 'The primary action should be visible in the opening scene').not.toBeNull()
+    expect(ctaBox!.y).toBeGreaterThanOrEqual(0)
+    expect(ctaBox!.y + ctaBox!.height).toBeLessThanOrEqual(viewport.height + 1)
+    if (process.env.CAPTURE_SCREENSHOTS === '1' && (viewport.width === 1440 || viewport.width === 390)) {
+      const device = viewport.width === 1440 ? 'desktop' : 'mobile'
+      await page.screenshot({ path: `.local/landing-${device}-viewport.png` })
+    }
+
+    await loadPageImages(page)
+    await assertNoHorizontalOverflow(page)
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
+    await expect.poll(() => page.locator('.hero-media img').evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true)
+    if (process.env.CAPTURE_SCREENSHOTS === '1') {
+      await page.screenshot({ path: testInfo.outputPath(`landing-${viewport.width}.png`), fullPage: true })
+    }
+    if (process.env.CAPTURE_SCREENSHOTS === '1' && (viewport.width === 1440 || viewport.width === 390)) {
+      const device = viewport.width === 1440 ? 'desktop' : 'mobile'
+      await page.screenshot({ path: `.local/landing-${device}-full.png`, fullPage: true })
+    }
+  })
+}
+
+test('the cinematic sequence follows native scrolling and can be paused', async ({ page }) => {
+  await openLanding(page)
+  await page.getByRole('button', { name: 'Explore on scroll' }).click()
+  await expect.poll(() => frameNumber(page)).toBe(1)
+  await expect.poll(() => frameNumber(page)).not.toBeNaN()
+  const initialFrame = await frameNumber(page)
+  await page.evaluate(() => window.scrollTo({ top: 500, behavior: 'instant' }))
+  await expect.poll(() => frameNumber(page), { message: 'Scrolling should advance the image sequence' }).toBeGreaterThan(initialFrame)
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
+  await expect.poll(() => frameNumber(page)).toBeLessThanOrEqual(initialFrame + 1)
+
+  await page.evaluate(() => {
+    const hero = document.querySelector('.hero-story') as HTMLElement
+    const stage = document.querySelector('.hero-stage') as HTMLElement
+    window.scrollTo({ top: hero.offsetTop + hero.offsetHeight - stage.offsetHeight, behavior: 'instant' })
+  })
+  await expect.poll(() => frameNumber(page), { message: 'The whole asset sequence should reach its final scene' }).toBe(50)
+  const composition = await page.locator('.hero-copy--second').getAttribute('style')
+  const motionToggle = page.locator('.motion-toggle')
+  await expect(motionToggle).toHaveAccessibleName(/pause motion/i)
+  await motionToggle.click()
+  await expect(motionToggle).toHaveAttribute('aria-pressed', 'true')
+  await expect(motionToggle).toHaveAccessibleName(/resume motion/i)
+  const pausedFrame = await frameNumber(page)
+  expect(pausedFrame, 'Pausing should preserve the current scene instead of resetting to the poster').toBe(50)
+  await expect(page.locator('.hero-copy--second')).toHaveAttribute('style', composition!)
+  await page.evaluate(() => window.scrollTo({ top: 500, behavior: 'instant' }))
+  await page.waitForTimeout(180)
+  expect(await frameNumber(page)).toBe(pausedFrame)
+
+  await motionToggle.click()
+  await expect(motionToggle).toHaveAttribute('aria-pressed', 'false')
+  await expect(motionToggle).toHaveAccessibleName(/pause motion/i)
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
+  await expect.poll(() => frameNumber(page)).toBeLessThanOrEqual(initialFrame + 1)
+  await page.evaluate(() => window.scrollTo({ top: 450, behavior: 'instant' }))
+  await expect.poll(() => frameNumber(page)).toBeGreaterThan(initialFrame)
+})
+
+for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
+  test(`the film autoplays, loops, and pauses at ${viewport.width}px`, async ({ page }) => {
+    await page.setViewportSize(viewport)
+    await openLanding(page)
+    await expect(page.locator('.hero-stage')).toHaveCSS('position', 'relative')
+    await expect.poll(() => frameNumber(page)).toBeGreaterThan(3)
+    const picture = page.locator('.hero-media img')
+    expect(await picture.evaluate(image => image.currentSrc)).toMatch(/frame-\d+\.jpg$/)
+    await page.getByRole('button', { name: 'Pause motion', exact: true }).click()
+    const pausedFrame = await frameNumber(page)
+    await page.waitForTimeout(350)
+    expect(await frameNumber(page)).toBe(pausedFrame)
+    await page.getByRole('button', { name: 'Resume motion', exact: true }).click()
+    await expect.poll(() => frameNumber(page)).toBeGreaterThan(pausedFrame)
+    await expect.poll(() => frameNumber(page), { timeout: 12_000 }).toBe(50)
+    await expect.poll(() => frameNumber(page)).toBeLessThan(10)
+    await page.evaluate(() => window.scrollTo({ top: 2000, behavior: 'instant' }))
+    await page.waitForTimeout(200)
+    const offscreenFrame = await frameNumber(page)
+    await page.waitForTimeout(350)
+    expect(await frameNumber(page)).toBe(offscreenFrame)
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
+    await expect.poll(() => frameNumber(page)).not.toBe(offscreenFrame)
+  })
+}
+
+test('reduced motion presents a static hero without a sticky scroll gap', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await openLanding(page)
+  const initialFrame = await frameNumber(page)
+  const hero = await page.locator('.hero-story').boundingBox()
+  expect(hero!.height).toBeLessThanOrEqual(900 * 1.2)
+  const stagePosition = await page.locator('.hero-stage').evaluate(element => getComputedStyle(element).position)
+  expect(stagePosition).not.toBe('sticky')
+  await expect(page.locator('.hero-copy--second')).toHaveCSS('opacity', '0')
+  await expect(page.locator('.hero-copy--first')).toHaveCSS('opacity', '1')
+  await page.evaluate(() => window.scrollTo({ top: 400, behavior: 'instant' }))
+  await page.waitForTimeout(150)
+  expect(await frameNumber(page)).toBe(initialFrame)
+  const transforms = await page.locator('.hero-media').evaluate(element => getComputedStyle(element).transform)
+  expect(['none', 'matrix(1, 0, 0, 1, 0, 0)']).toContain(transforms)
+})
+
+test('the landing page passes automated accessibility checks', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await openLanding(page)
+  await loadPageImages(page)
+  const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()
+  expect(result.violations).toEqual([])
+})
+
+test('the style tile is accessible and its motion study is controllable', async ({ page }) => {
+  await page.goto('/style-tile.html')
+  await page.evaluate(() => document.fonts.ready)
+  await page.getByRole('button', { name: 'Replay motion', exact: true }).click()
+  await page.waitForTimeout(150)
+  await page.getByRole('button', { name: 'Pause motion', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'Resume motion' })).toHaveAttribute('aria-pressed', 'true')
+  await page.getByRole('button', { name: 'Resume motion' }).click()
+  await expect(page.getByRole('status')).toHaveText('Study complete. Replay whenever you like.')
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.getByRole('button', { name: 'Replay motion', exact: true }).click()
+  expect(await page.locator('#motion-art').evaluate(element => element.getAnimations().length)).toBe(0)
+  const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()
+  expect(result.violations).toEqual([])
+})
+
+test('mobile navigation works by touch and keyboard, and closes after navigation', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 })
+  await openLanding(page)
+  const toggle = page.getByRole('button', { name: /navigation/ })
+  const navigation = page.getByRole('navigation', { name: 'Mobile navigation' })
+  await toggle.click()
+  await expect(navigation).toBeVisible()
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+  await page.keyboard.press('Tab')
+  await expect(navigation.getByRole('link', { name: /Our story/ })).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(navigation).toBeHidden()
+  await expect(toggle).toBeFocused()
+  await toggle.click()
+  await navigation.getByRole('link', { name: /Menu/ }).click()
+  await expect(page).toHaveURL(/#menu$/)
+  await expect(navigation).toBeHidden()
+  await page.getByRole('button', { name: 'Open navigation' }).click()
+  await page.locator('#menu-heading').click()
+  await expect(navigation).toBeHidden()
+  await page.getByRole('button', { name: 'Open navigation' }).click()
+  await page.setViewportSize({ width: 1024, height: 768 })
+  await expect(navigation).toBeHidden()
+  await expect(page.getByRole('navigation', { name: 'Main navigation', exact: true })).toBeVisible()
+})
+
+for (const viewport of [{ width: 844, height: 390 }, { width: 667, height: 375 }]) {
+  test(`landscape remains readable and scrollable at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+    await page.setViewportSize(viewport)
+    await openLanding(page)
+    await expect(page.locator('.hero-stage')).toHaveCSS('position', 'relative')
+    await assertNoHorizontalOverflow(page)
+    const cta = page.locator('#home').getByRole('link', { name: /book a table/i })
+    await cta.scrollIntoViewIfNeeded()
+    await expect(cta).toBeInViewport()
+    await loadPageImages(page)
+    await assertNoHorizontalOverflow(page)
+  })
+}
+
+test('large mobile text reflows and touch controls remain comfortably sized', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await openLanding(page)
+  const smallTargets = await page.locator('a, button').evaluateAll(elements => elements.filter(element => {
+    const box = element.getBoundingClientRect()
+    return box.width > 0 && box.height > 0 && (box.width < 44 || box.height < 44)
+  }).map(element => element.textContent))
+  expect(smallTargets).toEqual([])
+  await page.evaluate(() => { document.documentElement.style.fontSize = '200%' })
+  await assertNoHorizontalOverflow(page)
+  for (const control of await page.locator('header a:visible, header button:visible').all()) {
+    const bounds = await control.boundingBox()
+    expect(bounds!.x).toBeGreaterThanOrEqual(0)
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(375)
+  }
+  await page.getByRole('button', { name: 'Open navigation' }).click()
+  await assertNoHorizontalOverflow(page)
+  await expect(page.getByRole('navigation', { name: 'Mobile navigation' }).getByRole('link', { name: /Visit/ })).toBeVisible()
+  const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()
+  expect(result.violations).toEqual([])
+})
+
+for (const mode of ['save-data', 'slow-network']) {
+  test(`${mode} uses a static hero without downloading a scroll sequence`, async ({ page }) => {
+    await page.addInitScript(mode => {
+      if (mode === 'save-data' || mode === 'slow-network') {
+        const connection = Object.assign(new EventTarget(), { saveData: mode === 'save-data', effectiveType: mode === 'slow-network' ? '2g' : '4g' })
+        Object.defineProperty(navigator, 'connection', { value: connection, configurable: true })
+      }
+    }, mode)
+    const requested: string[] = []
+    page.on('request', request => { if (/frame-\d+\.jpg/.test(request.url())) requested.push(request.url()) })
+    await openLanding(page)
+    await expect(page.locator('.hero-stage')).toHaveCSS('position', 'relative')
+    await page.evaluate(() => window.scrollTo({ top: 500, behavior: 'instant' }))
+    await expect(page.locator('.hero-media img')).toHaveAttribute('data-frame', '1')
+    expect(requested.every(url => /frame-(001|050)\.jpg/.test(url))).toBe(true)
+    await expect(page.locator('.hero-copy--first')).toHaveCSS('opacity', '1')
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
+    await page.getByRole('button', { name: 'Play motion', exact: true }).click()
+    await expect.poll(() => frameNumber(page)).toBeGreaterThan(3)
+  })
+}
+
+test('hardware hints do not silently disable animation', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'deviceMemory', { value: 4, configurable: true })
+    Object.defineProperty(navigator, 'hardwareConcurrency', { value: 4, configurable: true })
+  })
+  await openLanding(page)
+  await expect.poll(() => frameNumber(page)).toBeGreaterThan(3)
+  await expect(page.getByRole('button', { name: 'Pause motion', exact: true })).toBeVisible()
+})
+
+test('reduced motion stays static until the visitor explicitly starts playback', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await openLanding(page)
+  await page.waitForTimeout(350)
+  expect(await frameNumber(page)).toBe(1)
+  await page.getByRole('button', { name: 'Play motion', exact: true }).click()
+  await expect.poll(() => frameNumber(page)).toBeGreaterThan(3)
+  expect(await page.locator('.hero-media img').evaluate(image => image.currentSrc)).toMatch(/frame-\d+\.jpg$/)
+  await page.getByRole('button', { name: 'Pause motion', exact: true }).click()
+  const pausedFrame = await frameNumber(page)
+  await page.waitForTimeout(350)
+  expect(await frameNumber(page)).toBe(pausedFrame)
+  await page.getByRole('button', { name: 'Resume motion', exact: true }).click()
+  await expect.poll(() => frameNumber(page)).toBeGreaterThan(pausedFrame)
+  await page.reload()
+  await expect(page.getByRole('button', { name: 'Play motion', exact: true })).toBeVisible()
+  expect(await frameNumber(page)).toBe(1)
+})
+
+test('failed sequence frames keep the last loaded picture and navigation usable', async ({ page }) => {
+  await page.route('**/media/sequence/frame-*.jpg', route => /frame-(001|050)\.jpg/.test(route.request().url()) ? route.continue() : route.abort())
+  await openLanding(page)
+  await page.evaluate(() => window.scrollTo({ top: 450, behavior: 'instant' }))
+  await expect.poll(() => page.locator('.hero-media img').evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true)
+  await page.locator('.main-nav').getByRole('link', { name: 'Menu', exact: true }).click()
+  await expect(page).toHaveURL(/#menu$/)
+})
