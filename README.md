@@ -2,6 +2,18 @@
 
 Seven React + TypeScript + Vite sites, redesigned in their existing frameworks. Each retains its original brand, language and interactions, with a distinct visual direction and newly generated imagery.
 
+## Deployed websites
+
+| Website | URL |
+| --- | --- |
+| Nâu Coffee | https://nau-coffee-eight.vercel.app |
+| Apex Motors | https://car-website-eight-henna.vercel.app |
+| Learn Forward | https://education-web-roan.vercel.app |
+| Aurelia | https://hotel-web-phi-two.vercel.app |
+| Fiamma | https://fiamma-pizza-house.vercel.app |
+| Luma Residences | https://luma-residences.vercel.app |
+| Nomad | https://nomad-vietnam.vercel.app |
+
 ## Preview everything
 
 Use Node.js 24. From this directory:
