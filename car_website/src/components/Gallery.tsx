@@ -26,9 +26,9 @@ export function Gallery() {
       <div className="gallery-header"><p className="eyebrow">{gallery.label}</p><h2 id="gallery-title" className="display-heading">{gallery.heading}</h2></div>
       <div className="gallery-grid">
         {gallery.images.map((image, index) => (
-          <figure key={image.id} className={`gallery-item gallery-item--${index}`}>
+          <figure key={image.id} className={`gallery-item gallery-item--${index}`} data-sequence={index}>
             <button type="button" className="gallery-image-button" onClick={() => setSelected(index)} aria-haspopup="dialog" aria-label={`${gallery.openLabel} ${image.caption}`}>
-              <MediaImage image={image} /><span className="gallery-open" aria-hidden="true"><ArrowUpRightIcon size={22} /></span>
+              <span className="gallery-image-core"><MediaImage image={image} /></span><span className="gallery-open" aria-hidden="true"><ArrowUpRightIcon weight="light" size={22} /></span>
             </button>
             <figcaption>{image.caption}</figcaption>
           </figure>
@@ -39,14 +39,14 @@ export function Gallery() {
           if (event.key === 'ArrowRight') { event.preventDefault(); navigate(1) }
           if (event.key === 'ArrowLeft') { event.preventDefault(); navigate(-1) }
         }}>
-        <button ref={closeRef} type="button" className="icon-button lightbox-close" aria-label={gallery.closeLabel} onClick={() => setSelected(null)}><XIcon size={28} /></button>
+        <button ref={closeRef} type="button" className="icon-button lightbox-close" aria-label={gallery.closeLabel} onClick={() => setSelected(null)}><XIcon weight="light" size={28} /></button>
         {selected !== null && <figure className="lightbox-figure">
           <MediaImage key={selected} image={gallery.images[selected]} eager />
           <figcaption aria-live="polite">{gallery.images[selected].caption}</figcaption>
         </figure>}
         <div className="lightbox-controls">
-          <button type="button" className="icon-button" onClick={() => navigate(-1)} aria-label={gallery.previousLabel}><ArrowLeftIcon size={24} /></button>
-          <button type="button" className="icon-button" onClick={() => navigate(1)} aria-label={gallery.nextLabel}><ArrowRightIcon size={24} /></button>
+          <button type="button" className="icon-button" onClick={() => navigate(-1)} aria-label={gallery.previousLabel}><ArrowLeftIcon weight="light" size={24} /></button>
+          <button type="button" className="icon-button" onClick={() => navigate(1)} aria-label={gallery.nextLabel}><ArrowRightIcon weight="light" size={24} /></button>
         </div>
       </dialog>
     </section>

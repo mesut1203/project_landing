@@ -1,11 +1,15 @@
 import { ArrowUpRight } from '@phosphor-icons/react'
+import { useRef } from 'react'
 import type { HowItWorksContent } from '../data/content'
 import { Reveal } from './Reveal'
+import { useEntranceMotion } from '../hooks/useEntranceMotion'
 import './HowItWorks.css'
 
 export function HowItWorks({ data }: { data: HowItWorksContent }) {
+  const ref = useRef<HTMLElement>(null)
+  useEntranceMotion(ref, 'journey')
   return (
-    <section id="how-it-works" className="learning-journey" aria-labelledby="how-title">
+    <section ref={ref} id="how-it-works" className="learning-journey" aria-labelledby="how-title">
       <div className="container">
         <Reveal className="journey-heading">
           <div>
@@ -36,6 +40,7 @@ export function HowItWorks({ data }: { data: HowItWorksContent }) {
               </p>
               <h3>{step.title}</h3>
               <p className="journey-step-description">{step.description}</p>
+              <span className="journey-step-rule" aria-hidden="true" />
             </li>
           ))}
         </ol>

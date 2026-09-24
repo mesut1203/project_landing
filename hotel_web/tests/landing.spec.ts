@@ -11,7 +11,7 @@ test('static arrival scrolls naturally without sequence requests and keeps all c
   page.on('pageerror', (error) => errors.push(error.message))
   await page.goto('/')
   await page.evaluate(() => document.fonts.ready)
-  await expect(page.locator('.hero-image img')).toHaveJSProperty('naturalWidth', 1280)
+  await expect.poll(() => page.locator('.hero-image img').evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0)
   await expect(page.locator('canvas, .story-track, .story-stage')).toHaveCount(0)
   await page.screenshot({ path: screenshotDir + '/desktop-hero.png' })
   const before = await page.locator('.hero').boundingBox()
@@ -26,7 +26,7 @@ test('static arrival scrolls naturally without sequence requests and keeps all c
   await expect(page.locator('#rooms')).toBeFocused()
   for (const id of ['rooms', 'dining', 'experiences', 'booking']) {
     await page.locator('#' + id).scrollIntoViewIfNeeded()
-    await expect(page.getByRole('heading').filter({ hasText: id === 'rooms' ? 'A room to exhale.' : id === 'dining' ? 'Dinner, unhurried.' : id === 'experiences' ? 'The city, at your pace.' : 'Your stay begins here.' })).toBeVisible()
+    await expect(page.getByRole('heading').filter({ hasText: id === 'rooms' ? 'A room to exhale.' : id === 'dining' ? 'Dinner, unhurried.' : id === 'experiences' ? 'The coast, at your pace.' : 'Your stay begins here.' })).toBeVisible()
   }
   expect(frames).toEqual([])
   expect(errors).toEqual([])
@@ -55,6 +55,41 @@ test('booking demo validates dates and submits locally without sending data', as
   expect(submissions).toEqual([])
 })
 
+test('date errors identify only the affected fields and clear after correction', async ({ page }) => {
+  await page.goto('/#booking')
+  const arrival = page.locator('#check-in')
+  const departure = page.locator('#check-out')
+  const submit = page.getByRole('button', { name: 'Check availability' })
+  for (const [checkIn, checkOut, invalidIn, invalidOut] of [
+    ['', '', true, true],
+    ['', '2099-06-23', true, false],
+    ['2099-06-20', '', false, true],
+    ['2020-01-01', '2099-06-23', true, false],
+    ['2099-06-20', '2099-06-20', false, true],
+    ['2099-06-20', '2099-06-19', false, true],
+  ] as const) {
+    await arrival.fill(checkIn)
+    await departure.fill(checkOut)
+    await submit.click()
+    for (const [field, invalid] of [[arrival, invalidIn], [departure, invalidOut]] as const) {
+      if (invalid) {
+        await expect(field).toHaveAttribute('aria-invalid', 'true')
+        await expect(field).toHaveAttribute('aria-describedby', 'booking-message')
+      } else {
+        await expect(field).not.toHaveAttribute('aria-invalid', 'true')
+        await expect(field).not.toHaveAttribute('aria-describedby', 'booking-message')
+      }
+    }
+    await expect(invalidIn ? arrival : departure).toBeFocused()
+  }
+  await departure.fill('2099-06-23')
+  await expect(page.locator('[aria-invalid="true"]')).toHaveCount(0)
+  await expect(page.locator('#booking-message')).toBeEmpty()
+  await submit.click()
+  await expect(page.locator('#booking-message')).toContainText('no booking has been made')
+  await expect(page.locator('[aria-invalid="true"]')).toHaveCount(0)
+})
+
 test('experience tabs support keyboard navigation', async ({ page }) => {
   await page.goto('/#experiences')
   const tabs = page.getByRole('tab')
@@ -63,7 +98,7 @@ test('experience tabs support keyboard navigation', async ({ page }) => {
   await expect(tabs.nth(1)).toBeFocused()
   await expect(tabs.nth(1)).toHaveAttribute('aria-selected', 'true')
   await expect(page.locator('#panel-restore')).toBeVisible()
-  await expect(page.locator('#panel-restore img')).toHaveJSProperty('naturalWidth', 1200)
+  await expect.poll(() => page.locator('#panel-restore img').evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0)
   await page.keyboard.press('End')
   await expect(tabs.nth(2)).toBeFocused()
   await expect(page.locator('#panel-rooftop')).toBeVisible()
@@ -77,10 +112,12 @@ test('mobile and landscape fit the screen and support menu navigation', async ({
     await page.setViewportSize(viewport)
     await page.goto('/')
     await page.evaluate(() => document.fonts.ready)
-    await expect(page.locator('.hero-image img')).toHaveJSProperty('naturalWidth', 1280)
+    await expect.poll(() => page.locator('.hero-image img').evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0)
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0)
     await page.screenshot({ path: screenshotDir + '/viewport-' + viewport.width + '.png' })
     if (viewport.width < 768) {
+      await expect(page.locator('.media-depth, .media-curtain')).toHaveCount(0)
+      await expect(page.locator('.arrival-word')).toHaveCount(2)
       await page.getByRole('button', { name: 'Open menu' }).click()
       await expect(page.getByRole('navigation', { name: 'Mobile navigation' })).toBeVisible()
       await page.keyboard.press('Escape')
@@ -95,13 +132,17 @@ test('reduced motion keeps the same content and disables motion, including prefe
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   for (const preference of ['reduce', 'no-preference', 'reduce'] as const) {
+    const roomLink = page.locator('.room-photo-link').first()
+    await roomLink.focus()
     await page.emulateMedia({ reducedMotion: preference })
+    await expect(roomLink).toBeFocused()
     await page.locator('#rooms').scrollIntoViewIfNeeded()
     await expect(page.getByRole('heading', { name: 'Arrive slowly.' })).toBeVisible()
     await expect(page.locator('canvas, .story-track')).toHaveCount(0)
     if (preference === 'reduce') {
       await expect.poll(() => page.locator('.rooms-intro').evaluate((element) => getComputedStyle(element).transform)).toBe('none')
       await expect(page.locator('.room-photo-link img').first()).toHaveCSS('transition-duration', '0s')
+      await expect(page.locator('.media-depth, .media-curtain, .arrival-word')).toHaveCount(0)
     }
   }
 })
@@ -115,4 +156,12 @@ test('failed photos keep the arrival content and booking usable', async ({ page 
   await expect(page.locator('.room-1 .media-error')).toBeVisible()
   await page.locator('#booking').scrollIntoViewIfNeeded()
   await expect(page.getByRole('button', { name: 'Check availability' })).toBeVisible()
+})
+
+
+test('every photographic placement has its own source image', async ({ page }) => {
+  await page.goto('/')
+  const sources = await page.locator('main img').evaluateAll(images => images.map(image => (image as HTMLImageElement).src))
+  expect(sources).toHaveLength(11)
+  expect(new Set(sources).size).toBe(sources.length)
 })

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { ArrowTopRightIcon, HamburgerMenuIcon } from '@radix-ui/react-icons'
+import { ArrowTopRightIcon } from '@radix-ui/react-icons'
 import { content } from '../data/content'
 import { useMediaQuery } from '../hooks/useMediaQuery'
 import { Brand } from './Brand'
@@ -15,13 +15,13 @@ export function Navbar() {
     <a className="skip-link" href="#main">{content.actions.skipContent}</a>
     <header className="navbar">
       <div className="page-shell flex h-full items-center justify-between gap-8">
-        <Brand />
+        <Brand /><span className="nav-edition" aria-hidden="true">A new perspective<br />on everyday living.</span>
         <nav className="hidden items-center gap-9 lg:flex" aria-label={content.navigation.label}>
           {content.navigation.links.map(link => <a className="nav-link" key={link.href} href={link.href}>{link.label}</a>)}
         </nav>
         <a href={content.navigation.cta.href} className="button nav-cta hidden lg:inline-flex">{content.navigation.cta.label}<ArrowTopRightIcon /></a>
-        <button className="icon-button lg:hidden" onClick={() => setOpen(true)} aria-label={content.navigation.open}
-          aria-expanded={open} aria-controls="mobile-menu" aria-haspopup="dialog"><HamburgerMenuIcon /></button>
+        <button className={`icon-button menu-toggle lg:hidden ${open ? 'is-open' : ''}`} onClick={() => setOpen(true)} aria-label={content.navigation.open}
+          aria-expanded={open} aria-controls="mobile-menu" aria-haspopup="dialog"><span className="menu-lines" aria-hidden="true"><i /><i /></span></button>
       </div>
     </header>
     <MobileMenu open={open} onClose={close} />

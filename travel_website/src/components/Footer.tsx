@@ -31,9 +31,7 @@ export function Footer() {
         <div className="footer-bottom">
           <span>{content.footer.copyright}</span>
           <span>{content.footer.note}</span>
-          <a href={content.footer.photoUrl} target="_blank" rel="noreferrer">
-            {content.footer.photoCredit}
-          </a>
+          <span>{content.footer.photoCredit}</span>
         </div>
       </div>
     </footer>

@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#171614" />
-    <meta name="description" content="The Fiamma Pizza House visual identity: warm charcoal, tomato red, generous typography, honest food imagery, and considered motion." />
+    <meta name="theme-color" content="#f8edcf" />
+    <meta name="description" content="The Fiamma Pizza House visual identity: tomato red, butter paper, bold poster typography, honest food imagery, and considered motion." />
     <title>Style tile | Fiamma Pizza House</title>
     <link rel="stylesheet" href="./styles/brand.css" />
     <style>
@@ -18,6 +18,7 @@
       .style-tile .skip-link:focus { transform: translateY(0); }
       .tile-shell { width: min(1320px, calc(100% - 112px)); margin-inline: auto; }
       .tile-header { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 88px; border-bottom: 1px solid var(--color-line); }
+      .wordmark { font-family: 'Barlow Condensed', sans-serif; }
       .tile-header .wordmark { font-size: 36px; }
       .tile-header nav a { display: inline-flex; align-items: center; gap: 20px; min-height: 44px; text-decoration: none; font-size: 13px; }
       .tile-header nav a:hover { text-decoration: underline; text-underline-offset: 5px; }
@@ -28,8 +29,7 @@
       .identity-mark { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 44px; }
       .identity-mark .wordmark { font-size: clamp(100px, 13vw, 185px); padding-right: .08em; }
       .identity-mark > p { margin-top: 16px; font-size: 11px; letter-spacing: .22em; text-transform: uppercase; }
-      .identity-stage figure { min-height: 400px; }
-      .identity-stage img { display: block; width: 100%; height: 100%; min-height: 400px; object-fit: cover; object-position: 62% center; }
+      .identity-lettering { display: flex; flex-direction: column; justify-content: center; gap: 28px; padding: 44px; background: var(--color-accent); color: var(--color-bg); font: 700 clamp(48px, 6vw, 88px)/.9 var(--font-display); letter-spacing: -.025em; }
       .tile-section { margin-top: 88px; padding-top: 28px; border-top: 1px solid var(--color-line); }
       .section-label { margin-bottom: 34px !important; font-size: 14px; font-weight: 500; }
       .palette { display: grid; grid-template-columns: 1.25fr 1fr 1fr .85fr; gap: 20px; }
@@ -50,6 +50,7 @@
       .alphabet { color: var(--color-muted); font-size: 17px; line-height: 1.8; overflow-wrap: anywhere; }
       .details-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 90px; }
       .button-specimens { display: flex; align-items: flex-start; gap: 15px; flex-wrap: wrap; }
+      .button-arrow { display: inline-block; font-size: 20px; }
       .button-caption { margin-top: 12px !important; color: var(--color-muted); font-size: 12px; }
       .details-note { max-width: 435px; margin-top: 30px !important; color: var(--color-muted); font-size: 14px; }
       .voice-sample { font: 700 clamp(42px, 4.5vw, 58px)/1 var(--font-display); letter-spacing: -.02em; }
@@ -69,11 +70,10 @@
       .tile-footer { display: flex; justify-content: space-between; gap: 24px; margin-top: 88px; padding: 28px 0 38px; border-top: 1px solid var(--color-line); color: var(--color-muted); font-size: 12px; }
       .tile-footer a { text-underline-offset: 5px; }
       @keyframes reveal-study { from { opacity: .8; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-      @media (min-width: 1440px) { .identity-stage figure, .identity-stage img { min-height: 440px; } }
       @media (max-width: 1023px) {
         .tile-shell { width: calc(100% - 64px); }
         .tile-intro { gap: 40px; padding-top: 64px; }
-        .identity-stage, .identity-stage figure, .identity-stage img { min-height: 320px; }
+        .identity-stage { min-height: 320px; }
         .identity-mark { padding: 28px; }
         .swatch-info { flex-direction: column; gap: 0; }
         .type-display { grid-template-columns: 130px 1fr; gap: 28px; }
@@ -92,7 +92,7 @@
         .identity-stage { grid-template-columns: 1fr; }
         .identity-mark { min-height: 250px; }
         .identity-mark .wordmark { font-size: clamp(80px, 26vw, 120px); }
-        .identity-stage figure, .identity-stage img { min-height: 0; height: 260px; }
+        .identity-lettering { padding: 32px; font-size: 60px; }
         .tile-section { margin-top: 60px; padding-top: 22px; }
         .palette { grid-template-columns: 1fr 1fr; gap: 26px 16px; }
         .swatch-color { height: 105px; }
@@ -128,26 +128,26 @@
           <p>A visual identity for unhurried nights. Charcoal, tomato red, generous type, and the warmth of a pizza straight from the oven.</p>
         </section>
 
-        <section class="identity-stage" aria-label="Fiamma wordmark and photography direction">
+        <section class="identity-stage" aria-label="Fiamma wordmark and brand lettering">
           <div class="identity-mark"><span class="wordmark">fiamma.</span><p>Pizza House</p></div>
-          <figure><img src="./media/photos/hero.jpg" alt="A pizza with blistered crust, melted cheese, and fresh basil on a wooden table" width="1280" height="720" /></figure>
+          <div class="identity-lettering" aria-label="Fresh dough. Good company."><span>FRESH<br>DOUGH.</span><span>GOOD<br>COMPANY.</span></div>
         </section>
 
         <section class="tile-section" aria-labelledby="palette-title">
           <h2 class="section-label" id="palette-title">The house palette</h2>
           <div class="palette">
-            <div><div class="swatch-color swatch-charcoal"></div><p class="swatch-info">Charcoal <span>#171614</span></p></div>
-            <div><div class="swatch-color swatch-tomato"></div><p class="swatch-info">Tomato <span>#C93626</span></p></div>
-            <div><div class="swatch-color swatch-cream"></div><p class="swatch-info">Cream <span>#F4EDDF</span></p></div>
-            <div><div class="swatch-color swatch-ash"></div><p class="swatch-info">Warm ash <span>#B7B0A4</span></p></div>
+            <div><div class="swatch-color swatch-charcoal"></div><p class="swatch-info">Butter cream <span>#f8edcf</span></p></div>
+            <div><div class="swatch-color swatch-tomato"></div><p class="swatch-info">Tomato red <span>#B92C21</span></p></div>
+            <div><div class="swatch-color swatch-cream"></div><p class="swatch-info">Deep tomato <span>#AC271D</span></p></div>
+            <div><div class="swatch-color swatch-ash"></div><p class="swatch-info">Warm brown <span>#805347</span></p></div>
           </div>
-          <p class="palette-note">Charcoal is the canvas. Cream carries the story. Warm ash supports it. Tomato red is reserved for the moments that invite you in.</p>
+          <p class="palette-note">Butter paper carries the menu. Tomato red delivers the invitation. Deep tomato and warm brown keep every detail readable.</p>
         </section>
 
         <section class="tile-section" aria-labelledby="type-title">
           <h2 class="section-label" id="type-title">Typography</h2>
           <div class="type-display">
-            <div class="type-meta"><strong>Barlow Condensed</strong>Display · Bold<br />Sentence case</div>
+            <div class="type-meta"><strong>Barlow Condensed</strong>Display · Bold and bold italic<br />Expressive uppercase</div>
             <p class="display-specimen">The good kind<br />of late.</p>
           </div>
           <div class="type-body">
@@ -164,7 +164,7 @@
               <div><a class="button" href="./#visit">Book a table <span class="button-arrow" aria-hidden="true">↗</span></a><p class="button-caption">Primary action</p></div>
               <div><a class="button button--outline" href="./#menu">See the menu <span class="button-arrow" aria-hidden="true">↗</span></a><p class="button-caption">Secondary action</p></div>
             </div>
-            <p class="details-note">Soft, pill-shaped buttons. A small lift on hover. A clear focus ring for keyboard navigation. Always room to tap.</p>
+            <p class="details-note">Printed rectangular buttons. A small lift on hover. A clear focus ring for keyboard navigation. Always room to tap.</p>
           </section>
           <section class="tile-section" aria-labelledby="voice-title">
             <h2 class="section-label" id="voice-title">The way we sound</h2>

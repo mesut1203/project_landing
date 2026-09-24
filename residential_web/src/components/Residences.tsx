@@ -12,14 +12,15 @@ export function Residences() {
     <div className="residences-grid">
       {content.residences.items.map((item, index) => <Reveal key={item.id} className={`residence residence-${index + 1}`}>
         <article>
+          <div className="residence-plan-index"><span>RESIDENCE / 0{index + 1}</span><span>0{index + 1} BEDROOM</span></div>
           <a href={content.actions.viewing.href} className="residence-image-link" aria-label={`${content.residences.linkLabel}: ${item.title}`}>
             <ResponsiveImage image={item.image} className="residence-image" />
           </a>
-          <div className="residence-heading">
+          <div className="residence-summary"><div className="residence-heading">
             <h3>{item.title}</h3>
             <a href={content.actions.viewing.href} className="icon-button" aria-label={`${content.residences.linkLabel}: ${item.title}`}><ArrowTopRightIcon /></a>
           </div>
-          <p>{item.description}</p>
+          <p>{item.description}</p><a className="text-link residence-enquire" href={content.actions.viewing.href}>Arrange a viewing<ArrowTopRightIcon /></a></div>
         </article>
       </Reveal>)}
     </div>

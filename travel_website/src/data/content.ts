@@ -38,8 +38,8 @@ export const content = {
     emphasis: 'Hãy ở trong khoảnh khắc.',
     description:
       'Một buổi sáng chưa có lịch trình. Một ly cà phê bên hiên nhà. Một khúc quanh khiến bạn muốn dừng lại. Chúng tôi tin những điều nhỏ bé ấy làm nên một chuyến đi đáng nhớ.',
-    image: '/images/traveler.webp',
-    imageAlt: 'Người lữ hành đeo ba lô nhìn về những dãy núi trong nắng chiều',
+    image: '/images/terrace-walk.webp',
+    imageAlt: 'Người lữ hành đi giữa ruộng bậc thang và những dãy núi trong sương sớm',
     imageCaption: 'LESS RUSH. MORE WONDER.',
     principles: [
       {
@@ -82,7 +82,7 @@ export const content = {
         name: 'Theo những tầng mây',
         location: 'CẢM HỨNG MIỀN NÚI',
         mood: 'Cung đường & bình minh',
-        image: '/images/mountains.webp',
+        image: '/images/mountain-pass.webp',
         alt: 'Con đường uốn quanh sườn núi giữa những tầng mây',
         description:
           'Đi bộ giữa núi đồi, đón nắng sớm và dành cả buổi chiều cho một khung cửa nhìn ra thung lũng.',
@@ -94,8 +94,8 @@ export const content = {
         name: 'Về phía biển xanh',
         location: 'CẢM HỨNG MIỀN BIỂN',
         mood: 'Biển xanh & ngày chậm',
-        image: '/images/coast.webp',
-        alt: 'Chiếc thuyền gỗ trên làn nước xanh ngọc bên bờ đá',
+        image: '/images/coastal-road.webp',
+        alt: 'Con đường ven biển uốn quanh triền núi bên vịnh xanh',
         description:
           'Theo con đường ven biển, dừng ở một vịnh nhỏ và để tiếng sóng thay cho chuông báo thức.',
       },
@@ -106,8 +106,8 @@ export const content = {
         name: 'Lạc trong phố Hội',
         location: 'HỘI AN',
         mood: 'Phố cổ & những câu chuyện',
-        image: '/images/hoi-an.webp',
-        alt: 'Con phố Hội An với những ngôi nhà vàng và đèn lồng',
+        image: '/images/hoi-an-riverside.webp',
+        alt: 'Đèn lồng bên sông Hội An lúc phố vừa lên đèn',
         description:
           'Đi qua những bức tường vàng, ngồi bên một hiên nhà cũ và nhìn phố dần lên đèn.',
       },
@@ -115,7 +115,7 @@ export const content = {
     count: (count: number) => `${count} ý tưởng hành trình`,
   },
   interlude: {
-    image: '/images/slow-evening.webp',
+    image: '/images/quiet-horizon.webp',
     eyebrow: 'TAKE THE LONG WAY HOME',
     line: 'Đi để thấy thế giới.',
     emphasis: 'Chậm lại để thấy mình.',
@@ -162,7 +162,7 @@ export const content = {
     note: 'Một concept du lịch chậm tại Việt Nam.',
     backToTop: 'Về đầu trang',
     copyright: '© Nomad Vietnam',
-    photoCredit: 'Ảnh Hội An · Unsplash',
-    photoUrl: 'https://unsplash.com/photos/KpJ1_47WQPc',
+    photoCredit: 'Hình ảnh được sáng tạo cho Nomad.',
+
   },
 }

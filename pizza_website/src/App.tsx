@@ -14,47 +14,10 @@ function App() {
       <main id="main" tabIndex={-1}>
         <Hero />
         <div className="house-strip container" aria-label="Our approach"><span>Slow-fermented dough</span><span>Stretched by hand</span><span>Finished by fire</span></div>
-        <section id="story" className="craft container section-space" aria-labelledby="craft-heading">
-          <Reveal className="craft-image-wrap">
-            <figure className="craft-photo">
-              <Photo name="candlelit-table" alt="Candlelit wooden tables and warm amber light in a cozy dining room" width={900} height={600} sizes="(max-width: 767px) 85vw, 38vw" />
-              <figcaption><span>A place to settle in.</span><span>Stay a little longer.</span></figcaption>
-            </figure>
-          </Reveal>
-          <div className="craft-copy">
-            <Reveal>
-              <p className="eyebrow"><span className="section-number">01 /</span> A little patience. A lot of fire.</p>
-              <h2 id="craft-heading">Dough with a<br />point of view<span className="accent-period">.</span></h2>
-            </Reveal>
-            <Reveal delay={0.1} className="craft-description">
-              <p>Good dough takes its time. Ours ferments slowly, gets stretched by hand, and meets the fierce heat of a wood-fired oven.</p>
-              <p>The result? An airy crust, a little char, and a soft middle. Finished with fresh ingredients that know when to let the dough do the talking.</p>
-              <a className="text-link" href="#menu">Find your favorite <Icon name="arrow" /></a>
-            </Reveal>
-          </div>
-        </section>
-        <section className="food-section container" aria-label="From the kitchen">
-          <div className="food-heading"><span>Fresh from the fire.</span><span>Best shared.</span></div>
-          <div className="food-grid">
-            <Reveal className="food-feature">
-              <figure>
-                <div className="photo-frame"><Photo name="basil-tomato" alt="Margherita pizza with fresh basil, tomato sauce, melted mozzarella and a charred crust" width={1400} height={1750} sizes="(max-width: 767px) 90vw, 50vw" /></div>
-                <figcaption><span>Tomato. Basil. Nothing to hide.</span><span>01</span></figcaption>
-              </figure>
-            </Reveal>
-            <Reveal className="food-oven" delay={0.12}>
-              <figure>
-                <div className="photo-frame"><Photo name="wood-fired-oven" alt="Fresh pizza cooking beside bright flames in a traditional wood-fired oven" width={1200} height={1800} sizes="(max-width: 767px) 90vw, 42vw" /></div>
-                <figcaption><span>A little char makes all the difference.</span><span>02</span></figcaption>
-              </figure>
-              <p className="food-note">Made by hand.<br />Finished by fire.</p>
-            </Reveal>
-          </div>
-        </section>
         <section id="menu" className="menu-section section-space" aria-labelledby="menu-heading">
-          <div className="menu-layout container">
+          <div className="menu-outer-shell"><div className="menu-layout container">
           <Reveal className="menu-intro">
-            <p className="eyebrow"><span className="section-number">02 /</span> The house favorites</p>
+            <p className="eyebrow"><span className="section-number">01 /</span> The house favorites</p>
             <h2 id="menu-heading">Tonight,<br /> eat well<span className="accent-period">.</span></h2>
             <p>For the middle of the table.<br />Or all to yourself. We get it.</p>
             <a className="text-link" href="#visit">Make an evening of it <Icon name="arrow" /></a>
@@ -73,10 +36,47 @@ function App() {
             </ul>
             <p className="menu-footnote">Good food is for everyone. Let us know about allergies before you order.</p>
           </div>
+          </div></div>
+        </section>
+        <section id="story" className="craft container section-space" aria-labelledby="craft-heading">
+          <Reveal className="craft-image-wrap">
+            <figure className="craft-photo">
+              <div className="craft-image-core"><Photo name="fiamma-craft" alt="Flour-dusted hands stretching pizza dough beside the wood-fired oven" width={1448} height={1086} sizes="(max-width: 767px) 85vw, 38vw" /></div>
+              <figcaption><span>It starts with the dough.</span><span>No shortcuts.</span></figcaption>
+            </figure>
+          </Reveal>
+          <div className="craft-copy">
+            <Reveal>
+              <p className="eyebrow"><span className="section-number">02 /</span> A little patience. A lot of fire.</p>
+              <h2 id="craft-heading">Dough with a<br />point of view<span className="accent-period">.</span></h2>
+            </Reveal>
+            <Reveal delay={0.1} className="craft-description">
+              <p>Good dough takes its time. Ours ferments slowly, gets stretched by hand, and meets the fierce heat of a wood-fired oven.</p>
+              <p>The result? An airy crust, a little char, and a soft middle. Finished with fresh ingredients that know when to let the dough do the talking.</p>
+              <a className="text-link" href="#menu">Find your favorite <Icon name="arrow" /></a>
+            </Reveal>
+          </div>
+        </section>
+        <section className="food-section container" aria-label="From the kitchen">
+          <div className="food-heading"><span>Fresh from the fire.</span><span>Best shared.</span></div>
+          <div className="food-grid">
+            <Reveal className="food-feature">
+              <figure>
+                <div className="photo-frame"><div className="photo-core"><Photo name="fiamma-table" alt="Two wood-fired pizzas and fresh ingredients laid out for sharing on a checked tablecloth" width={1448} height={1086} sizes="(max-width: 767px) 90vw, 50vw" /></div></div>
+                <figcaption><span>Good food. Better company.</span><span>01</span></figcaption>
+              </figure>
+            </Reveal>
+            <Reveal className="food-oven" delay={0.12}>
+              <figure>
+                <div className="photo-frame"><div className="photo-core"><Photo name="fiamma-room" alt="Sunlight across wooden tables and red leather banquettes in the pizzeria" width={1448} height={1086} sizes="(max-width: 767px) 90vw, 42vw" /></div></div>
+                <figcaption><span>A table worth staying at.</span><span>02</span></figcaption>
+              </figure>
+              <p className="food-note">One more slice.<br />One more story.</p>
+            </Reveal>
           </div>
         </section>
         <section id="visit" className="visit-section" aria-labelledby="visit-heading">
-          <img className="visit-background" src="/media/photos/dining-room.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async" />
+          <img className="visit-background" src="/media/fiamma-front.webp" alt="" width="1448" height="1086" loading="lazy" decoding="async" />
           <div className="visit-shade" />
           <div className="visit-layout container">
             <Reveal className="visit-copy">

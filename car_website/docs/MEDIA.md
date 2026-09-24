@@ -1,20 +1,21 @@
-# Media Apex Motors
+# Apex concept photography and motion
 
-## Landing page hiện tại
+Every editorial photo position has its own generated photograph. The gallery dialog enlarges the selected gallery image, rather than repeating it in a second page section.
 
-Trang chỉ hiển thị ảnh WebP tĩnh từ `public/media/`. Hero dùng `ignition-desktop.webp` ở cả desktop và mobile, giữ tỉ lệ 16:9 trên điện thoại. Ảnh hero tải eager với ưu tiên cao; ảnh các section bên dưới tải lazy và có kích thước khai báo để hạn chế dịch chuyển bố cục.
+| File in `public/media/` | Position |
+| --- | --- |
+| `apex-coast.webp` | Opening car stage |
+| `apex-profile.webp` | Model overview |
+| `apex-detail.webp` | Design system |
+| `apex-handling.webp` | Handling system |
+| `apex-cockpit.webp` | Interior system |
+| `apex-pass.webp` | Gallery: mountain road |
+| `apex-rear.webp` | Gallery: rear design |
+| `apex-headlight.webp` | Gallery: lighting detail |
+| `apex-night.webp` | Closing drive invitation |
 
-Nếu ảnh lỗi, `MediaImage` hiển thị vùng thay thế có nhãn; tiêu đề và CTA vẫn dùng được.
+All photos illustrate the fictional Apex One concept. The media manifest records generation provenance. The opening image loads with high priority; supporting images load lazily. `MediaImage` supplies a labeled fallback if a file fails to load. All original photographs, video, and the old 160-frame sequence have been removed.
 
-## Nguồn lưu lại
+The headline uses the official React Bits SplitText source, adapted from upstream commit `b6666e9f3a03a062143ce409f3aac53e27fdfaa8`. The required license is distributed at `public/licenses/react-bits-LICENSE.md`. GSAP supplies a finite image-shutter arrival, scroll-linked camera framing, and reading progress. Detail selection and hover movement preserve the existing controls.
 
-- `src/assets/car-web.mp4`: video nguồn.
-- `public/media/sequence/`: frame từ bản scroll trước, không còn được mã giao diện tham chiếu hoặc tải.
-
-File ZIP nguồn và công cụ tạo ảnh từ ZIP đã được gỡ. Các ảnh WebP đã xuất được giữ lại và hoạt động độc lập; không cần giải nén hay chạy bước chuẩn bị media để phát triển hoặc build. Website không sử dụng video intro, canvas hay cơ chế scrub.
-
-## Giới hạn ảnh nguồn
-
-Ảnh hiện có watermark, huy hiệu nhà sản xuất và thay đổi mẫu xe giữa các góc chụp. Đây vẫn là bộ ảnh xem thử; cần thay bằng ảnh có nhận diện đồng nhất trước khi dùng cho thương hiệu thật.
-
-Để thay ảnh landing, cập nhật `hero.image`, `model.image`, `performance.details`, `gallery.images` và `booking.image` trong `src/data/content.ts`, bao gồm alt và kích thước thực tế.
+There is no pinned opening, autoplay media, loading gate, or endless decorative loop. Reduced motion removes split text, shutter movement, camera drift and progress animation immediately. Mobile uses the lighter arrival and reveal treatments without desktop camera drift. Focused content is revealed immediately, and animation observers, media subscriptions and resize frames are cleaned up on unmount.

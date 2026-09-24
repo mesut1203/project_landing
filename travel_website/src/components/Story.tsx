@@ -11,7 +11,7 @@ export function Story() {
     >
       <div className="shell story-grid">
         <Reveal className="story-visual">
-          <figure>
+          <figure className="story-landscape">
             <img
               src={story.image}
               alt={story.imageAlt}
@@ -19,9 +19,18 @@ export function Story() {
               height="720"
               loading="lazy"
             />
-            <figcaption>{story.imageCaption}</figcaption>
+            <figcaption>01 / Những bước chân giữa miền xanh</figcaption>
           </figure>
-          <div className="photo-border" aria-hidden="true" />
+          <figure className="story-detail">
+            <img
+              src="/images/vinh-hy-cove.webp"
+              alt="Một chiếc thuyền nhỏ giữa làn nước trong xanh của vịnh Vĩnh Hy"
+              width="1122"
+              height="1402"
+              loading="lazy"
+            />
+            <figcaption>02 / Và những ngày chẳng vội</figcaption>
+          </figure>
         </Reveal>
         <Reveal className="story-copy">
           <p className="eyebrow text-accent">{story.eyebrow}</p>

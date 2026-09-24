@@ -12,8 +12,8 @@ export function Reveal({ children, className = '', delay = 0 }: { children: Reac
       if (!entries[0].isIntersecting) return
       revealed.current = true
       // Content remains visible if observation or the animation API is unavailable.
-      animation = element.animate?.([{ opacity: 0.8, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], {
-        duration: 280, delay: Math.min(delay * 1000, 50), easing: 'ease-out',
+      animation = element.animate?.([{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'none' }], {
+        duration: 850, delay: Math.min(delay * 1000, 180), easing: 'cubic-bezier(.22,1,.36,1)',
       })
       observer.disconnect()
     }, { threshold: 0.12 })

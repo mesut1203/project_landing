@@ -1,0 +1,75 @@
+{
+  "created": "2026-09-24",
+  "generator": "OpenAI built-in image generation",
+  "format": "WebP, quality 90",
+  "note": "Original generated concept imagery. Nine editorial positions use nine distinct photographs. The gallery viewer enlarges the selected photo. All previous photographs and source video have been removed.",
+  "assets": [
+    {
+      "file": "apex-coast.webp",
+      "prompt": "Original unbranded silver grand touring coupe on a Pacific coastal road at blue hour. Low three-quarter front view, realistic silver reflections, cinematic campaign photography, landscape 16:9, open dark space to the left, no text or logos."
+    },
+    {
+      "file": "apex-cockpit.webp",
+      "prompt": "Original modern grand touring cockpit through the driver door. Cognac leather, black steering wheel, brushed aluminum, tactile analog-inspired controls, warm soft daylight, editorial photograph, landscape 4:3, no text or logos."
+    },
+    {
+      "file": "apex-detail.webp",
+      "prompt": "Original close-up of silver coupe fender and black multi-spoke wheel with water droplets on a coastal road at blue hour. Precision material textures, soft ocean reflection, cinematic natural photograph, landscape 4:3, no text or logos."
+    },
+    {
+      "file": "apex-profile.webp",
+      "position": "Model overview",
+      "scene": "Full side profile against a graphite architectural wall, with warm coastal light.",
+      "reference": "apex-coast.webp",
+      "generation_source": "/Users/tupt/.codex/generated_images/01a0d297-a7da-7381-97e8-4502f6194591/exec-feb65780-a3aa-4b6c-a70c-f7af18f4f2e9.png",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "apex-handling.webp",
+      "position": "Handling system",
+      "scene": "Dynamic front three-quarter tracking photograph through a sweeping coastal road bend, with motion in the road and wheels.",
+      "reference": "apex-coast.webp",
+      "generation_source": "/Users/tupt/.codex/generated_images/01a0d297-a7da-7381-97e8-4502f6194591/exec-898eee8e-0337-45e1-9bff-83d6fbf41e6f.png",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "apex-pass.webp",
+      "position": "Gallery mountain road",
+      "scene": "Distant rear three-quarter view of the silver GT on a winding Alpine mountain pass at sunset.",
+      "reference": "apex-coast.webp",
+      "generation_source": "/Users/tupt/.codex/generated_images/01a0d297-a7da-7381-97e8-4502f6194591/exec-b065bfcb-8562-4336-ada7-78a5be147f1a.png",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "apex-rear.webp",
+      "position": "Gallery rear design",
+      "scene": "Low rear three-quarter detail beside a modern stone house at blue hour, with slim illuminated red taillights.",
+      "reference": "apex-coast.webp",
+      "generation_source": "/Users/tupt/.codex/generated_images/01a0d297-a7da-7381-97e8-4502f6194591/exec-d8d85304-5331-4921-ab8b-03d9e3b6a99b.png",
+      "width": 1448,
+      "height": 1086
+    },
+    {
+      "file": "apex-headlight.webp",
+      "position": "Gallery lighting detail",
+      "scene": "Close study of the front LED headlight, grille and sculpted silver bodywork in precise studio light.",
+      "reference": "apex-coast.webp",
+      "generation_source": "/Users/tupt/.codex/generated_images/01a0d297-a7da-7381-97e8-4502f6194591/exec-9b68337b-7e68-4642-a823-50cfd9f16e27.png",
+      "width": 1448,
+      "height": 1086
+    },
+    {
+      "file": "apex-night.webp",
+      "position": "Closing drive invitation",
+      "scene": "Wide night photograph of the silver GT beside an illuminated glass pavilion, with dark negative space on the left.",
+      "reference": "apex-coast.webp",
+      "generation_source": "/Users/tupt/.codex/generated_images/01a0d297-a7da-7381-97e8-4502f6194591/exec-66a4f53f-6ef5-4068-bf95-cdce9883b9ff.png",
+      "width": 1600,
+      "height": 900
+    }
+  ],
+  "reference_prompt": "Use the provided image as reference for the exact fictional silver luxury GT vehicle identity. Create a NEW premium automotive campaign photograph from a different camera/location: [SCENE]. Preserve the same two-door body style, long hood, elegant fastback roof, broad understated front grille, silver metallic paint and black wheels when visible. Physically realistic geometry and reflections, premium editorial photographic detail. No brand badges, no readable license plate, no text, no watermark, no collage."
+}

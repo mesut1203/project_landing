@@ -63,7 +63,7 @@ export function TripForm({
       tabIndex={-1}
     >
       <div className="shell trip-grid">
-        <Reveal>
+        <Reveal className="trip-introduction">
           <p className="eyebrow text-accent">{form.eyebrow}</p>
           <h2 id="trip-heading" className="section-heading">
             {form.heading}
@@ -71,6 +71,16 @@ export function TripForm({
             <em>{form.emphasis}</em>
           </h2>
           <p className="body-copy">{form.description}</p>
+          <figure className="trip-postcard">
+            <img
+              src="/images/hoi-an-morning.webp"
+              alt="Ánh nắng sớm rọi qua con ngõ vàng yên tĩnh ở Hội An"
+              width="1122"
+              height="1402"
+              loading="lazy"
+            />
+            <figcaption>Một sáng thật khác. Ở một nơi thật gần.</figcaption>
+          </figure>
           <aside className="demo-notice" id="demo-notice">
             <span className="eyebrow">{form.demoLabel}</span>
             <p>{form.demoNotice}</p>
@@ -95,13 +105,14 @@ export function TripForm({
                 value={name}
                 placeholder={form.namePlaceholder}
                 onChange={(event) => {
-                  setName(event.target.value)
+                  const value = event.target.value
+                  setName(value)
+                  if (errors.name && value.trim().length >= 2)
+                    setErrors((previous) => ({ ...previous, name: undefined }))
                   setSummary(null)
                 }}
                 onBlur={() => {
                   const error = validate().name
-                  // Keep existing feedback until submit so blur cannot move
-                  // the submit button between pointerdown and click.
                   if (error)
                     setErrors((previous) => ({ ...previous, name: error }))
                 }}
@@ -160,7 +171,13 @@ export function TripForm({
                   min={minMonth}
                   value={month}
                   onChange={(event) => {
-                    setMonth(event.target.value)
+                    const value = event.target.value
+                    setMonth(value)
+                    if (errors.month && (!value || value >= minMonth))
+                      setErrors((previous) => ({
+                        ...previous,
+                        month: undefined,
+                      }))
                     setSummary(null)
                   }}
                   onBlur={() => {

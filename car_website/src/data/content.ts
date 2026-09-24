@@ -18,8 +18,8 @@ export const brand = {
   title: 'Apex Motors | Built for the long way.',
   description: 'Discover Apex One. A sports car concept shaped around the feeling of the open road.',
   colors: {
-    charcoal: '#111214', surface: '#191a1d', ink: '#f3f1ed',
-    muted: '#a7a9ad', accent: '#ec392e', chrome: '#d1d4d8',
+    charcoal: '#101211', surface: '#1b1e1b', ink: '#f0f2e9',
+    muted: '#a8ada6', accent: '#d6fc46', chrome: '#d2d7cc',
   },
 }
 
@@ -44,37 +44,37 @@ export const ctas = {
 }
 
 export const hero = {
-  label: 'Introducing Apex One',
+  label: 'Apex One / Grand touring concept',
   lines: ['Built for', 'the long way.'],
-  description: 'A new perspective on the open road.',
-  image: { src: '/media/ignition-desktop.webp', alt: 'A close view of a silver sports coupe and its sculpted headlight in a dark studio.', width: 1280, height: 720 } satisfies ImageContent,
+  description: 'For the roads that ask a little more. And the moments that stay with you.',
+  image: { src: '/media/apex-coast.webp', alt: 'A silver grand touring coupe overlooking a quiet coastal road at blue hour.', width: 1672, height: 941 } satisfies ImageContent,
 }
 
 export const model = {
-  id: 'model', heading: 'Engineered to be felt.',
+  id: 'model', heading: 'Some roads change everything.',
   description: 'The first glance. The first corner. The road you choose to take. Meet a concept built around the connection between car and driver.',
-  image: { src: '/media/model.webp', alt: 'A metallic sports coupe parked above the ocean at sunset.', width: 1280, height: 720 } satisfies ImageContent,
+  image: { src: '/media/apex-profile.webp', alt: 'A full side profile of the silver Apex One against a graphite architectural backdrop.', width: 1536, height: 1024 } satisfies ImageContent,
   caption: 'Apex One. An expression of intent.',
 }
 
 export const performance = {
-  id: 'experience', heading: 'Every curve has a reason.',
+  id: 'experience', heading: 'Nothing here by accident.',
   label: 'Explore the design',
   details: [
     {
       id: 'design', label: 'Design', heading: 'Form, with purpose.',
       description: 'A low silhouette. Sculpted surfaces. Light that follows every line. Nothing interrupts the shape.',
-      image: { src: '/media/detail-body.webp', alt: 'A close view of the headlight and sculpted metallic bodywork of Apex One.', width: 1200, height: 900 },
+      image: { src: '/media/apex-detail.webp', alt: 'Sculpted silver bodywork and a black multi-spoke wheel beside the ocean.', width: 1448, height: 1086 },
     },
     {
       id: 'handling', label: 'Handling', heading: 'A closer connection.',
       description: 'The road is part of the conversation. A driver-focused concept, imagined for the pleasure of every turn.',
-      image: { src: '/media/detail-wheel.webp', alt: 'A multi-spoke alloy wheel under directional studio light.', width: 1280, height: 720 },
+      image: { src: '/media/apex-handling.webp', alt: 'The silver grand tourer carrying speed through a sweeping road bend.', width: 1536, height: 1024 },
     },
     {
       id: 'interior', label: 'Interior', heading: 'Your place in the journey.',
       description: 'Tactile materials, considered details and a cockpit that brings the focus back to driving.',
-      image: { src: '/media/detail-interior.webp', alt: 'Dark leather, brushed metal and the driver seat inside the Apex One concept.', width: 1200, height: 900 },
+      image: { src: '/media/apex-cockpit.webp', alt: 'Cognac leather, brushed metal and tactile controls inside a grand touring cockpit.', width: 1448, height: 1086 },
     },
   ] satisfies DetailContent[],
 }
@@ -84,9 +84,9 @@ export const gallery = {
   openLabel: 'View image:', closeLabel: 'Close image viewer',
   previousLabel: 'Previous image', nextLabel: 'Next image',
   images: [
-    { id: 'coast', src: '/media/gallery-coast.webp', alt: 'Apex One alongside a sweeping coastal road at first light.', caption: 'Out where the road opens up.', width: 1600, height: 1000 },
-    { id: 'rear', src: '/media/gallery-rear.webp', alt: 'Rear three-quarter view of Apex One with a thin red taillight.', caption: 'A lasting impression.', width: 900, height: 1200 },
-    { id: 'light', src: '/media/detail-body.webp', alt: 'Light tracing the silver front fender and headlight.', caption: 'Considered from every angle.', width: 1200, height: 900 },
+    { id: 'pass', src: '/media/apex-pass.webp', alt: 'A distant rear view of Apex One following the curves of a mountain pass.', caption: 'Out where the road opens up.', width: 1536, height: 1024 },
+    { id: 'rear', src: '/media/apex-rear.webp', alt: 'The sculpted rear of the silver grand tourer with slim illuminated taillights.', caption: 'A lasting impression.', width: 1448, height: 1086 },
+    { id: 'light', src: '/media/apex-headlight.webp', alt: 'A close study of the Apex One front headlight and sculpted silver bodywork.', caption: 'Considered from every angle.', width: 1448, height: 1086 },
   ] satisfies GalleryImage[],
 }
 
@@ -98,7 +98,7 @@ export const booking = {
   closeLabel: 'Close booking information',
   // Replace with a real booking service URL to enable reservations.
   url: null as string | null,
-  image: { src: '/media/arrival-desktop.webp', alt: 'Apex One parked above the coast at sunset.', width: 1600, height: 900 } satisfies ImageContent,
+  image: { src: '/media/apex-night.webp', alt: 'Apex One beside an illuminated modern pavilion after dark.', width: 1600, height: 900 } satisfies ImageContent,
 }
 
 export const footer = {
