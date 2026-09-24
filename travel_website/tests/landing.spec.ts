@@ -1,120 +1,40 @@
-﻿import { expect, test } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 for (const width of [1440, 375]) {
-  test(`scroll film tracks forwards and backwards at ${width}px`, async ({
+  test(`static hero scrolls naturally without video at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 })
     const errors: string[] = []
+    const mediaRequests: string[] = []
     page.on('pageerror', (error) => errors.push(error.message))
+    page.on('request', (request) => {
+      if (/\.(mp4|zip)(?:$|\?)/.test(request.url()))
+        mediaRequests.push(request.url())
+    })
     await page.goto('/')
-    const video = page.locator('.hero-video')
-    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
-    await expect
-      .poll(() =>
-        video.evaluate(
-          (el: HTMLVideoElement) => el.seekable.length && el.seekable.end(0),
-        ),
-      )
-      .toBeGreaterThan(0)
-    expect(await video.getAttribute('src')).toMatch(/^blob:/)
-    const scroll = async (progress: number) => {
-      await page.evaluate((progress) => {
-        const track = document.querySelector('.world-track') as HTMLElement
-        const stage = document.querySelector('.world-stage') as HTMLElement
-        window.scrollTo(
-          0,
-          track.offsetTop +
-            (track.offsetHeight - stage.offsetHeight) * progress,
-        )
-      }, progress)
-      await expect
-        .poll(() => video.evaluate((el: HTMLVideoElement) => el.currentTime))
-        .toBeCloseTo(15.9 * progress, 1)
-    }
-    await scroll(0.25)
-    await expect(video).toHaveAttribute('data-painted', 'true')
-    await page.screenshot({ path: `.tmp/scroll-quarter-${width}.png` })
-    await scroll(0.5)
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(
-      'Lạc một chút.',
-    )
-    await page.screenshot({ path: `.tmp/scroll-middle-${width}.png` })
-    await scroll(0.95)
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(
-      'Ngày dài hơn.',
-    )
-    await page.screenshot({ path: `.tmp/scroll-end-${width}.png` })
-    await scroll(0.1)
     await expect(page.getByRole('heading', { level: 1 })).toContainText(
       'Đi xa hơn.',
     )
-    await page.getByRole('button', { name: 'Tạm dừng chuyển động' }).click()
-    const held = await video.evaluate((el: HTMLVideoElement) => el.currentTime)
-    await page.evaluate(() => window.scrollBy(0, 500))
-    await page.waitForTimeout(400)
-    expect(await video.evaluate((el: HTMLVideoElement) => el.currentTime)).toBe(
-      held,
-    )
-    await page
-      .getByRole('button', { name: 'Bật chuyển động theo cuộn' })
-      .click()
+    await expect(page.locator('.hero-image')).toBeVisible()
+    await expect(page.locator('video')).toHaveCount(0)
+    const hero = page.locator('#top')
+    const initial = await hero.boundingBox()
+    expect(initial!.height).toBeLessThanOrEqual(1000)
+    await page.evaluate(() => window.scrollBy(0, 400))
     await expect
-      .poll(() => video.evaluate((el: HTMLVideoElement) => el.currentTime))
-      .toBeGreaterThan(held)
-    await page.getByRole('button', { name: '03 Tận hưởng' }).click()
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(
-      'Ngày dài hơn.',
-    )
+      .poll(() => hero.evaluate((el) => el.getBoundingClientRect().top))
+      .toBe(-400)
+    await page.evaluate(() => window.scrollTo(0, 0))
+    await page
+      .getByRole('link', { name: 'Tìm hành trình của bạn', exact: true })
+      .click()
+    await expect(page).toHaveURL(/#destinations$/)
+    await expect(page.locator('#destinations-heading')).toBeInViewport()
+    expect(mediaRequests).toEqual([])
     expect(errors).toEqual([])
   })
 }
-
-test('reduced motion uses an immediate poster without downloading video', async ({
-  page,
-}) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' })
-  const mediaRequests: string[] = []
-  page.on('request', (request) => {
-    if (request.url().includes('travel-scroll.mp4'))
-      mediaRequests.push(request.url())
-  })
-  await page.goto('/')
-  await expect(page.locator('.world-poster')).toBeVisible()
-  await expect(page.locator('.world-track')).toHaveAttribute(
-    'data-reduced',
-    'true',
-  )
-  expect(await page.locator('.hero-video').getAttribute('src')).toBeNull()
-  expect(mediaRequests).toEqual([])
-  await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await expect
-    .poll(() =>
-      page
-        .locator('.hero-video')
-        .evaluate((el: HTMLVideoElement) => el.readyState),
-    )
-    .toBeGreaterThanOrEqual(2)
-  await page.emulateMedia({ reducedMotion: 'reduce' })
-  await expect(page.locator('.world-track')).toHaveAttribute(
-    'data-reduced',
-    'true',
-  )
-  expect(await page.locator('.hero-video').getAttribute('src')).toBeNull()
-})
-
-test('failed media retains the poster and working destination navigation', async ({
-  page,
-}) => {
-  await page.route('**/videos/travel-scroll.mp4', (route) => route.abort())
-  await page.goto('/')
-  await expect(page.locator('.world-media-status')).toBeVisible()
-  await expect(page.locator('.world-poster')).toBeVisible()
-  await page
-    .getByRole('link', { name: 'Tìm hành trình của bạn', exact: true })
-    .click()
-  await expect(page).toHaveURL(/#destinations$/)
-})
 
 test('destination filters and demo form validate and create a local summary', async ({
   page,

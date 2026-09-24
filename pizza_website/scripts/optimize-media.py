@@ -6,7 +6,7 @@ root = Path(__file__).resolve().parent.parent
 output = root / 'public/media/optimized'
 output.mkdir(parents=True, exist_ok=True)
 
-with Image.open(root / 'public/media/sequence/frame-001.jpg') as image:
+with Image.open(root / 'public/media/photos/hero.jpg') as image:
     image.resize((640, 360), Image.Resampling.LANCZOS).save(
         output / 'hero-640.webp', 'WEBP', quality=78, method=6)
 

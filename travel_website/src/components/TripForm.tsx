@@ -63,7 +63,7 @@ export function TripForm({
       tabIndex={-1}
     >
       <div className="shell trip-grid">
-        <Reveal stagger>
+        <Reveal>
           <p className="eyebrow text-accent">{form.eyebrow}</p>
           <h2 id="trip-heading" className="section-heading">
             {form.heading}
@@ -76,7 +76,7 @@ export function TripForm({
             <p>{form.demoNotice}</p>
           </aside>
         </Reveal>
-        <Reveal className="trip-form-wrap" delay={150}>
+        <Reveal className="trip-form-wrap">
           <form
             ref={formRef}
             onSubmit={onSubmit}

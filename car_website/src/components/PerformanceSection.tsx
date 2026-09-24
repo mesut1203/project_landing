@@ -7,8 +7,8 @@ export function PerformanceSection() {
   const [active, setActive] = useState(0)
   return (
     <section id={performance.id} className="performance-section section-shell" tabIndex={-1} aria-labelledby="performance-title">
-      <h2 id="performance-title" className="display-heading" data-reveal>{performance.heading}</h2>
-      <div className="detail-layout" data-reveal>
+      <h2 id="performance-title" className="display-heading">{performance.heading}</h2>
+      <div className="detail-layout">
         <div className="detail-visuals">
           {performance.details.map((detail, index) => <div key={detail.id} className={`detail-visual ${active === index ? 'is-active' : ''}`} aria-hidden={active !== index}>
             <MediaImage image={detail.image} />

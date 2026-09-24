@@ -23,10 +23,10 @@ export function Gallery() {
 
   return (
     <section id={gallery.id} className="gallery-section section-shell" tabIndex={-1} aria-labelledby="gallery-title">
-      <div className="gallery-header" data-reveal><p className="eyebrow">{gallery.label}</p><h2 id="gallery-title" className="display-heading">{gallery.heading}</h2></div>
+      <div className="gallery-header"><p className="eyebrow">{gallery.label}</p><h2 id="gallery-title" className="display-heading">{gallery.heading}</h2></div>
       <div className="gallery-grid">
         {gallery.images.map((image, index) => (
-          <figure key={image.id} className={`gallery-item gallery-item--${index}`} data-reveal>
+          <figure key={image.id} className={`gallery-item gallery-item--${index}`}>
             <button type="button" className="gallery-image-button" onClick={() => setSelected(index)} aria-haspopup="dialog" aria-label={`${gallery.openLabel} ${image.caption}`}>
               <MediaImage image={image} /><span className="gallery-open" aria-hidden="true"><ArrowUpRightIcon size={22} /></span>
             </button>

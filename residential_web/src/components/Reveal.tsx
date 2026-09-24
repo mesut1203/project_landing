@@ -1,14 +1,31 @@
-import { motion } from 'motion/react'
+import { useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
 import { reducedMotionQuery, useMediaQuery } from '../hooks/useMediaQuery'
 
-interface RevealProps { children: ReactNode; className?: string; delay?: number }
+interface RevealProps { children: ReactNode; className?: string }
 
-export function Reveal({ children, className, delay = 0 }: RevealProps) {
+export function Reveal({ children, className }: RevealProps) {
+  const ref = useRef<HTMLDivElement>(null)
+  const revealed = useRef(false)
   const reduced = useMediaQuery(reducedMotionQuery)
-  return <motion.div className={className} initial={false}
-    whileInView={reduced ? undefined : { opacity: [0.5, 1], y: [20, 0] }}
-    viewport={{ once: true, amount: 0.12 }} transition={{ duration: 0.65, delay, ease: [0.2, 0.7, 0.2, 1] }}>
+  useEffect(() => {
+    const element = ref.current
+    if (!element || reduced || revealed.current || !('IntersectionObserver' in window)) return
+    let animation: Animation | undefined
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return
+      revealed.current = true
+      observer.disconnect()
+      // Content stays visible even when animations are unavailable or cancelled.
+      animation = element.animate?.([
+        { opacity: 0.75, transform: 'translateY(6px)' },
+        { opacity: 1, transform: 'translateY(0)' },
+      ], { duration: 250, easing: 'ease-out' })
+    }, { threshold: 0.12 })
+    observer.observe(element)
+    return () => { observer.disconnect(); animation?.cancel() }
+  }, [reduced])
+  return <div ref={ref} className={className}>
     {children}
-  </motion.div>
+  </div>
 }

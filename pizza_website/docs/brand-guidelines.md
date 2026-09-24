@@ -35,7 +35,7 @@ Give food photographs room to be seen. Favor blistered crust, fresh basil, melte
 
 ## Motion
 
-Only animate `transform` and `opacity`. Reveal copy over 360ms with a gentle 14px upward move and fade; cap stagger at 120ms. Use 220ms control transitions and subtle photo scaling on devices with a precise hover pointer. Keep native scrolling and allow keyboard focus to remain predictable. The hero film plays automatically on desktop and compact screens, with an optional desktop scroll mode. Reduced-motion users and devices reporting limited resources use the static composition.
+Only animate `transform` and `opacity`. Reveal content once over 280ms with a gentle 6px upward move and fade; cap stagger at 50ms. Use 220ms control transitions and subtle photo scaling on devices with a precise hover pointer. Keep native scrolling and allow keyboard focus to remain predictable. The hero is a static photograph on all screens. No autoplay, pinning, parallax, or scroll-driven sequence is used. Reduced-motion and slow/data-saving preferences disable the short entrances.
 
 Use `prefers-reduced-motion: reduce` to replace animated entrances and zooms with fully visible static content. The HTML style tile demonstrates a single, user-triggered entrance with replay and pause controls.
 

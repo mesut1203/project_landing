@@ -12,8 +12,7 @@
     "format": "prettier --write src tests vite.config.ts vitest.config.ts",
     "media:fetch": "node scripts/fetch-intro-media.mjs",
     "media:build": "node scripts/build-intro.mjs",
-    "media:world": "node scripts/build-scroll-video.mjs",
-    "test:scroll-browser": "node scripts/qa-scroll-world.mjs"
+    "test:browser": "node scripts/qa-light-motion.mjs"
   },
   "dependencies": {
     "@fontsource-variable/manrope": "^5.3.0",

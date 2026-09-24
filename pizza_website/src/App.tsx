@@ -76,7 +76,7 @@ function App() {
           </div>
         </section>
         <section id="visit" className="visit-section" aria-labelledby="visit-heading">
-          <img className="visit-background" src="/media/sequence/frame-050.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async" />
+          <img className="visit-background" src="/media/photos/dining-room.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async" />
           <div className="visit-shade" />
           <div className="visit-layout container">
             <Reveal className="visit-copy">

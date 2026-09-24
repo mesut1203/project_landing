@@ -1,5 +1,17 @@
 # Verification
 
+## Current revision — 2026-09-24
+
+- `npm run build`: passed, including TypeScript validation.
+- `npm run test`: 12 passed on installed Chrome.
+- Verified immediate content, native scrolling through all four story sections, no video requests, device-specific images, anchor focus, mobile menu, local-only form and axe accessibility.
+- Reduced motion works both on initial load and when changed during the session.
+- Overflow checks passed at 320, 375, 390, 768, 1024, 1440 and 1920 px.
+- Visual QA passed at 1440 × 900, 1366 × 768, 375 × 812 and 844 × 390. Images and CTA do not overlap; no broken editorial images, video requests, page errors or root-text-size overflow were recorded. Reviewed hero and story screenshots; corrected collapsed even-numbered story images on mobile.
+- This revision has not been deployed. Prior production and Lighthouse results below describe the previous version, not the current implementation.
+
+## Archived verification — 2026-09-14
+
 Checked on 2026-09-14 against the production build at `http://127.0.0.1:4173/`.
 
 - `npm run build`: passed, including strict TypeScript checks.

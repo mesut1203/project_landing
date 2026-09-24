@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Navbar } from './components/Navbar'
 import { Hero } from './components/Hero'
-import { ScrollStory } from './components/ScrollStory'
+import { Story } from './components/Story'
 import { Destinations } from './components/Destinations'
 import { TripForm } from './components/TripForm'
 import { Footer } from './components/Footer'
 import { content } from './data/content'
-import { SectionTransition } from './components/SectionTransition'
 
 export default function App() {
   const [destination, setDestination] = useState('')
@@ -26,16 +25,12 @@ export default function App() {
       <Navbar />
       <main id="main" tabIndex={-1}>
         <Hero />
-        <SectionTransition>
-          <ScrollStory />
-        </SectionTransition>
+        <Story />
         <Destinations onChoose={setDestination} />
-        <SectionTransition>
-          <TripForm
-            destination={destination}
-            onDestinationChange={setDestination}
-          />
-        </SectionTransition>
+        <TripForm
+          destination={destination}
+          onDestinationChange={setDestination}
+        />
       </main>
       <Footer />
     </div>

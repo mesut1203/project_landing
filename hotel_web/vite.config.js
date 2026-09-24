@@ -15,8 +15,7 @@ export default defineConfig({
           .replace('__META_DESCRIPTION__', escapeHtml(content.seo.description))
           .replace('__FAVICON__', escapeHtml(content.seo.favicon)),
         tags: [
-          { tag: 'link', attrs: { rel: 'preload', as: 'image', href: content.story.scenes[0].poster.src, fetchpriority: 'high', media: '(prefers-reduced-motion: no-preference)' } },
-          { tag: 'link', attrs: { rel: 'preload', as: 'image', href: content.story.finalImage.src, fetchpriority: 'high', media: '(prefers-reduced-motion: reduce)' } },
+          { tag: 'link', attrs: { rel: 'preload', as: 'image', href: content.story.scenes[0].poster.src, fetchpriority: 'high' } },
         ],
       }
     },

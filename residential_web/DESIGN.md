@@ -1,9 +1,9 @@
 # Luma Residences design direction
 
-Luxury residential editorial, with the camera journey supplied by the user's ZIP. An architectural narrative leads to one booking destination.
+Luxury residential editorial with still architectural imagery and natural scrolling. An architectural narrative leads to one booking destination.
 
 - DESIGN_VARIANCE: 7. Asymmetric residence and amenity compositions, stacked mobile layouts.
-- MOTION_INTENSITY: 6. Native-scroll camera movement and scene changes; restrained section reveals.
+- MOTION_INTENSITY: 2. One-time 250 ms reveals (6 px / opacity), 200–250 ms interaction feedback. No pinned scenes, scroll scrubbing, parallax or autoplay intro. Reduced motion cancels reveals and disables interaction transforms.
 - VISUAL_DENSITY: 3. Large photography, short copy and deliberate breathing space.
 - Custom brand aesthetic with Tailwind CSS, not an imitation of a third-party component system.
 - Charcoal `#202421`, ivory `#f1eee6`, champagne `#d4bea0`, forest `#293c33`, muted text `#b7bbb3`.

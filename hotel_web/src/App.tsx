@@ -1,7 +1,7 @@
 import { MotionConfig } from 'motion/react'
 import { content } from './data/content'
 import { Navbar } from './components/Navbar'
-import { ScrollStory } from './components/ScrollStory'
+import { Hero } from './components/Hero'
 import { Rooms } from './components/Rooms'
 import { Dining } from './components/Dining'
 import { Experiences } from './components/Experiences'
@@ -13,7 +13,7 @@ export default function App() {
     <MotionConfig reducedMotion="user">
       <Navbar data={content.nav} brand={content.brand} />
       <main id="top">
-        <ScrollStory data={content.story} />
+        <Hero data={content.story} />
         <Rooms data={content.rooms} />
         <Dining data={content.dining} />
         <Experiences data={content.experiences} />

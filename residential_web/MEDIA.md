@@ -1,12 +1,18 @@
-# Media provenance and reproduction
+# Media provenance
+
+## Current presentation (2026-09-24)
+
+The page now uses still images with natural scrolling and brief reveals. It makes no video requests. The source ZIP in `src/assets/` and both media-generation scripts were removed at the user's request to simplify the site. The existing WebP images are the runtime assets; the previously rendered MP4 files are retained but unused. The former ZIP/FFmpeg reproduction command is no longer available.
+
+The details below document how the existing assets were originally made.
 
 ## Supplied camera movement
 
-Source: `src/assets/ezgif-8ac1ae118054c2f1-jpg.zip`, supplied by the user. The original ZIP is unchanged.
+Original source: `ezgif-8ac1ae118054c2f1-jpg.zip`, supplied by the user and subsequently removed from `src/assets/`.
 
 The archive contains 140 JPEG frames at 1280 × 720. They show an approach to the building, movement through the entrance and living area, then the balcony and skyline. There is no timing metadata in the ZIP, so the sequence is interpreted at 10 fps to meet the requested 10–15 second intro.
 
-`npm run prepare:media` extracts the sequence into `tmp/source-frames`, retains a clean 1120 × 630 composition to exclude the source's lower-right watermark, and encodes H.264 at 30 fps with blended intermediate frames, GOP 8, CRF 20, faststart and no audio. Result: `public/videos/real-estate-intro.mp4`, approximately 13.83 seconds and 4.73 MB. This is the same file used for desktop scroll scrubbing.
+The former preparation script extracted the sequence into `tmp/source-frames`, retained a clean 1120 × 630 composition and encoded H.264 at 30 fps with blended intermediate frames, GOP 8, CRF 20, faststart and no audio. Result: `public/videos/real-estate-intro.mp4`, approximately 13.83 seconds and 4.73 MB. It was used for the former intro and scroll scrubbing.
 
 Desktop poster frames: arrival 1, lobby 57, residence 85 and balcony 116. The single source sequence preserves the original continuous camera movement; no separately generated video legs are joined.
 
@@ -16,13 +22,13 @@ The ZIP contains no portrait source. Four new native vertical compositions were 
 
 Final web assets are saved in `public/images/mobile/` as `arrival.webp`, `lobby.webp`, `residence.webp`, and `balcony.webp`. Each is 720 pixels wide and taller than it is wide. They are not center crops of the desktop sequence.
 
-`node scripts/prepare-portrait-intro.mjs` produces a separate 720 × 1280, 14-second silent intro. The four portrait images dissolve at 3.2, 6.8 and 10.3 seconds. It is a still-image film, not a newly generated camera flight. The scroll story uses the native portrait stills directly.
+The former portrait preparation script produced a separate 720 × 1280, 14-second silent intro. The four portrait images dissolve at 3.2, 6.8 and 10.3 seconds. It is a still-image film. The current page uses the native portrait stills directly.
 
 ## Editorial imagery
 
 Four additional native portrait illustrations represent rooftop, wellness, garden and lounge. Their mobile files are in `public/images/mobile/`; separately encoded landscape versions are in `public/images/desktop/`. The desktop residence and material stills use landscape renditions of the portrait residence, lounge, balcony and lobby imagery for sharper editorial presentation.
 
-The original first-frame sequence is used for the requested animation. Editorial illustrations are distinguished from verified project imagery by the visible concept notice in the footer.
+Editorial illustrations are distinguished from verified project imagery by the visible concept notice in the footer.
 
 ## Generation prompt set
 

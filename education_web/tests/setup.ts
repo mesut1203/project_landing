@@ -20,9 +20,6 @@ beforeEach(() => {
       removeEventListener: (_type: string, listener: () => void) => listeners.delete(listener),
     })),
   })
-  vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue(undefined)
-  vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
-  vi.spyOn(HTMLMediaElement.prototype, 'load').mockImplementation(() => {})
 })
 afterEach(() => {
   cleanup()

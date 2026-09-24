@@ -1,6 +1,6 @@
 # Photography
 
-The image sequence in ../sequence is supplied by the project owner in src/assets/ezgif-7b835a60f523e052-jpg.zip. It is reproduced without alteration. It is not represented as documentary photography of a real Fiamma venue.
+hero.jpg and dining-room.jpg are still compositions retained from the image sequence supplied by the project owner. The source archive and unused frames have been removed. The stills are not represented as documentary photography of a real Fiamma venue.
 
 Additional stock photographs are stored locally to avoid third-party requests at runtime. They are illustrative, not photographs of the Fiamma venue.
 

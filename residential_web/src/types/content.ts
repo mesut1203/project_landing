@@ -14,8 +14,6 @@ export interface SceneContent {
   label: string
   title: string
   description: string
-  start: number
-  end: number
   image: ResponsiveImage
 }
 
@@ -37,9 +35,8 @@ export interface Content {
   brand: { name: string; wordmark: string; descriptor: string; homeLabel: string }
   meta: { title: string; description: string; icon: string }
   navigation: { label: string; links: LinkContent[]; cta: LinkContent; open: string; close: string; menuTitle: string }
-  actions: { viewing: LinkContent; skipContent: string; skipIntro: string; skipStory: LinkContent; backTop: LinkContent }
-  intro: { title: string; loading: string; desktopVideo: string; mobileVideo: string | null; timeoutMs: number; fadeMs: number }
-  story: { title: string; loading: string; staticLabel: string; navigationLabel: string; desktopVideo: string; duration: number; heightVh: number; timeoutMs: number; scenes: SceneContent[] }
+  actions: { viewing: LinkContent; skipContent: string; exploreResidences: LinkContent; backTop: LinkContent }
+  story: { title: string; scenes: SceneContent[] }
   residences: { title: string; description: string; linkLabel: string; items: ResidenceContent[] }
   architecture: { title: string; description: string; image: ResponsiveImage; details: { title: string; description: string }[] }
   amenities: { title: string; description: string; items: AmenityContent[] }

@@ -26,40 +26,38 @@ Bản build nằm trong thư mục `dist/`.
 public/
   images/desktop/      # Chỉ được tải trên desktop
   images/mobile/       # Ảnh portrait riêng
-  videos/              # Intro desktop và portrait
+  videos/              # Video đã dựng trước đây, không được giao diện tải
 src/
-  assets/              # ZIP nguồn gốc, giữ nguyên
-  components/          # Các section, intro, menu và story
-  data/content.ts      # Copy, CTA, đường dẫn media và cấu hình scene
-  hooks/               # Media query và video scrub
+  assets/              # Tài nguyên import (ZIP đã được xóa)
+  components/          # Các section, menu và reveal nhẹ
+  data/content.ts      # Copy, CTA và đường dẫn ảnh
+  hooks/               # Media query
   types/content.ts     # Interfaces cho dữ liệu
   App.tsx
   main.tsx
   index.css
-scripts/               # Dựng media và kiểm tra hình ảnh
+scripts/               # Kiểm tra hình ảnh
 tests/site.spec.ts     # Kiểm tra hành vi, responsive và accessibility
 vite.config.ts
 ```
 
 Tailwind được tích hợp qua plugin `@tailwindcss/vite` và dòng `@import "tailwindcss";` trong `src/index.css`, theo [hướng dẫn chính thức](https://tailwindcss.com/docs/installation/using-vite).
 
-## Intro và scroll story
+## Cuộn tự nhiên và animation nhẹ
 
-- Intro desktop: `public/videos/real-estate-intro.mp4`, gần 14 giây, được dựng từ 140 frame trong ZIP người dùng cung cấp.
-- Intro mobile: `public/videos/real-estate-intro-portrait.mp4`, 14 giây, là chuỗi ảnh portrait riêng chuyển mờ, không phải crop phim desktop.
-- Video autoplay, muted, playsInline, không loop. Hết phim hoặc chọn `Skip intro` sẽ fade trong 700 ms.
-- Lỗi, autoplay bị chặn hoặc chờ quá 4 giây sẽ mở nội dung cùng poster. Chế độ reduced motion không tải video.
-- Desktop: Motion theo dõi native scroll và tua video Blob bằng `currentTime`. Các lệnh seek được gộp khi decoder đang bận; object URL, listener và request được dọn khi unmount.
-- Story cho phép tải video nền tối đa 25 giây trên mạng thực tế; poster và nội dung luôn hiện sẵn. Intro vẫn bỏ qua khi chờ quá 4 giây.
-- Mobile: chuỗi bốn ảnh portrait dùng opacity/transform theo scroll, không tải phim landscape. Ảnh bổ sung được tải sau intro để ưu tiên poster đầu tiên.
-- Reduced motion: bốn scene hiện thành các bài giới thiệu tĩnh, không pin hoặc zoom.
-- `Skip story`, liên kết navbar và CTA sử dụng anchor thông thường. Không chặn wheel hoặc touch để điều khiển trang.
+- Nội dung hiện ngay khi mở trang. Bốn phần giới thiệu dùng ảnh tĩnh và cuộn tự nhiên, không ghim màn hình, tua video hoặc intro tự chạy.
+- Reveal dùng `IntersectionObserver` và Web Animations API: fade từ 0.75 đến 1, dịch 6 px trong 250 ms, chạy một lần khi nội dung xuất hiện.
+- Hover ảnh căn hộ phóng nhẹ 1.015× trong 250 ms. Nút và liên kết có phản hồi 200–220 ms.
+- Reduced motion tắt reveal và chuyển động tương tác; thay đổi tùy chọn trong lúc xem cũng được áp dụng.
+- Mobile chỉ tải ảnh portrait, desktop dùng ảnh landscape. Ảnh đầu được preload, các ảnh dưới dùng lazy loading.
+- `Explore residences`, navbar và CTA sử dụng anchor thông thường.
+- ZIP nguồn và các script dựng phim đã được gỡ. Giao diện không còn phụ thuộc `motion`, `adm-zip` hoặc FFmpeg.
 
 ## Nội dung và media
 
-Sửa nội dung, CTA, media và mốc scene trong `src/data/content.ts`. Vite lấy cả metadata HTML và preload poster từ file này.
+Sửa nội dung, CTA và ảnh trong `src/data/content.ts`. Vite lấy metadata HTML và preload ảnh đầu từ file này.
 
-Ảnh portrait và ảnh tiện ích được tạo mới để minh họa concept; chúng không phải ảnh chụp xác thực của một dự án đang bán. Bản demo có ghi chú rõ ở footer. Xem `MEDIA.md` để biết nguồn và cách dựng lại phim.
+Ảnh portrait và ảnh tiện ích được tạo mới để minh họa concept; chúng không phải ảnh chụp xác thực của một dự án đang bán. Bản demo có ghi chú rõ ở footer. Xem `MEDIA.md` để biết nguồn tài nguyên.
 
 ## Form demo
 
@@ -81,11 +79,11 @@ npm run test
 
 Playwright dùng Chrome đã cài trên máy (`channel: 'chrome'`) và tự chạy Vite tại cổng 4173 nếu chưa có server. Nếu dùng preview đang chạy, build lại trước khi kiểm tra.
 
-Bộ kiểm tra bao gồm intro/autoplay/fade, tua tiến và lùi, lỗi video, timeout, thay đổi reduced motion, menu bàn phím và focus, tách media theo thiết bị, form demo, axe accessibility và overflow ở 320–1920 px.
+Bộ kiểm tra bao gồm nội dung hiện ngay, cuộn tự nhiên, không tải video, thay đổi reduced motion, menu bàn phím và focus, tách ảnh theo thiết bị, form demo, axe accessibility và overflow ở 320–1920 px.
 
-Kiểm tra ảnh bổ sung: chạy preview trên cổng 4173 rồi `node scripts/visual-qa.mjs`. Ảnh các section và điểm chuyển scene được lưu trong `tmp/`. Script còn kiểm tra điện thoại portrait/landscape và mô phỏng CPU chậm 4 lần. Đây là giả lập Chrome; chưa thay thế việc kiểm tra Safari trên iPhone thật.
+Kiểm tra ảnh bổ sung: chạy preview trên cổng 4173 rồi `node scripts/visual-qa.mjs`. Ảnh các section và bảng so sánh hero được lưu trong `tmp/`. Script kiểm tra điện thoại dọc/ngang, CPU chậm 4 lần và cỡ chữ gốc 200%. Đây là giả lập Chrome; chưa thay thế việc kiểm tra Safari trên iPhone thật.
 
-Tham khảo: [Motion useScroll](https://motion.dev/docs/react-use-scroll), [HTML dialog](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog), [Playwright emulation](https://playwright.dev/docs/emulation).
+Tham khảo: [HTML dialog](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog), [Playwright emulation](https://playwright.dev/docs/emulation).
 
 ## Triển khai Vercel
 

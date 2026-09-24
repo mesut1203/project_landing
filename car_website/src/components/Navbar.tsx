@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { ListIcon } from '@phosphor-icons/react'
-import { brand, navigation, story, ctas } from '../data/content'
+import { brand, navigation, ctas } from '../data/content'
 import { useMediaQuery } from '../hooks/useMediaQuery'
 import { focusAnchor } from '../lib/anchors'
 import { ActionLink } from './ActionLink'
@@ -9,9 +9,9 @@ import { MobileMenu } from './MobileMenu'
 export function Navbar() {
   const [open, setOpen] = useState(false)
   const triggerRef = useRef<HTMLButtonElement>(null)
-  const mobile = useMediaQuery(story.breakpoint)
+  const mobile = useMediaQuery(navigation.breakpoint)
   useEffect(() => {
-    const query = window.matchMedia(story.breakpoint)
+    const query = window.matchMedia(navigation.breakpoint)
     const closeOnDesktop = (event: MediaQueryListEvent) => { if (!event.matches) setOpen(false) }
     query.addEventListener('change', closeOnDesktop)
     return () => query.removeEventListener('change', closeOnDesktop)

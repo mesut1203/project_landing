@@ -1,40 +1,5 @@
 export interface LinkContent { label: string; href: string }
 export interface ImageContent { src: string; alt: string; width: number; height: number }
-export interface ScenePacing {
-  start: number
-  end: number
-  frameStart: number
-  frameEnd: number
-  openingHold: number
-  finalHold: number
-}
-export interface SceneContent {
-  id: string
-  label: string
-  headline: string
-  lines: string[]
-  desktop: ScenePacing
-  mobile: ScenePacing
-}
-export interface SequenceConfig {
-  id: 'desktop' | 'mobile'
-  enabled: boolean
-  basePath: string
-  frameCount: number
-  padding: number
-  fps: number
-  width: number
-  height: number
-  poster: string
-  finalPoster: string
-  fallback: string
-  alt: string
-  maxDecoded: number
-  ahead: number
-  behind: number
-  concurrency: number
-  scrollVh: number
-}
 export interface DetailContent {
   id: string
   label: string
@@ -60,6 +25,7 @@ export const brand = {
 
 export const navigation = {
   label: 'Main navigation',
+  breakpoint: '(max-width: 767px), (pointer: coarse) and (max-width: 1023px)',
   links: [
     { label: 'Models', href: '#model' },
     { label: 'Experience', href: '#experience' },
@@ -68,7 +34,7 @@ export const navigation = {
   menuLabel: 'Menu',
   openLabel: 'Open navigation menu',
   closeLabel: 'Close navigation menu',
-  skipContent: { label: 'Skip to content', href: '#model' },
+  skipContent: { label: 'Skip to content', href: '#main-content' },
 }
 
 export const ctas = {
@@ -77,58 +43,11 @@ export const ctas = {
   detail: { label: 'Discover the details', href: '#experience' },
 }
 
-// Media paths are relative to public/. Turn enabled on only after importing and validating both chains.
-export const media: Record<'desktop' | 'mobile', SequenceConfig> = {
-  desktop: {
-    id: 'desktop', enabled: true, basePath: '/media/sequence/desktop/frame-',
-    frameCount: 160, padding: 4, fps: 16, width: 1280, height: 720,
-    poster: '/media/ignition-desktop.webp', finalPoster: '/media/arrival-desktop.webp',
-    fallback: '/media/model.webp', alt: 'Apex One, a silver sports coupe in a dark studio.',
-    maxDecoded: 20, ahead: 10, behind: 4, concurrency: 3, scrollVh: 560,
-  },
-  mobile: {
-    id: 'mobile', enabled: false, basePath: '/media/sequence/mobile/frame-',
-    frameCount: 324, padding: 4, fps: 18, width: 720, height: 405,
-    poster: '/media/mobile-static.webp', finalPoster: '/media/mobile-static.webp',
-    fallback: '/media/mobile-static.webp', alt: 'A sports coupe above the coast at sunset, shown in full.',
-    maxDecoded: 9, ahead: 4, behind: 2, concurrency: 2, scrollVh: 430,
-  },
-}
-
-export const story = {
-  id: 'story', label: 'The Apex journey',
-  introduction: 'A new perspective on the open road.',
-  scrollCue: 'Scroll to discover',
-  skip: { label: 'Skip story', href: '#model' },
-  loading: 'Loading the journey',
-  failure: 'The film is unavailable. Explore the model below.',
-  retry: 'Retry film',
-  unavailableImage: 'Apex One',
-  breakpoint: '(max-width: 767px), (pointer: coarse) and (max-width: 1023px)',
-  scenes: [
-    {
-      id: 'ignition', label: 'Ignition', headline: 'Built for the long way.',
-      lines: ['Built for', 'the long way.'],
-      desktop: { start: 0, end: 0.38, frameStart: 0, frameEnd: 63, openingHold: 0.12, finalHold: 0.04 },
-      mobile: { start: 0, end: 0.29, frameStart: 0, frameEnd: 107, openingHold: 0.12, finalHold: 0.02 },
-    },
-    {
-      id: 'motion', label: 'Motion', headline: 'Precision in every line. Confidence in every mile.',
-      lines: ['Precision in every line.', 'Confidence in every mile.'],
-      desktop: { start: 0.38, end: 0.76, frameStart: 63, frameEnd: 127, openingHold: 0, finalHold: 0 },
-      mobile: { start: 0.29, end: 0.76, frameStart: 107, frameEnd: 215, openingHold: 0, finalHold: 0 },
-    },
-    {
-      id: 'arrival', label: 'Arrival', headline: 'See where it takes you.',
-      lines: ['See where', 'it takes you.'],
-      desktop: { start: 0.76, end: 1, frameStart: 127, frameEnd: 159, openingHold: 0, finalHold: 0.12 },
-      mobile: { start: 0.76, end: 1, frameStart: 215, frameEnd: 323, openingHold: 0, finalHold: 0.17 },
-    },
-  ] satisfies SceneContent[],
-  stills: {
-    desktop: ['/media/ignition-desktop.webp', '/media/motion-desktop.webp', '/media/arrival-desktop.webp'],
-    mobile: ['/media/ignition-mobile.webp', '/media/motion-mobile.webp', '/media/arrival-mobile.webp'],
-  },
+export const hero = {
+  label: 'Introducing Apex One',
+  lines: ['Built for', 'the long way.'],
+  description: 'A new perspective on the open road.',
+  image: { src: '/media/ignition-desktop.webp', alt: 'A close view of a silver sports coupe and its sculpted headlight in a dark studio.', width: 1280, height: 720 } satisfies ImageContent,
 }
 
 export const model = {
@@ -196,9 +115,4 @@ export const footer = {
     { label: 'LinkedIn', href: null },
   ] as { label: string; href: string | null }[],
   top: { label: 'Back to top', href: '#top' },
-}
-
-export const layout = {
-  // Layer scale: content 0, story overlays 10, skip 30, navbar 40, native dialogs top layer.
-  layers: { content: 0, story: 10, skip: 30, nav: 40 },
 }

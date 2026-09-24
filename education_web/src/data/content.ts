@@ -50,7 +50,6 @@ export interface LearningPathsContent {
 }
 export interface StepContent {
   label: string
-  start: number
   title: string
   description: string
 }
@@ -59,11 +58,9 @@ export interface HowItWorksContent {
   heading: string
   description: string
   steps: StepContent[]
-  media: ImageContent & { video: string; frameRate: number }
-  hint: string
+  media: ImageContent
   journeyLabel: string
-  navigationLabel: string
-  skip: LinkContent
+  cta: LinkContent
 }
 export interface CommunityContent {
   eyebrow: string
@@ -220,36 +217,29 @@ export const content: SiteContent = {
     heading: 'Learn. Practice. Grow.',
     description:
       'A little space for curiosity. A new way to see the world. Move through it, one step at a time.',
-    hint: 'Scroll to discover',
     journeyLabel: 'From a little curiosity to what comes next.',
-    navigationLabel: 'Learning journey chapters',
-    skip: { label: 'Continue to community', href: '#community' },
+    cta: { label: 'Continue to community', href: '#community' },
     media: {
-      video: 'videos/learning-world-zip.mp4',
-      src: 'images/learning-world-zip-poster.webp',
-      alt: 'A sunlit study desk overlooking the city, followed by ideas coming to life and a shared classroom',
+      src: 'images/learning-desk.webp',
+      alt: 'A sunlit study desk overlooking the city',
       width: 1280,
       height: 720,
-      frameRate: 10,
     },
     steps: [
       {
         label: 'Learn',
-        start: 0,
         title: 'Make room for curiosity.',
         description:
           'An open notebook. A little time. Start with something you’ve always wanted to understand.',
       },
       {
         label: 'Practice',
-        start: 0.36,
         title: 'Bring your ideas to life.',
         description:
           'Connect the dots. Try, question, and make something that turns a new idea into your own understanding.',
       },
       {
         label: 'Grow',
-        start: 0.7,
         title: 'Go further, together.',
         description:
           'Share a fresh perspective. Learn from the people around you. Find the confidence to take your next step.',

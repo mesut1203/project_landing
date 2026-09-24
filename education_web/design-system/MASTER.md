@@ -25,19 +25,17 @@ Cards use 14px corners, controls 6–8px. Photography has deliberate asymmetric 
 
 ## Motion
 
-- The page opens immediately, without an intro overlay or scroll lock.
-- UI motion uses opacity and transform. The learning section scrubs a paused video via currentTime.
-- The section video comes only from the 50 JPGs in the supplied assets ZIP. Desktop has a wide cinematic image and lower-left copy; mobile preserves the full landscape image above a pale sage text area.
-- Learn / Practice / Grow chapter navigation shares the scroll timeline with the video; chapter boundaries are 0%, 36%, 70%.
-- Loading timeout: 15 seconds. Seek timeout: 5 seconds. Errors and reduced motion show all steps with a static poster.
-- Section reveals use IntersectionObserver and the Web Animations API, without hiding unsupported-browser content.
-- Progressive CSS scroll timelines gently scale the hero image and reveal its text. Unsupported browsers retain a static readable hero.
-- All observers, timers, playback, media-query listeners and animations are cleaned up.
+- Native scrolling, without pinned sections, video scrubbing, parallax or hero zoom.
+- The learning journey uses a static 16:9 image and three always-visible steps: three columns on desktop, one on mobile.
+- Reveal once using opacity and 8px translation over 250ms. Stagger learning paths by 40ms.
+- Hover image scale is limited to 1.015 over 250ms; controls use 200ms transitions.
+- Respect reduced motion at mount and on live preference changes. Unsupported browsers retain readable content.
+- Clean up observers, media-query listeners and animations.
 
 ## Accessibility
 
-Semantic sections, one h1, ordered heading hierarchy, labeled fields, inline errors and first-invalid focus. Native selects. Minimum 44px interactive targets. The page is interactive immediately. Chapter buttons have current-step states and visible keyboard focus; a skip link exits the scroll journey. Sticky navigation remains outside animated containing blocks. Reduced motion is respected at mount and when toggled during playback.
+Semantic sections, one h1, ordered headings, labeled fields, inline errors and first-invalid focus. Native selects and visible keyboard focus. The learning journey never hides its steps or traps scrolling; its community link remains available. Images reserve their dimensions. Check desktop, mobile, landscape and enlarged text.
 
 ## Skill
 
-The original page follows ui-ux-pro-max guidance for accessibility and form behavior. The learning journey applies scroll-world's Blob scrubbing, seek coalescing and poster handling, with redesign-existing-projects for the wide media layout and restrained chapter navigation. User requirements determine the supplied ZIP as the sole scene source, the React stack, the bright theme and removal of the intro. Chrome headless checks cover desktop, touch emulation and reduced motion.
+Apply ui-ux-pro-max guidance for subtle motion, accessibility and performance. Preserve the existing visual identity. The current user request removes the ZIP and Scroll World in favor of lightweight animation.

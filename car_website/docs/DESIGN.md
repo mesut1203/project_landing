@@ -1,16 +1,16 @@
 # Apex Motors
 
-Landing page automotive premium cho thương hiệu giả định. Hướng thiết kế: commercial tối giản, typography condensed, ảnh lớn, không dùng thông số kỹ thuật hoặc social proof giả.
+Landing page automotive cho thương hiệu giả định. Bố cục: hero ảnh tĩnh → giới thiệu mẫu xe → chi tiết thiết kế → gallery → CTA → footer.
 
-- Design variance: 7; bố cục editorial, gallery bất đối xứng, không lặp ba card.
-- Motion intensity: 6; chuyển động phục vụ camera story và phản hồi tương tác.
-- Visual density: 3; ít copy, khoảng cách rộng và ưu tiên hình xe.
-- Nền charcoal thống nhất; đỏ tín hiệu, trắng ngà, xám chrome.
-- Barlow Condensed cho tiêu đề, Manrope cho nội dung; font được self-host.
-- Góc vuông nhất quán; không card bo tròn hay kính mờ.
-- Chỉ animate transform và opacity; native scroll, sticky stage, GSAP chỉ map progress.
-- Navbar độc lập với stage; menu dùng native dialog, focus trap, Escape và trả focus.
-- CTA giữ hai ý định chính: Explore the model / Book a drive.
-- Booking và social có thông báo concept khi chưa có URL thật, không gửi dữ liệu hoặc tạo booking giả.
+- Giữ nền charcoal, đỏ tín hiệu, trắng ngà và xám chrome.
+- Giữ Barlow Condensed cho tiêu đề và Manrope cho nội dung; font self-host.
+- Hero hiển thị tiêu đề và CTA ngay, không chờ media hoặc thao tác cuộn.
+- Desktop dùng ảnh lớn và lớp nền tối đảm bảo chữ dễ đọc; mobile xếp nội dung rồi ảnh theo luồng tự nhiên.
+- Không intro, chuỗi frame, sticky story, parallax, scroll reveal hoặc GSAP.
+- Hero xuất hiện nhẹ một lần trong 380–400 ms; hover, menu, chi tiết xe và hộp thoại phản hồi trong 180–250 ms. Tôn trọng reduced motion, không chặn tương tác.
+- Navbar cố định với khoảng chừa nội dung; menu native dialog, Escape và trả focus.
+- CTA chính của hero: Explore the model. Book a drive tiếp tục dẫn tới phần đặt lịch.
+- Body text từ 16 px, điều khiển chính từ 44 px, focus rõ ràng, skip link tới main.
+- Booking và social giữ thông báo concept khi chưa có URL thật.
 
-Các ngoại lệ so với brief về media được ghi rõ ở `MEDIA.md`. Scroll cue là yêu cầu trực tiếp của brief. Theme dark duy nhất cũng là yêu cầu trực tiếp.
+Áp dụng checklist ui-ux-pro-max về accessibility, touch, hiệu năng và responsive. CLI tra cứu của skill chưa chạy được vì lệnh Python 3 trên môi trường hiện tại không khả dụng.

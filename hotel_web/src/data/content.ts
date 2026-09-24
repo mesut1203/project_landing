@@ -1,6 +1,6 @@
 export interface LinkContent { label: string; href: string }
 export interface MediaAsset { src: string; alt: string; width: number; height: number; position?: string }
-export interface SceneContent { id: string; label: string; heading: string; text?: string; start: number; end: number; poster: MediaAsset; cta?: LinkContent }
+export interface SceneContent { id: string; label: string; heading: string; text?: string; poster: MediaAsset; cta?: LinkContent }
 export interface RoomContent { id: string; name: string; category: string; description: string; image: MediaAsset; cta: LinkContent }
 export interface ExperienceContent { id: string; title: string; subtitle: string; description: string; image: MediaAsset }
 export interface PhotoSource { file: string; url: string }
@@ -16,7 +16,7 @@ export const photoSources: PhotoSource[] = [
 ]
 
 const photo = (file: string, alt: string, position = 'center'): MediaAsset => ({ src: `/media/${file}.jpg`, alt, width: 1600, height: 1067, position })
-const frame = (index: number, alt: string): MediaAsset => ({ src: `/media/story/ezgif-frame-${String(index).padStart(3, '0')}.jpg`, alt, width: 1280, height: 720 })
+const still = (name: string, alt: string): MediaAsset => ({ src: `/media/arrival-${name}.jpg`, alt, width: 1280, height: 720 })
 
 export const content = {
   seo: { title: 'Aurelia Hotel | The art of a slower stay', description: 'Aurelia Hotel. A quieter kind of city stay. Thoughtful rooms, unhurried dining, and room to simply be.', favicon: '/favicon.svg' },
@@ -27,17 +27,12 @@ export const content = {
     reserve: { label: 'Reserve a stay', href: '#booking' }, skip: 'Skip to main content',
   },
   story: {
-    label: 'An arrival at Aurelia', eyebrow: 'A place to simply be', skip: { label: 'Skip experience', href: '#rooms' },
-    explore: 'Explore at your own pace', chaptersLabel: 'Explore the four spaces',
-    loading: 'Preparing your arrival…', fallback: 'Enjoy a still moment. The moving experience is unavailable.',
-    imageUnavailable: 'A quiet moment, even when the image cannot load.',
-    sequence: { directory: '/media/story', prefix: 'ezgif-frame-', extension: '.jpg', count: 170, width: 1280, height: 720, padding: 3 },
-    finalImage: frame(170, 'Warm evening light over a layered mountain landscape'),
+    label: 'An arrival at Aurelia', eyebrow: 'A place to simply be', skip: { label: 'Explore the rooms', href: '#rooms' },
     scenes: [
-      { id: 'arrival', label: 'The arrival', heading: 'Arrive slowly.', text: 'A quieter kind of city stay.', start: 0, end: 0.23, poster: frame(1, 'Hotel entrance with stone columns, glass doors and warm light inside') },
-      { id: 'lobby', label: 'The welcome', heading: 'Step into stillness.', text: 'Designed for the moments between plans.', start: 0.23, end: 0.53, poster: frame(57, 'Quiet lobby with natural stone, soft seating and green plants') },
-      { id: 'suite', label: 'The retreat', heading: 'Make room for ease.', text: 'Thoughtful spaces, soft light, and time that feels like yours.', start: 0.53, end: 0.81, poster: frame(113, 'Sunlit suite with flowing curtains and doors opening to a balcony') },
-      { id: 'view', label: 'The view', heading: 'Stay for the view.', start: 0.81, end: 1, poster: frame(158, 'Open balcony facing a peaceful mountain landscape at golden hour'), cta: { label: 'Reserve your stay', href: '#booking' } },
+      { id: 'arrival', label: 'The arrival', heading: 'Arrive slowly.', text: 'A quieter kind of city stay.', poster: still('entrance', 'Hotel entrance with stone columns, glass doors and warm light inside') },
+      { id: 'lobby', label: 'The welcome', heading: 'Step into stillness.', text: 'Designed for the moments between plans.', poster: still('lobby', 'Quiet lobby with natural stone, soft seating and green plants') },
+      { id: 'suite', label: 'The retreat', heading: 'Make room for ease.', text: 'Thoughtful spaces, soft light, and time that feels like yours.', poster: still('suite', 'Sunlit suite with flowing curtains and doors opening to a balcony') },
+      { id: 'view', label: 'The view', heading: 'Stay for the view.', poster: still('view', 'Open balcony facing a peaceful mountain landscape at golden hour'), cta: { label: 'Reserve your stay', href: '#booking' } },
     ] as SceneContent[],
   },
   rooms: {

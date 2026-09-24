@@ -11,7 +11,7 @@ export default defineConfig({
   outputDir: '.local/playwright-results',
   reporter: 'list',
   use: {
-    baseURL: 'http://127.0.0.1:5173',
+    baseURL: 'http://127.0.0.1:5187',
     browserName: 'chromium',
     channel: 'msedge',
     headless: true,

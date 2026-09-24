@@ -26,24 +26,17 @@ export const content: Content = {
   },
   actions: {
     viewing: { label: 'Book a private viewing', href: '#visit' },
-    skipContent: 'Skip to content', skipIntro: 'Skip intro',
-    skipStory: { label: 'Skip story', href: '#residences' },
+    skipContent: 'Skip to content',
+    exploreResidences: { label: 'Explore residences', href: '#residences' },
     backTop: { label: 'Back to top', href: '#top' },
   },
-  intro: {
-    title: 'A first look at Luma Residences', loading: 'Preparing your first look',
-    desktopVideo: '/videos/real-estate-intro.mp4', mobileVideo: '/videos/real-estate-intro-portrait.mp4',
-    timeoutMs: 4000, fadeMs: 700,
-  },
   story: {
-    title: 'A quieter way to live', loading: 'Loading the film', staticLabel: 'Explore at your own pace',
-    navigationLabel: 'Explore the architectural story', desktopVideo: '/videos/real-estate-intro.mp4',
-    duration: 14, heightVh: 430, timeoutMs: 25000,
+    title: 'A quieter way to live',
     scenes: [
-      { id: 'arrival', label: 'Arrival', title: 'A quieter way to arrive.', description: 'A considered collection of homes. A little closer to nature.', start: 0, end: 0.32, image: image('arrival', 'A contemporary residence framed by gardens in warm evening light') },
-      { id: 'lobby', label: 'The lobby', title: 'Space, considered.', description: 'An unhurried welcome, shaped by natural materials and open space.', start: 0.32, end: 0.5, image: image('lobby', 'A light-filled entrance with stone floors, tall glazing and greenery') },
-      { id: 'residence', label: 'The residence', title: 'Designed for everyday light.', description: 'Open rooms, gentle textures and room for your own rhythm.', start: 0.5, end: 0.75, image: image('residence', 'A softly furnished living room opening toward a sunlit balcony') },
-      { id: 'balcony', label: 'The view', title: 'Live with a wider view.', description: 'Step outside. Let the horizon become part of home.', start: 0.75, end: 1, image: image('balcony', 'A private balcony looking out over the city at sunset') },
+      { id: 'arrival', label: 'Arrival', title: 'A quieter way to arrive.', description: 'A considered collection of homes. A little closer to nature.', image: image('arrival', 'A contemporary residence framed by gardens in warm evening light') },
+      { id: 'lobby', label: 'The lobby', title: 'Space, considered.', description: 'An unhurried welcome, shaped by natural materials and open space.', image: image('lobby', 'A light-filled entrance with stone floors, tall glazing and greenery') },
+      { id: 'residence', label: 'The residence', title: 'Designed for everyday light.', description: 'Open rooms, gentle textures and room for your own rhythm.', image: image('residence', 'A softly furnished living room opening toward a sunlit balcony') },
+      { id: 'balcony', label: 'The view', title: 'Live with a wider view.', description: 'Step outside. Let the horizon become part of home.', image: image('balcony', 'A private balcony looking out over the city at sunset') },
     ],
   },
   residences: {

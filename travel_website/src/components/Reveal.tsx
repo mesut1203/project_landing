@@ -1,30 +1,18 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-  type CSSProperties,
-  type ReactNode,
-} from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 export function Reveal({
   children,
   className = '',
-  delay = 0,
-  stagger = false,
 }: {
   children: ReactNode
   className?: string
-  delay?: number
-  stagger?: boolean
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(true)
-  const [entered, setEntered] = useState(false)
   useEffect(() => {
     const element = ref.current
     const media = window.matchMedia('(prefers-reduced-motion: reduce)')
     if (!element || media.matches || !('IntersectionObserver' in window)) return
     if (element.getBoundingClientRect().top < window.innerHeight) {
-      setEntered(true)
       return
     }
     setVisible(false)
@@ -32,7 +20,6 @@ export function Reveal({
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) {
           setVisible(true)
-          setEntered(true)
           observer.disconnect()
         }
       },
@@ -54,13 +41,10 @@ export function Reveal({
   return (
     <div
       ref={ref}
-      className={`reveal motion-reveal ${stagger ? 'reveal-stagger' : ''} ${className}`}
+      className={`reveal ${className}`}
       data-visible={visible}
-      data-entered={entered}
-      style={{ '--reveal-delay': `${delay}ms` } as CSSProperties}
       onFocusCapture={() => {
         setVisible(true)
-        setEntered(true)
       }}
     >
       {children}

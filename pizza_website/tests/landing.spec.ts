@@ -21,10 +21,6 @@ async function loadPageImages(page: Page) {
   ).toBe(true)
 }
 
-async function frameNumber(page: Page) {
-  return page.locator('.hero-media img').evaluate(image => Number((image as HTMLImageElement).dataset.frame))
-}
-
 async function assertNoHorizontalOverflow(page: Page) {
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)
   expect(overflow, 'The page should not scroll horizontally').toBeLessThanOrEqual(1)
@@ -126,86 +122,40 @@ for (const viewport of [
   })
 }
 
-test('the cinematic sequence follows native scrolling and can be paused', async ({ page }) => {
-  await openLanding(page)
-  await page.getByRole('button', { name: 'Explore on scroll' }).click()
-  await expect.poll(() => frameNumber(page)).toBe(1)
-  await expect.poll(() => frameNumber(page)).not.toBeNaN()
-  const initialFrame = await frameNumber(page)
-  await page.evaluate(() => window.scrollTo({ top: 500, behavior: 'instant' }))
-  await expect.poll(() => frameNumber(page), { message: 'Scrolling should advance the image sequence' }).toBeGreaterThan(initialFrame)
-  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
-  await expect.poll(() => frameNumber(page)).toBeLessThanOrEqual(initialFrame + 1)
-
-  await page.evaluate(() => {
-    const hero = document.querySelector('.hero-story') as HTMLElement
-    const stage = document.querySelector('.hero-stage') as HTMLElement
-    window.scrollTo({ top: hero.offsetTop + hero.offsetHeight - stage.offsetHeight, behavior: 'instant' })
-  })
-  await expect.poll(() => frameNumber(page), { message: 'The whole asset sequence should reach its final scene' }).toBe(50)
-  const composition = await page.locator('.hero-copy--second').getAttribute('style')
-  const motionToggle = page.locator('.motion-toggle')
-  await expect(motionToggle).toHaveAccessibleName(/pause motion/i)
-  await motionToggle.click()
-  await expect(motionToggle).toHaveAttribute('aria-pressed', 'true')
-  await expect(motionToggle).toHaveAccessibleName(/resume motion/i)
-  const pausedFrame = await frameNumber(page)
-  expect(pausedFrame, 'Pausing should preserve the current scene instead of resetting to the poster').toBe(50)
-  await expect(page.locator('.hero-copy--second')).toHaveAttribute('style', composition!)
-  await page.evaluate(() => window.scrollTo({ top: 500, behavior: 'instant' }))
-  await page.waitForTimeout(180)
-  expect(await frameNumber(page)).toBe(pausedFrame)
-
-  await motionToggle.click()
-  await expect(motionToggle).toHaveAttribute('aria-pressed', 'false')
-  await expect(motionToggle).toHaveAccessibleName(/pause motion/i)
-  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
-  await expect.poll(() => frameNumber(page)).toBeLessThanOrEqual(initialFrame + 1)
-  await page.evaluate(() => window.scrollTo({ top: 450, behavior: 'instant' }))
-  await expect.poll(() => frameNumber(page)).toBeGreaterThan(initialFrame)
-})
-
-for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
-  test(`the film autoplays, loops, and pauses at ${viewport.width}px`, async ({ page }) => {
+for (const viewport of [{ width: 1440, height: 900 }, { width: 375, height: 812 }]) {
+  test(`the hero stays still and scrolls naturally at ${viewport.width}px`, async ({ page }) => {
     await page.setViewportSize(viewport)
+    const sequences: string[] = []
+    page.on('request', request => { if (/\/sequence\/|\.zip(?:$|\?)/.test(request.url())) sequences.push(request.url()) })
     await openLanding(page)
+    const image = page.locator('.hero-media img')
+    const source = await image.evaluate(image => image.currentSrc)
     await expect(page.locator('.hero-stage')).toHaveCSS('position', 'relative')
-    await expect.poll(() => frameNumber(page)).toBeGreaterThan(3)
-    const picture = page.locator('.hero-media img')
-    expect(await picture.evaluate(image => image.currentSrc)).toMatch(/frame-\d+\.jpg$/)
-    await page.getByRole('button', { name: 'Pause motion', exact: true }).click()
-    const pausedFrame = await frameNumber(page)
-    await page.waitForTimeout(350)
-    expect(await frameNumber(page)).toBe(pausedFrame)
-    await page.getByRole('button', { name: 'Resume motion', exact: true }).click()
-    await expect.poll(() => frameNumber(page)).toBeGreaterThan(pausedFrame)
-    await expect.poll(() => frameNumber(page), { timeout: 12_000 }).toBe(50)
-    await expect.poll(() => frameNumber(page)).toBeLessThan(10)
-    await page.evaluate(() => window.scrollTo({ top: 2000, behavior: 'instant' }))
-    await page.waitForTimeout(200)
-    const offscreenFrame = await frameNumber(page)
-    await page.waitForTimeout(350)
-    expect(await frameNumber(page)).toBe(offscreenFrame)
-    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
-    await expect.poll(() => frameNumber(page)).not.toBe(offscreenFrame)
+    const before = await page.locator('.hero-stage').boundingBox()
+    expect(before!.height).toBeLessThanOrEqual(viewport.height * 1.2)
+    await expect(page.locator('#home button')).toHaveCount(0)
+    await page.evaluate(() => window.scrollTo({ top: 400, behavior: 'instant' }))
+    const after = await page.locator('.hero-stage').boundingBox()
+    expect(before!.y - after!.y).toBeCloseTo(400, 0)
+    await loadPageImages(page)
+    expect(await image.evaluate(image => image.currentSrc)).toBe(source)
+    await expect(page.locator('.hero-media')).toHaveCSS('transform', 'none')
+    expect(sequences).toEqual([])
   })
 }
 
-test('reduced motion presents a static hero without a sticky scroll gap', async ({ page }) => {
+test('reduced motion disables entrances and responds to preference changes', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await openLanding(page)
-  const initialFrame = await frameNumber(page)
-  const hero = await page.locator('.hero-story').boundingBox()
-  expect(hero!.height).toBeLessThanOrEqual(900 * 1.2)
-  const stagePosition = await page.locator('.hero-stage').evaluate(element => getComputedStyle(element).position)
-  expect(stagePosition).not.toBe('sticky')
-  await expect(page.locator('.hero-copy--second')).toHaveCSS('opacity', '0')
-  await expect(page.locator('.hero-copy--first')).toHaveCSS('opacity', '1')
-  await page.evaluate(() => window.scrollTo({ top: 400, behavior: 'instant' }))
-  await page.waitForTimeout(150)
-  expect(await frameNumber(page)).toBe(initialFrame)
-  const transforms = await page.locator('.hero-media').evaluate(element => getComputedStyle(element).transform)
-  expect(['none', 'matrix(1, 0, 0, 1, 0, 0)']).toContain(transforms)
+  await expect(page.locator('html')).toHaveAttribute('data-motion', 'paused')
+  await loadPageImages(page)
+  expect(await page.evaluate(() => document.getAnimations().length)).toBe(0)
+  await expect(page.locator('.hero-copy')).toHaveCSS('opacity', '1')
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await expect(page.locator('html')).toHaveAttribute('data-motion', 'enabled')
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await expect(page.locator('html')).toHaveAttribute('data-motion', 'paused')
+  expect(await page.evaluate(() => document.getAnimations().length)).toBe(0)
 })
 
 test('the landing page passes automated accessibility checks', async ({ page }) => {
@@ -220,7 +170,6 @@ test('the style tile is accessible and its motion study is controllable', async 
   await page.goto('/style-tile.html')
   await page.evaluate(() => document.fonts.ready)
   await page.getByRole('button', { name: 'Replay motion', exact: true }).click()
-  await page.waitForTimeout(150)
   await page.getByRole('button', { name: 'Pause motion', exact: true }).click()
   await expect(page.getByRole('button', { name: 'Resume motion' })).toHaveAttribute('aria-pressed', 'true')
   await page.getByRole('button', { name: 'Resume motion' }).click()
@@ -296,62 +245,15 @@ test('large mobile text reflows and touch controls remain comfortably sized', as
 })
 
 for (const mode of ['save-data', 'slow-network']) {
-  test(`${mode} uses a static hero without downloading a scroll sequence`, async ({ page }) => {
+  test(`${mode} disables decorative motion`, async ({ page }) => {
     await page.addInitScript(mode => {
-      if (mode === 'save-data' || mode === 'slow-network') {
-        const connection = Object.assign(new EventTarget(), { saveData: mode === 'save-data', effectiveType: mode === 'slow-network' ? '2g' : '4g' })
-        Object.defineProperty(navigator, 'connection', { value: connection, configurable: true })
-      }
+      const connection = Object.assign(new EventTarget(), { saveData: mode === 'save-data', effectiveType: mode === 'slow-network' ? '2g' : '4g' })
+      Object.defineProperty(navigator, 'connection', { value: connection, configurable: true })
     }, mode)
-    const requested: string[] = []
-    page.on('request', request => { if (/frame-\d+\.jpg/.test(request.url())) requested.push(request.url()) })
     await openLanding(page)
+    await expect(page.locator('html')).toHaveAttribute('data-motion', 'paused')
     await expect(page.locator('.hero-stage')).toHaveCSS('position', 'relative')
-    await page.evaluate(() => window.scrollTo({ top: 500, behavior: 'instant' }))
-    await expect(page.locator('.hero-media img')).toHaveAttribute('data-frame', '1')
-    expect(requested.every(url => /frame-(001|050)\.jpg/.test(url))).toBe(true)
-    await expect(page.locator('.hero-copy--first')).toHaveCSS('opacity', '1')
-    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
-    await page.getByRole('button', { name: 'Play motion', exact: true }).click()
-    await expect.poll(() => frameNumber(page)).toBeGreaterThan(3)
+    await loadPageImages(page)
+    expect(await page.evaluate(() => document.getAnimations().length)).toBe(0)
   })
 }
-
-test('hardware hints do not silently disable animation', async ({ page }) => {
-  await page.addInitScript(() => {
-    Object.defineProperty(navigator, 'deviceMemory', { value: 4, configurable: true })
-    Object.defineProperty(navigator, 'hardwareConcurrency', { value: 4, configurable: true })
-  })
-  await openLanding(page)
-  await expect.poll(() => frameNumber(page)).toBeGreaterThan(3)
-  await expect(page.getByRole('button', { name: 'Pause motion', exact: true })).toBeVisible()
-})
-
-test('reduced motion stays static until the visitor explicitly starts playback', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 })
-  await page.emulateMedia({ reducedMotion: 'reduce' })
-  await openLanding(page)
-  await page.waitForTimeout(350)
-  expect(await frameNumber(page)).toBe(1)
-  await page.getByRole('button', { name: 'Play motion', exact: true }).click()
-  await expect.poll(() => frameNumber(page)).toBeGreaterThan(3)
-  expect(await page.locator('.hero-media img').evaluate(image => image.currentSrc)).toMatch(/frame-\d+\.jpg$/)
-  await page.getByRole('button', { name: 'Pause motion', exact: true }).click()
-  const pausedFrame = await frameNumber(page)
-  await page.waitForTimeout(350)
-  expect(await frameNumber(page)).toBe(pausedFrame)
-  await page.getByRole('button', { name: 'Resume motion', exact: true }).click()
-  await expect.poll(() => frameNumber(page)).toBeGreaterThan(pausedFrame)
-  await page.reload()
-  await expect(page.getByRole('button', { name: 'Play motion', exact: true })).toBeVisible()
-  expect(await frameNumber(page)).toBe(1)
-})
-
-test('failed sequence frames keep the last loaded picture and navigation usable', async ({ page }) => {
-  await page.route('**/media/sequence/frame-*.jpg', route => /frame-(001|050)\.jpg/.test(route.request().url()) ? route.continue() : route.abort())
-  await openLanding(page)
-  await page.evaluate(() => window.scrollTo({ top: 450, behavior: 'instant' }))
-  await expect.poll(() => page.locator('.hero-media img').evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true)
-  await page.locator('.main-nav').getByRole('link', { name: 'Menu', exact: true }).click()
-  await expect(page).toHaveURL(/#menu$/)
-})

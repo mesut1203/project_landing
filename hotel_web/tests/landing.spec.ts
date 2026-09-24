@@ -1,50 +1,34 @@
 import { test, expect } from '@playwright/test'
 import { mkdir } from 'node:fs/promises'
-import type { Page } from '@playwright/test'
 
 const screenshotDir = '.tmp/screenshots'
-const settle = async (page: Page) => {
-  await page.evaluate(() => document.fonts.ready)
-  await expect(page.locator('.sequence-canvas')).toHaveAttribute('data-frame', /\d+/)
-}
-const moveStory = async (page: Page, progress: number) => {
-  await page.evaluate((p) => {
-    const track = document.querySelector('.story-track')!
-    const stage = document.querySelector('.story-stage')!
-    window.scrollTo(0, track.getBoundingClientRect().top + window.scrollY + (track.clientHeight - stage.clientHeight) * p)
-  }, progress)
-  await expect.poll(async () => Number(await page.locator('canvas').getAttribute('data-frame'))).toBeGreaterThanOrEqual(Math.round(progress * 169) - 2)
-  await expect.poll(async () => Number(await page.locator('canvas').getAttribute('data-frame'))).toBeLessThanOrEqual(Math.round(progress * 169) + 4)
-}
-
 test.beforeAll(async () => { await mkdir(screenshotDir, { recursive: true }) })
 
-test('desktop story follows native scrolling in both directions and preserves scene handoffs', async ({ page }) => {
+test('static arrival scrolls naturally without sequence requests and keeps all content', async ({ page }) => {
+  const frames: string[] = []
   const errors: string[] = []
+  page.on('request', (request) => { if (request.url().includes('/media/story/')) frames.push(request.url()) })
   page.on('pageerror', (error) => errors.push(error.message))
   await page.goto('/')
-  await settle(page)
-  await expect(page.getByRole('heading', { name: 'Arrive slowly.' })).toBeVisible()
-  await page.screenshot({ path: `${screenshotDir}/desktop-hero.png` })
-  for (const p of [0.22, 0.24, 0.52, 0.54, 0.8, 0.82, 1]) {
-    await moveStory(page, p)
-    await page.screenshot({ path: `${screenshotDir}/story-${p}.png` })
+  await page.evaluate(() => document.fonts.ready)
+  await expect(page.locator('.hero-image img')).toHaveJSProperty('naturalWidth', 1280)
+  await expect(page.locator('canvas, .story-track, .story-stage')).toHaveCount(0)
+  await page.screenshot({ path: screenshotDir + '/desktop-hero.png' })
+  const before = await page.locator('.hero').boundingBox()
+  await page.evaluate(() => window.scrollTo(0, 300))
+  const after = await page.locator('.hero').boundingBox()
+  expect(before!.y - after!.y).toBeCloseTo(300, 0)
+  for (const heading of ['Arrive slowly.', 'Step into stillness.', 'Make room for ease.', 'Stay for the view.']) {
+    await expect(page.getByRole('heading', { name: heading })).toBeVisible()
   }
-  await expect(page.getByRole('link', { name: 'Reserve your stay', exact: true })).toBeVisible()
-  await moveStory(page, 0.35)
-  await expect(page.getByRole('heading', { name: 'Step into stillness.' })).toBeVisible()
-  await moveStory(page, 0)
-  await expect.poll(async () => Number(await page.locator('canvas').getAttribute('data-cache-size'))).toBeLessThanOrEqual(30)
-  await page.getByRole('link', { name: 'Skip experience' }).click()
+  await page.getByRole('link', { name: 'Explore the rooms' }).click()
   await expect(page).toHaveURL(/#rooms$/)
   await expect(page.locator('#rooms')).toBeFocused()
   for (const id of ['rooms', 'dining', 'experiences', 'booking']) {
-    await page.locator(`#${id}`).scrollIntoViewIfNeeded()
-    await page.locator(`#${id} img`).evaluateAll(async (imgs) => { await Promise.all(imgs.filter((img) => (img as HTMLElement).offsetParent !== null).map((img) => (img as HTMLImageElement).decode().catch(() => {}))) })
-    await page.waitForTimeout(1000)
-    await page.locator(`#${id}`).screenshot({ path: `${screenshotDir}/desktop-${id}.png` })
+    await page.locator('#' + id).scrollIntoViewIfNeeded()
+    await expect(page.getByRole('heading').filter({ hasText: id === 'rooms' ? 'A room to exhale.' : id === 'dining' ? 'Dinner, unhurried.' : id === 'experiences' ? 'The city, at your pace.' : 'Your stay begins here.' })).toBeVisible()
   }
-  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0)
+  expect(frames).toEqual([])
   expect(errors).toEqual([])
 })
 
@@ -87,67 +71,47 @@ test('experience tabs support keyboard navigation', async ({ page }) => {
   await expect(tabs.nth(0)).toBeFocused()
 })
 
-test('mobile keeps the full sequence frame, fits the screen, and supports menu and fast scroll', async ({ page, context }) => {
-  await page.setViewportSize({ width: 390, height: 844 })
-  await page.goto('/')
-  await settle(page)
-  await page.screenshot({ path: `${screenshotDir}/mobile-hero.png` })
-  const media = await page.locator('.sequence-media').boundingBox()
-  expect(media!.width / media!.height).toBeCloseTo(16 / 9, 1)
-  await page.getByRole('button', { name: 'Open menu' }).click()
-  await expect(page.getByRole('navigation', { name: 'Mobile navigation' })).toBeVisible()
-  await page.keyboard.press('Escape')
-  await expect(page.getByRole('button', { name: 'Open menu' })).toBeFocused()
-  const session = await context.newCDPSession(page)
-  await session.send('Emulation.setCPUThrottlingRate', { rate: 4 })
-  await moveStory(page, 0.96)
-  await moveStory(page, 0.13)
-  await session.send('Emulation.setCPUThrottlingRate', { rate: 1 })
-  await expect.poll(async () => Number(await page.locator('canvas').getAttribute('data-cache-size'))).toBeLessThanOrEqual(18)
-  for (const id of ['rooms', 'experiences', 'booking']) {
-    await page.locator(`#${id}`).scrollIntoViewIfNeeded()
-    await page.waitForTimeout(1000)
-    await page.locator(`#${id}`).screenshot({ path: `${screenshotDir}/mobile-${id}.png` })
-  }
-  for (const viewport of [{ width: 320, height: 568 }, { width: 844, height: 390 }]) {
+
+test('mobile and landscape fit the screen and support menu navigation', async ({ page }) => {
+  for (const viewport of [{ width: 375, height: 812 }, { width: 320, height: 568 }, { width: 844, height: 390 }, { width: 768, height: 1024 }]) {
     await page.setViewportSize(viewport)
     await page.goto('/')
-    await settle(page)
+    await page.evaluate(() => document.fonts.ready)
+    await expect(page.locator('.hero-image img')).toHaveJSProperty('naturalWidth', 1280)
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0)
-    const skip = await page.getByRole('link', { name: 'Skip experience' }).boundingBox()
-    expect(skip!.y + skip!.height).toBeLessThanOrEqual(viewport.height)
-    await moveStory(page, 0.65)
-    const copy = await page.locator('.scene-copy-2').boundingBox()
-    const chapters = await page.locator('.story-bottom').boundingBox()
-    expect(copy!.y + copy!.height).toBeLessThan(chapters!.y)
-    await moveStory(page, 0)
-    await page.screenshot({ path: `${screenshotDir}/mobile-${viewport.width}.png` })
+    await page.screenshot({ path: screenshotDir + '/viewport-' + viewport.width + '.png' })
+    if (viewport.width < 768) {
+      await page.getByRole('button', { name: 'Open menu' }).click()
+      await expect(page.getByRole('navigation', { name: 'Mobile navigation' })).toBeVisible()
+      await page.keyboard.press('Escape')
+      await expect(page.getByRole('button', { name: 'Open menu' })).toBeFocused()
+    }
+    await page.getByRole('link', { name: 'Explore the rooms' }).click()
+    await expect(page.locator('#rooms')).toBeFocused()
   }
 })
 
-test('reduced motion shows the final still and all copy in normal flow, without loading the sequence', async ({ page }) => {
+test('reduced motion keeps the same content and disables motion, including preference changes', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  const frames: string[] = []
-  page.on('request', (request) => { if (request.url().includes('/media/story/')) frames.push(request.url()) })
   await page.goto('/')
-  await expect(page.locator('canvas')).toHaveCount(0)
-  await expect(page.locator('.story-track')).toHaveCount(0)
-  for (const heading of ['Arrive slowly.', 'Step into stillness.', 'Make room for ease.', 'Stay for the view.']) await expect(page.getByRole('heading', { name: heading })).toBeVisible()
-  await expect(page.locator('.static-story-image img')).toHaveAttribute('src', /frame-170/)
-  expect(frames.every((url) => url.includes('frame-170'))).toBeTruthy()
-  await page.locator('.static-story').screenshot({ path: `${screenshotDir}/reduced-motion.png` })
-  await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await settle(page)
-  await page.emulateMedia({ reducedMotion: 'reduce' })
-  await expect(page.locator('canvas')).toHaveCount(0)
+  for (const preference of ['reduce', 'no-preference', 'reduce'] as const) {
+    await page.emulateMedia({ reducedMotion: preference })
+    await page.locator('#rooms').scrollIntoViewIfNeeded()
+    await expect(page.getByRole('heading', { name: 'Arrive slowly.' })).toBeVisible()
+    await expect(page.locator('canvas, .story-track')).toHaveCount(0)
+    if (preference === 'reduce') {
+      await expect.poll(() => page.locator('.rooms-intro').evaluate((element) => getComputedStyle(element).transform)).toBe('none')
+      await expect(page.locator('.room-photo-link img').first()).toHaveCSS('transition-duration', '0s')
+    }
+  }
 })
 
-test('failed sequence and photos keep the content and booking usable', async ({ page }) => {
+test('failed photos keep the arrival content and booking usable', async ({ page }) => {
   await page.route('**/media/**', (route) => route.abort())
   await page.goto('/')
-  await expect(page.getByText('Enjoy a still moment. The moving experience is unavailable.')).toBeVisible()
+  await expect(page.locator('.hero .media-error')).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Arrive slowly.' })).toBeVisible()
-  await page.getByRole('link', { name: 'Skip experience' }).click()
+  await page.getByRole('link', { name: 'Explore the rooms' }).click()
   await expect(page.locator('.room-1 .media-error')).toBeVisible()
   await page.locator('#booking').scrollIntoViewIfNeeded()
   await expect(page.getByRole('button', { name: 'Check availability' })).toBeVisible()

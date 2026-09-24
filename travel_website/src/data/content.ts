@@ -23,12 +23,10 @@ export const content = {
   ],
   hero: {
     eyebrow: 'VIETNAM, AT YOUR OWN PACE',
-    heading: 'Go where the map gets quiet.',
-    headingStart: 'Go where',
-    headingMiddle: 'the map gets',
-    headingEnd: 'quiet.',
+    heading: 'Đi xa hơn.',
+    emphasis: 'Sống chậm lại.',
     description:
-      'Rời những lối quen. Theo một con đường nhỏ, tìm một vùng trời rộng — và một Việt Nam thật gần.',
+      'Theo một con đường nhỏ, tìm một vùng trời rộng. Một Việt Nam rất khác đang chờ bạn.',
     cta: 'Tìm hành trình của bạn',
     secondary: 'Khám phá tinh thần Nomad',
     noteLabel: 'THE ART OF GETTING LOST',

@@ -8,6 +8,6 @@ export function MediaImage({ image, className = '', eager = false }: MediaImageP
   const [failed, setFailed] = useState(false)
   return failed ? <div className={`image-unavailable ${className}`} role="img" aria-label={image.alt}><span>{brand.model}</span></div> : (
     <img src={image.src} alt={image.alt} width={image.width} height={image.height}
-      className={className} loading={eager ? 'eager' : 'lazy'} decoding="async" onError={() => setFailed(true)} />
+      className={className} loading={eager ? 'eager' : 'lazy'} fetchPriority={eager ? 'high' : undefined} decoding="async" onError={() => setFailed(true)} />
   )
 }

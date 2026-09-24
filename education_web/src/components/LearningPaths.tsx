@@ -22,7 +22,7 @@ export function LearningPaths({ data, onChoose }: LearningPathsProps) {
       </Reveal>
       <div className="paths-layout">
         {data.items.map((path, index) => (
-          <Reveal key={path.id} className={`path-reveal path-${path.id}`} delay={index * 70}>
+          <Reveal key={path.id} className={`path-reveal path-${path.id}`} delay={index * 40}>
             <article className="path-card">
               <div className="path-image">
                 <img

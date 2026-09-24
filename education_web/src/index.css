@@ -23,6 +23,7 @@
   color-scheme: light;
   --surface: #f8f9f5;
   --surface-raised: #fdfefa;
+  --surface-journey: #f0f1eb;
   --ink: #192d42;
   --muted: #5b6874;
   --line: #dce1e2;
@@ -34,7 +35,7 @@
   --success: #285d46;
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
   --motion-quick: 200ms;
-  --motion-reveal: 650ms;
+  --motion-reveal: 250ms;
   /* Layers: navigation 20, skip link 30. */
 }
 

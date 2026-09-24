@@ -5,7 +5,7 @@ export function Footer() {
   return (
     <footer className="footer">
       <div className="shell">
-        <Reveal className="footer-top" stagger>
+      <Reveal className="footer-top">
           <div>
             <a className="brand" href="#top" aria-label={content.a11y.home}>
               <BrandMark />

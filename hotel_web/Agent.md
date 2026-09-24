@@ -12,7 +12,7 @@ Trao đổi và viết tài liệu bằng tiếng Việt, trừ khi được yê
 - Vite 8 cho môi trường phát triển và build production.
 - Tailwind CSS v4 qua plugin `@tailwindcss/vite`.
 - Oxlint để kiểm tra code; cấu hình trong `.oxlintrc.json`.
-- Motion để ánh xạ native scroll sang motion values; Playwright để kiểm tra trên trình duyệt.
+- Motion cho reveal nhẹ; Playwright để kiểm tra trên trình duyệt.
 - npm là trình quản lý package; giữ `package-lock.json` đồng bộ với `package.json`.
 
 ## Cấu trúc dự án
@@ -20,11 +20,10 @@ Trao đổi và viết tài liệu bằng tiếng Việt, trừ khi được yê
 - `src/main.tsx`: khởi tạo React, font tự lưu và CSS toàn cục.
 - `src/App.tsx`: ghép các section của landing page.
 - `src/data/content.ts`: toàn bộ copy, CTA, nhãn hỗ trợ truy cập, SEO và đường dẫn media.
-- `src/components/`: Navbar, ScrollStory, Rooms, Dining, Experiences, BookingForm, Footer và component dùng chung.
-- `src/lib/sequence-player.ts`: tải ảnh, bộ đệm frame có giới hạn, render canvas và cleanup.
+- `src/components/`: Navbar, Hero, Rooms, Dining, Experiences, BookingForm, Footer và component dùng chung.
 - `src/index.css`: import Tailwind và định nghĩa CSS toàn cục.
 - `src/assets/`: ảnh, icon và tài nguyên import trong code.
-- `public/media/story/`: 170 frame từ ZIP có sẵn, giữ nguyên dữ liệu nguồn.
+- `public/media/arrival-*.jpg`: bốn ảnh tĩnh của phần giới thiệu.
 - `public/media/`: ảnh chụp cho các section, được lưu cục bộ.
 - `tests/landing.spec.ts`: kiểm tra scroll, mobile, bàn phím, reduced motion, lỗi media và form.
 - `vite.config.js`: cấu hình plugin React và Tailwind.
@@ -56,12 +55,11 @@ npm run preview
 - Dùng interfaces cho props và data. Giữ nội dung tiếng Anh của thương hiệu trong `content.ts`.
 - Giữ bảng màu charcoal, ivory, champagne và forest; font Cormorant Garamond và Manrope tự lưu.
 - Giữ native scrolling; chỉ animate transform và opacity. Không chặn wheel hoặc touch để điều khiển cuộn.
-- Không dùng React state cho giá trị tiến trình thay đổi mỗi frame. Dùng MotionValue và ref.
-- Reduced motion phải bỏ pinned story, chỉ tải ảnh cuối và hiển thị đủ nội dung theo luồng trang.
-- Giữ nút Skip experience truy cập được bằng bàn phím trên mọi kích thước màn hình.
+- Reduced motion tắt reveal và hover transform; nội dung luôn theo luồng trang bình thường.
+- Giữ liên kết Explore the rooms truy cập được bằng bàn phím trên mọi kích thước màn hình.
 - Không thêm rating, testimonial, địa chỉ hoặc số liệu không được người dùng cung cấp.
 - Form hiện là demo, không gửi dữ liệu; giữ thông báo rõ ràng đến khi có booking service thực.
-- Bộ frame hero có sẵn, có watermark, chưa xác minh là cảnh quay thật. Không mô tả là footage đã được xác minh.
+- Ảnh tĩnh phần giới thiệu có sẵn, có watermark, chưa xác minh là cảnh quay thật. Không mô tả là footage đã được xác minh.
 - Ưu tiên state cục bộ; tách component khi có trách nhiệm riêng hoặc được tái sử dụng.
 - Tuân thủ Rules of Hooks và dọn dẹp các effect có đăng ký sự kiện hoặc timer.
 - Dùng Tailwind trong `className`; CSS dùng chung đặt trong `src/index.css`.

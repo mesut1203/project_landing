@@ -11,7 +11,7 @@ export function FinalCTA() {
     <section id={booking.id} className="final-cta" tabIndex={-1} aria-labelledby="drive-title">
       <MediaImage image={booking.image} className="final-visual" />
       <div className="final-shade" aria-hidden="true" />
-      <div className="final-copy section-shell" data-reveal>
+      <div className="final-copy section-shell">
         <h2 id="drive-title" className="display-heading">{booking.heading}</h2>
         <p>{booking.description}</p>
         {booking.url ? <ActionLink action={{ ...ctas.book, href: booking.url }} /> :

@@ -63,12 +63,12 @@
       .motion-art { width: 100%; text-align: center; }
       .motion-art .wordmark { font-size: clamp(92px, 9vw, 140px); padding-right: .08em; }
       .motion-art p { margin-top: 15px; font-size: 11px; text-transform: uppercase; letter-spacing: .18em; }
-      .motion-art.is-playing { animation: reveal-study 1400ms var(--ease-out) both; }
+      .motion-art.is-playing { animation: reveal-study 280ms ease-out both; }
       .motion-art.is-paused { animation-play-state: paused; }
       .motion-status { min-height: 22px; margin-top: 15px !important; color: var(--color-muted); font-size: 12px; }
       .tile-footer { display: flex; justify-content: space-between; gap: 24px; margin-top: 88px; padding: 28px 0 38px; border-top: 1px solid var(--color-line); color: var(--color-muted); font-size: 12px; }
       .tile-footer a { text-underline-offset: 5px; }
-      @keyframes reveal-study { from { opacity: 0; transform: translateY(30px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+      @keyframes reveal-study { from { opacity: .8; transform: translateY(6px); } to { opacity: 1; transform: none; } }
       @media (min-width: 1440px) { .identity-stage figure, .identity-stage img { min-height: 440px; } }
       @media (max-width: 1023px) {
         .tile-shell { width: calc(100% - 64px); }
@@ -130,7 +130,7 @@
 
         <section class="identity-stage" aria-label="Fiamma wordmark and photography direction">
           <div class="identity-mark"><span class="wordmark">fiamma.</span><p>Pizza House</p></div>
-          <figure><img src="./media/sequence/frame-001.jpg" alt="A pizza with blistered crust, melted cheese, and fresh basil on a wooden table" width="1280" height="720" /></figure>
+          <figure><img src="./media/photos/hero.jpg" alt="A pizza with blistered crust, melted cheese, and fresh basil on a wooden table" width="1280" height="720" /></figure>
         </section>
 
         <section class="tile-section" aria-labelledby="palette-title">

@@ -3,7 +3,7 @@
 ## Tổng quan
 
 - Dự án: `car_website`.
-- Công nghệ hiện tại: React 19, TypeScript (TSX), Vite 8, Tailwind CSS 4, GSAP và Oxlint.
+- Công nghệ hiện tại: React 19, TypeScript (TSX), Vite 8, Tailwind CSS 4 và Oxlint.
 - Quản lý gói bằng npm; giữ `package-lock.json` đồng bộ khi thay đổi dependencies.
 - Trao đổi và viết nội dung hướng dẫn bằng tiếng Việt, trừ khi có yêu cầu khác.
 
@@ -13,9 +13,8 @@
 | --- | --- |
 | `src/main.tsx` | Khởi tạo React, nạp font và CSS toàn cục |
 | `src/App.tsx` | Component trang chính |
-| `src/data/content.ts` | Copy, CTA, media paths và cấu hình scene |
-| `src/components/` | Navbar, menu, story, sequence và các section |
-| `src/lib/FrameBuffer.ts` | Cache frame, tải progressive và hủy request |
+| `src/data/content.ts` | Copy, CTA và đường dẫn ảnh tĩnh |
+| `src/components/` | Navbar, menu, hero và các section landing |
 | `src/index.css` | Nhập Tailwind CSS và khai báo CSS toàn cục |
 | `src/assets/` | Tài nguyên được import trong mã nguồn |
 | `public/` | Tài nguyên tĩnh được phục vụ trực tiếp |
@@ -32,15 +31,13 @@ npm run lint
 npm run build
 npm run preview
 npm run test
-npm run media:prepare
 ```
 
 - `dev`: chạy môi trường phát triển; mở địa chỉ được in trong terminal.
 - `lint`: kiểm tra mã nguồn bằng Oxlint.
 - `build`: tạo bản production trong `dist/`.
 - `preview`: xem thử bản production sau khi build.
-- `test`: chạy Playwright với Chrome; kiểm tra responsive, scrub, menu và accessibility.
-- `media:prepare`: tạo WebP từ ZIP nguồn trong `src/assets/`.
+- `test`: chạy Playwright với Chrome; kiểm tra responsive, landing tĩnh, menu và accessibility.
 - Trên PowerShell, dùng `npm.cmd` nếu `npm.ps1` bị chặn bởi execution policy.
 
 ## Quy ước triển khai
@@ -71,7 +68,7 @@ npm run media:prepare
 
 - Sau khi thay đổi mã nguồn hoặc cấu hình build, chạy `npm run lint` và `npm run build`.
 - Với thay đổi giao diện hoặc tương tác, kiểm tra thêm trong trình duyệt khi có thể.
-- Khi thay đổi story, loader, menu hoặc responsive, chạy các bài Playwright liên quan trong `tests/`.
-- Bản media hiện tại là landscape có watermark và thay đổi mẫu xe. Không mô tả bản mobile tĩnh là phim portrait; xem `docs/MEDIA.md` trước khi thay media.
+- Khi thay đổi hero, menu hoặc responsive, chạy các bài Playwright liên quan trong `tests/`.
+- Ảnh nguồn hiện có watermark và thay đổi mẫu xe; xem `docs/MEDIA.md` trước khi thay media.
 - Với thay đổi chỉ liên quan đến tài liệu, kiểm tra nội dung và đường dẫn được nhắc đến.
 - Khi hoàn thành, báo ngắn gọn phần đã sửa, kết quả kiểm tra và những điểm chưa xác minh được.

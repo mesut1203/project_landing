@@ -351,10 +351,10 @@ h2 {
 .path-image img {
   width: 100%;
   height: 100%;
-  transition: transform 600ms var(--ease-out);
+  transition: transform 250ms var(--ease-out);
 }
 .path-card:hover .path-image img {
-  transform: scale(1.035);
+  transform: scale(1.015);
 }
 .path-technology .path-image {
   aspect-ratio: 1.95;
@@ -800,42 +800,6 @@ h2 {
 }
 .skip-link:focus {
   transform: translateY(0);
-}
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .hero-photo-wrap {
-      overflow: clip;
-      border-radius: 12px 110px 12px 12px;
-    }
-    .hero-photo {
-      animation: hero-zoom linear both;
-      animation-timeline: view();
-      animation-range: exit 0% exit 100%;
-    }
-    .hero-copy {
-      animation: hero-scroll-fade linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 80%;
-    }
-  }
-}
-@keyframes hero-zoom {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.055);
-  }
-}
-@keyframes hero-scroll-fade {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 @media (min-width: 1600px) {
   .container {

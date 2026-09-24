@@ -13,8 +13,8 @@ public/             Tài nguyên tĩnh được phục vụ trực tiếp
 src/
   assets/           Hình ảnh, font và tài nguyên import trong mã nguồn
   components/       Component dùng lại
-  data/content.ts   Toàn bộ copy, CTA, media paths và scene config
-  hooks/            Media query và video scrub
+  data/content.ts   Toàn bộ copy, CTA và đường dẫn ảnh
+  hooks/            Media query
   types/            TypeScript interfaces
   App.tsx           Component gốc
   main.tsx          Điểm khởi chạy React

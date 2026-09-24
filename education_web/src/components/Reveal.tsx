@@ -20,10 +20,10 @@ export function Reveal({ children, className = '', delay = 0 }: RevealProps) {
         if (!entry.isIntersecting) return
         animation = element.animate(
           [
-            { opacity: 0, transform: 'translateY(24px)' },
+            { opacity: 0, transform: 'translateY(8px)' },
             { opacity: 1, transform: 'translateY(0)' },
           ],
-          { duration: 650, delay, easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'backwards' },
+          { duration: 250, delay, easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'backwards' },
         )
         observer.disconnect()
       },
