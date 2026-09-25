@@ -10,7 +10,7 @@ export function ActionLink({ action, variant = 'primary', className = '' }: Acti
       onClick={(event) => {
         if (action.href.startsWith('#')) { event.preventDefault(); focusAnchor(action.href) }
       }}>
-      <span>{action.label}</span><ArrowUpRightIcon size={18} aria-hidden="true" />
+      <span>{action.label}</span><ArrowUpRightIcon size={18} weight="regular" aria-hidden="true" />
     </a>
   )
 }

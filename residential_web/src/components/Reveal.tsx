@@ -18,9 +18,9 @@ export function Reveal({ children, className }: RevealProps) {
       observer.disconnect()
       // Content stays visible even when animations are unavailable or cancelled.
       animation = element.animate?.([
-        { opacity: 0.75, transform: 'translateY(6px)' },
-        { opacity: 1, transform: 'translateY(0)' },
-      ], { duration: 250, easing: 'ease-out' })
+        { transform: 'translateY(28px)' },
+        { transform: 'translateY(0)' },
+      ], { duration: 900, easing: 'cubic-bezier(0.22, 0.75, 0.1, 1)' })
     }, { threshold: 0.12 })
     observer.observe(element)
     return () => { observer.disconnect(); animation?.cancel() }

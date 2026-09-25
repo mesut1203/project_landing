@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { ListIcon } from '@phosphor-icons/react'
 import { brand, navigation, ctas } from '../data/content'
 import { useMediaQuery } from '../hooks/useMediaQuery'
 import { focusAnchor } from '../lib/anchors'
@@ -33,7 +32,7 @@ export function Navbar() {
         </nav>
         <ActionLink action={ctas.book} variant="outline" className="nav-book" />
         <button ref={triggerRef} type="button" className="icon-button menu-trigger" onClick={() => setOpen(true)}
-          aria-label={navigation.openLabel} aria-expanded={open} aria-controls="mobile-navigation"><ListIcon size={26} /></button>
+          aria-label={navigation.openLabel} aria-expanded={open} aria-controls="mobile-navigation"><span className="morph-lines" aria-hidden="true"><span /><span /></span></button>
       </header>
       {mobile && <MobileMenu open={open} onClose={() => setOpen(false)} triggerRef={triggerRef} />}
     </>

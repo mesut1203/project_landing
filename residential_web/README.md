@@ -1,6 +1,6 @@
 # Luma Residences
 
-Landing page bất động sản sử dụng React, TypeScript, Vite và Tailwind CSS v4. Giao diện charcoal, ivory, champagne gold và forest green; font Cormorant Garamond và Manrope được phục vụ cục bộ.
+Landing page bất động sản sử dụng React, TypeScript, Vite và Tailwind CSS v4. Giao diện folio kiến trúc đơn sắc: nền limestone/ivory, chữ carbon Manrope, nét kẻ Swiss, tiêu đề ngang trên ảnh mặt đứng toàn cảnh, ba nghiên cứu không gian trong một lưới bất đối xứng và các hàng căn hộ có đánh số. Font được phục vụ cục bộ.
 
 ## Chạy dự án
 
@@ -25,8 +25,7 @@ Bản build nằm trong thư mục `dist/`.
 ```text
 public/
   images/desktop/      # Chỉ được tải trên desktop
-  images/mobile/       # Ảnh portrait riêng
-  videos/              # Video đã dựng trước đây, không được giao diện tải
+  images/mobile/       # Phiên bản tối ưu cho mobile
 src/
   assets/              # Tài nguyên import (ZIP đã được xóa)
   components/          # Các section, menu và reveal nhẹ
@@ -36,6 +35,7 @@ src/
   App.tsx
   main.tsx
   index.css
+  redesign.css         # Gallery kiến trúc và responsive hiện tại
 scripts/               # Kiểm tra hình ảnh
 tests/site.spec.ts     # Kiểm tra hành vi, responsive và accessibility
 vite.config.ts
@@ -46,10 +46,13 @@ Tailwind được tích hợp qua plugin `@tailwindcss/vite` và dòng `@import 
 ## Cuộn tự nhiên và animation nhẹ
 
 - Nội dung hiện ngay khi mở trang. Bốn phần giới thiệu dùng ảnh tĩnh và cuộn tự nhiên, không ghim màn hình, tua video hoặc intro tự chạy.
-- Reveal dùng `IntersectionObserver` và Web Animations API: fade từ 0.75 đến 1, dịch 6 px trong 250 ms, chạy một lần khi nội dung xuất hiện.
+- Các phần nội dung dùng `IntersectionObserver` và Web Animations API: dịch 28 px trong 900 ms, giữ nguyên độ đậm của chữ và form trong suốt chuyển động, chạy một lần khi nội dung xuất hiện.
 - Hover ảnh căn hộ phóng nhẹ 1.015× trong 250 ms. Nút và liên kết có phản hồi 200–220 ms.
-- Reduced motion tắt reveal và chuyển động tương tác; thay đổi tùy chọn trong lúc xem cũng được áp dụng.
-- Mobile chỉ tải ảnh portrait, desktop dùng ảnh landscape. Ảnh đầu được preload, các ảnh dưới dùng lazy loading.
+- ReactBits `SplitText` tách tiêu đề hero theo từ và xuất hiện một lần. Component được lấy từ [nguồn chính thức](https://github.com/DavidHDev/react-bits/blob/b6666e9f3a03a062143ce409f3aac53e27fdfaa8/src/ts-default/TextAnimations/SplitText/SplitText.tsx), điều chỉnh cho semantic heading, desktop và reduced motion. License MIT + Commons Clause nằm tại `public/licenses/react-bits-LICENSE.md`.
+- GSAP `ScrollTrigger` tạo chuyển động ảnh rất nhẹ bên trong khung hero và kiến trúc. Khung ảnh vẫn cuộn tự nhiên, không pin hoặc chặn thao tác cuộn.
+- Cả SplitText và chuyển động ảnh dùng `gsap.matchMedia`: tắt dưới 768px hoặc khi người dùng chọn reduced motion; cleanup khôi phục nội dung và transform khi tùy chọn thay đổi.
+- Reduced motion cũng tắt reveal và chuyển động tương tác; thay đổi tùy chọn trong lúc xem được áp dụng ngay.
+- Mobile chỉ tải phiên bản ảnh tối ưu cho màn hình nhỏ; desktop dùng ảnh landscape 1536 px. Ảnh đầu được preload, các ảnh dưới dùng lazy loading.
 - `Explore residences`, navbar và CTA sử dụng anchor thông thường.
 - ZIP nguồn và các script dựng phim đã được gỡ. Giao diện không còn phụ thuộc `motion`, `adm-zip` hoặc FFmpeg.
 
@@ -57,7 +60,14 @@ Tailwind được tích hợp qua plugin `@tailwindcss/vite` và dòng `@import 
 
 Sửa nội dung, CTA và ảnh trong `src/data/content.ts`. Vite lấy metadata HTML và preload ảnh đầu từ file này.
 
-Ảnh portrait và ảnh tiện ích được tạo mới để minh họa concept; chúng không phải ảnh chụp xác thực của một dự án đang bán. Bản demo có ghi chú rõ ở footer. Xem `MEDIA.md` để biết nguồn tài nguyên.
+Bộ ảnh gồm 12 cảnh riêng biệt, mỗi cảnh có phiên bản WebP desktop và mobile; không lặp ảnh giữa các vị trí trên trang:
+
+- Hero và nghiên cứu không gian: `luma-exterior`, `luma-courtyard`, `luma-living`, `luma-terrace`.
+- Căn hộ: `luma-one-bedroom`, `luma-two-bedroom`, `luma-three-bedroom`.
+- Vật liệu kiến trúc: `luma-materials`.
+- Tiện ích: `luma-rooftop`, `luma-wellness`, `luma-garden`, `luma-lounge`.
+
+Ảnh được tạo mới để minh họa concept; chúng không phải ảnh chụp xác thực của một dự án đang bán. Bản demo có ghi chú rõ ở footer. Xem `MEDIA.md` để biết nguồn tài nguyên.
 
 ## Form demo
 
@@ -77,7 +87,7 @@ npm run build
 npm run test
 ```
 
-Playwright dùng Chrome đã cài trên máy (`channel: 'chrome'`) và tự chạy Vite tại cổng 4173 nếu chưa có server. Nếu dùng preview đang chạy, build lại trước khi kiểm tra.
+Playwright dùng Chromium mặc định và tự chạy Vite tại cổng 4173 nếu chưa có server. Biến `PLAYWRIGHT_CHANNEL` cho phép chọn channel khác. Nếu dùng preview đang chạy, build lại trước khi kiểm tra.
 
 Bộ kiểm tra bao gồm nội dung hiện ngay, cuộn tự nhiên, không tải video, thay đổi reduced motion, menu bàn phím và focus, tách ảnh theo thiết bị, form demo, axe accessibility và overflow ở 320–1920 px.
 
@@ -89,7 +99,7 @@ Tham khảo: [HTML dialog](https://developer.mozilla.org/en-US/docs/Web/HTML/Ref
 
 Production: [luma-residences.vercel.app](https://luma-residences.vercel.app). Project: `luma-residences`.
 
-`vercel.json` cấu hình Vite, Node.js 24 (qua `package.json`), `npm ci`, `npm run build` và thư mục output `dist`. `.vercelignore` loại thư mục tạm, bài kiểm tra và ZIP nguồn khỏi gói upload; các ảnh và video đã tối ưu trong `public/` được giữ lại.
+`vercel.json` cấu hình Vite, Node.js 24 (qua `package.json`), `npm ci`, `npm run build` và thư mục output `dist`. `.vercelignore` loại thư mục tạm, bài kiểm tra và ZIP nguồn khỏi gói upload; các ảnh WebP trong `public/` được giữ lại.
 
 Lockfile đã bổ sung dependency đi kèm Tailwind cho môi trường Linux bằng npm 11 mới nhất. Khi cập nhật thư viện từ Windows, giữ đầy đủ optional/bundled dependencies để `npm ci` trên Vercel tiếp tục hoạt động.
 

@@ -1,8 +1,8 @@
 import type { Content, ResponsiveImage } from '../types/content.ts'
 
-const image = (name: string, alt: string, mobileName = name): ResponsiveImage => ({
+const image = (name: string, alt: string): ResponsiveImage => ({
   desktop: `/images/desktop/${name}.webp`,
-  mobile: `/images/mobile/${mobileName}.webp`,
+  mobile: `/images/mobile/${name}.webp`,
   alt,
 })
 
@@ -33,10 +33,10 @@ export const content: Content = {
   story: {
     title: 'A quieter way to live',
     scenes: [
-      { id: 'arrival', label: 'Arrival', title: 'A quieter way to arrive.', description: 'A considered collection of homes. A little closer to nature.', image: image('arrival', 'A contemporary residence framed by gardens in warm evening light') },
-      { id: 'lobby', label: 'The lobby', title: 'Space, considered.', description: 'An unhurried welcome, shaped by natural materials and open space.', image: image('lobby', 'A light-filled entrance with stone floors, tall glazing and greenery') },
-      { id: 'residence', label: 'The residence', title: 'Designed for everyday light.', description: 'Open rooms, gentle textures and room for your own rhythm.', image: image('residence', 'A softly furnished living room opening toward a sunlit balcony') },
-      { id: 'balcony', label: 'The view', title: 'Live with a wider view.', description: 'Step outside. Let the horizon become part of home.', image: image('balcony', 'A private balcony looking out over the city at sunset') },
+      { id: 'arrival', label: 'A considered collection of homes', title: 'A quieter way to live.', description: 'A considered collection of homes. A little closer to nature.', image: image('luma-exterior', 'Limestone residences with deep planted balconies and a landscaped garden') },
+      { id: 'lobby', label: 'The lobby', title: 'Space, considered.', description: 'An unhurried welcome, shaped by natural materials and open space.', image: image('luma-courtyard', 'Oak-lined residential entrance beside a reflecting pool and Japanese maple') },
+      { id: 'residence', label: 'The residence', title: 'Designed for everyday light.', description: 'Open rooms, gentle textures and room for your own rhythm.', image: image('luma-living', 'A sunlit living room with linen seating, walnut furniture and views across trees') },
+      { id: 'balcony', label: 'The view', title: 'Live with a wider view.', description: 'Step outside. Let the horizon become part of home.', image: image('luma-terrace', 'A planted rooftop terrace looking across wooded hills toward a distant city') },
     ],
   },
   residences: {
@@ -44,15 +44,15 @@ export const content: Content = {
     description: 'One, two and three-bedroom residences. Different ways to live, with the same attention to light, flow and feeling.',
     linkLabel: 'Enquire about this residence',
     items: [
-      { id: 'one-bedroom', title: 'One-bedroom residences', description: 'A personal retreat. Open living spaces for the rituals that make a home.', image: image('one-bedroom', 'A considered living space with natural finishes and soft furnishings', 'residence') },
-      { id: 'two-bedroom', title: 'Two-bedroom residences', description: 'Space to share, and space for yourself. A home that moves with your day.', image: image('two-bedroom', 'A bright apartment interior with floor-to-ceiling glazing', 'lobby') },
-      { id: 'three-bedroom', title: 'Three-bedroom residences', description: 'Room for life to unfold. Generous gathering spaces connected to the outdoors.', image: image('three-bedroom', 'Living and terrace spaces opening toward the evening skyline', 'balcony') },
+      { id: 'one-bedroom', title: 'One-bedroom residences', description: 'A personal retreat. Open living spaces for the rituals that make a home.', image: image('luma-one-bedroom', 'An intimate bedroom with linen bedding, an oak desk and garden views') },
+      { id: 'two-bedroom', title: 'Two-bedroom residences', description: 'Space to share, and space for yourself. A home that moves with your day.', image: image('luma-two-bedroom', 'A light-filled apartment dining room with an oak table and open kitchen') },
+      { id: 'three-bedroom', title: 'Three-bedroom residences', description: 'Room for life to unfold. Generous gathering spaces connected to the outdoors.', image: image('luma-three-bedroom', 'A generous family living room and dining area opening onto planted balconies') },
     ],
   },
   architecture: {
     title: 'Quiet by design.',
     description: 'Architecture that makes room for what matters. The warmth of natural materials. The movement of light. A sense of belonging.',
-    image: image('material', 'Stone, glass and warm timber at the entrance to the residence', 'arrival'),
+    image: image('luma-materials', 'Close architectural study of limestone, oak joinery and soft daylight'),
     details: [
       { title: 'Honest materials', description: 'Stone, timber and glass, brought together with restraint.' },
       { title: 'Natural light', description: 'Framed views and open spaces follow the changing light.' },
@@ -63,10 +63,10 @@ export const content: Content = {
     title: 'The art of slowing down.',
     description: 'Places to restore, reconnect and make a little more of the everyday.',
     items: [
-      { id: 'rooftop', title: 'Above the everyday', description: 'A rooftop to enjoy the open sky.', image: image('rooftop', 'An open rooftop terrace in the evening light') },
-      { id: 'wellness', title: 'A moment for yourself', description: 'A wellness space for a gentler rhythm.', image: image('wellness', 'A calm wellness interior with warm natural materials') },
-      { id: 'garden', title: 'Closer to nature', description: 'A garden to pause, wander and breathe.', image: image('garden', 'Lush planting and a landscaped garden path') },
-      { id: 'lounge', title: 'In good company', description: 'A lounge for easy conversation.', image: image('lounge', 'A quiet lounge with comfortable contemporary seating') },
+      { id: 'rooftop', title: 'Above the everyday', description: 'A rooftop to enjoy the open sky.', image: image('luma-rooftop', 'Rooftop seating and planted beds beneath an open pergola at sunset') },
+      { id: 'wellness', title: 'A moment for yourself', description: 'A quiet wellness space for a gentler rhythm.', image: image('luma-wellness', 'A calm indoor wellness pool lined with warm limestone and oak') },
+      { id: 'garden', title: 'Closer to nature', description: 'A garden to pause, wander and breathe.', image: image('luma-garden', 'A winding garden path between native grasses and mature trees') },
+      { id: 'lounge', title: 'In good company', description: 'A lounge for easy conversation.', image: image('luma-lounge', 'A shared lounge with sculptural armchairs, a walnut library and garden views') },
     ],
   },
   visit: {

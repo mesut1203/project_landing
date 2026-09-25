@@ -9,15 +9,6 @@ export function useScrollReveal() {
     const mobile = window.matchMedia('(max-width: 767px)')
     const visible = new Set<HTMLElement>()
     const animations = new Map<HTMLElement, Animation>()
-    let previousY = window.scrollY
-    let direction = 1
-
-    const onScroll = () => {
-      const currentY = window.scrollY
-      if (Math.abs(currentY - previousY) > 1) direction = currentY > previousY ? 1 : -1
-      previousY = currentY
-    }
-
     const observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
         const element = entry.target
@@ -30,7 +21,7 @@ export function useScrollReveal() {
         visible.add(element)
         if (reducedMotion.matches || element.contains(document.activeElement)) continue
 
-        const distance = (mobile.matches ? 22 : 36) * direction
+        const distance = mobile.matches ? 22 : 36
         const delay = Number(element.dataset.reveal) || 0
         const animation = element.animate(
           [
@@ -38,7 +29,7 @@ export function useScrollReveal() {
             { opacity: 1, translate: '0 0' },
           ],
           {
-            duration: mobile.matches ? 650 : 800,
+            duration: mobile.matches ? 800 : 1000,
             delay: Math.min(delay, mobile.matches ? 120 : 240),
             easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
             fill: 'backwards',
@@ -98,7 +89,6 @@ export function useScrollReveal() {
     })
     visitTargets(root, register)
     mutations.observe(root, { childList: true, subtree: true })
-    window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('beforeprint', finishAll)
     root.addEventListener('focusin', onFocus)
     reducedMotion.addEventListener('change', onMotionChange)
@@ -107,7 +97,6 @@ export function useScrollReveal() {
       observer.disconnect()
       mutations.disconnect()
       animations.forEach((animation) => animation.cancel())
-      window.removeEventListener('scroll', onScroll)
       window.removeEventListener('beforeprint', finishAll)
       root.removeEventListener('focusin', onFocus)
       reducedMotion.removeEventListener('change', onMotionChange)

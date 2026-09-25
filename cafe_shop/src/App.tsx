@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { HeroCoffee } from './components/HeroCoffee'
+import { CoffeeHeadline, CoffeeMarquee } from './components/CoffeeMotion'
+import { useCoffeeMotion } from './hooks/useCoffeeMotion'
 import { useScrollReveal } from './hooks/useScrollReveal'
 import { categories, formatPrice, menuItems } from './data/menu'
 import type { Category, MenuItem } from './data/menu'
@@ -87,7 +89,7 @@ function Brand() {
       <span className="brand-word">
         nâu<span>.</span>
       </span>
-      <span className="brand-caption">COFFEE & SLOW MOMENTS</span>
+      <span className="brand-caption">CÀ PHÊ & NHỮNG CUỘC HẸN</span>
     </a>
   )
 }
@@ -100,17 +102,17 @@ const navLinks = [
 
 const gallery = [
   {
-    image: '/images/cafe-interior.webp',
+    image: '/images/editorial/counter.webp',
     title: 'Góc quầy quen',
     description: 'Tiếng máy pha và hương cà phê mới.',
   },
   {
-    image: '/images/cafe-corner.webp',
+    image: '/images/editorial/window.webp',
     title: 'Một chỗ ngồi cho riêng mình',
     description: 'Đủ yên để đọc thêm vài trang sách.',
   },
   {
-    image: '/images/iced-coffee.webp',
+    image: '/images/editorial/conversation.webp',
     title: 'Những cuộc hẹn không vội',
     description: 'Chuyện hôm nay, kể nhau nghe nhé.',
   },
@@ -118,6 +120,7 @@ const gallery = [
 
 function App() {
   useScrollReveal()
+  useCoffeeMotion()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [category, setCategory] = useState<Category>('coffee')
   const [showAll, setShowAll] = useState(false)
@@ -135,6 +138,7 @@ function App() {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const galleryRef = useRef<HTMLDialogElement>(null)
   const menuToggleRef = useRef<HTMLButtonElement>(null)
+  const mobileDialogRef = useRef<HTMLDialogElement>(null)
 
   useEffect(() => {
     if (selectedItem) dialogRef.current?.showModal()
@@ -147,13 +151,13 @@ function App() {
   }, [galleryIndex])
 
   useEffect(() => {
-    if (!selectedItem && galleryIndex === null) return
+    if (!selectedItem && galleryIndex === null && !mobileMenuOpen) return
     const previous = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     return () => {
       document.body.style.overflow = previous
     }
-  }, [selectedItem, galleryIndex])
+  }, [selectedItem, galleryIndex, mobileMenuOpen])
 
   useEffect(() => {
     if (!notice) return
@@ -162,16 +166,10 @@ function App() {
   }, [notice])
 
   useEffect(() => {
-    if (!mobileMenuOpen) return
-    const onEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setMobileMenuOpen(false)
-        menuToggleRef.current?.focus()
-      }
-    }
-    window.addEventListener('keydown', onEscape)
-    return () => window.removeEventListener('keydown', onEscape)
+    if (mobileMenuOpen) mobileDialogRef.current?.showModal()
+    else mobileDialogRef.current?.close()
   }, [mobileMenuOpen])
+
 
   const filteredItems = menuItems.filter((item) => item.category === category)
   const visibleItems = showAll ? filteredItems : filteredItems.slice(0, 3)
@@ -199,7 +197,7 @@ function App() {
         Đến nội dung chính
       </a>
       <header className="site-header" id="home">
-        <div className="header-inner container" data-reveal="0">
+        <div className="header-inner container">
           <Brand />
           <nav className="desktop-nav" aria-label="Điều hướng chính">
             {navLinks.map((link) => (
@@ -210,7 +208,7 @@ function App() {
           </nav>
           <div className="header-actions">
             <a className="button button-brown header-visit" href="#ghe-nau">
-              Ghé Nâu <Icon name="up-right" />
+              Ghé Nâu <span className="action-arrow"><Icon name="up-right" /></span>
             </a>
             <button
               ref={menuToggleRef}
@@ -220,89 +218,64 @@ function App() {
               aria-controls="mobile-nav"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              <Icon name={mobileMenuOpen ? 'close' : 'menu'} />
+              <span className={`menu-lines${mobileMenuOpen ? ' is-open' : ''}`} aria-hidden="true"><span /><span /></span>
             </button>
           </div>
         </div>
-        <nav
-          className="mobile-nav"
-          id="mobile-nav"
-          aria-label="Điều hướng di động"
-          hidden={!mobileMenuOpen}
-        >
+      </header>
+      <dialog
+        ref={mobileDialogRef}
+        className="mobile-menu-dialog"
+        aria-label="Điều hướng Nâu Coffee"
+        onCancel={() => setMobileMenuOpen(false)}
+        onClose={() => setMobileMenuOpen(false)}
+      >
+        <div className="mobile-menu-top">
+          <span className="brand-word">nâu.</span>
+          <button className="icon-button menu-close" aria-label="Đóng điều hướng" onClick={() => setMobileMenuOpen(false)} autoFocus>
+            <span className="menu-lines is-open" aria-hidden="true"><span /><span /></span>
+          </button>
+        </div>
+        <p className="eyebrow">MỘT GÓC NHỎ GIỮA SÀI GÒN</p>
+        <nav className="mobile-nav" id="mobile-nav" aria-label="Điều hướng di động">
           {navLinks.map((link) => (
             <a key={link.href} href={link.href} onClick={() => setMobileMenuOpen(false)}>
+              <span className="nav-number" aria-hidden="true">/</span>
               {link.label}
-              <Icon name="up-right" />
+              <span className="action-arrow"><Icon name="up-right" /></span>
             </a>
           ))}
           <a href="#ghe-nau" onClick={() => setMobileMenuOpen(false)}>
-            Ghé Nâu
-            <Icon name="up-right" />
+            <span className="nav-number" aria-hidden="true">/</span> Ghé Nâu
+            <span className="action-arrow"><Icon name="up-right" /></span>
           </a>
         </nav>
-      </header>
+        <p className="mobile-menu-note">Cà phê ngon. Câu chuyện dài.<br />07:00 — 22:00 · Mỗi ngày</p>
+      </dialog>
 
-      <main id="main">
+
+      <main id="main" tabIndex={-1}>
         <section className="hero" aria-labelledby="hero-title">
-          <HeroCoffee />
-          <div className="hero-shade" aria-hidden="true" />
-          <div className="hero-inner container">
-            <div className="hero-copy">
-              <p className="eyebrow" data-reveal="0">
-                <span className="small-line" /> CÀ PHÊ NGON. KHOẢNH KHẮC LÀNH.
-              </p>
-              <h1 id="hero-title" data-reveal="80">
-                Chậm một chút.
-                <br />
-                <em>Đậm một ngày.</em>
-              </h1>
-              <p className="hero-description" data-reveal="140">
-                Giữa những ngày vội, Nâu dành cho bạn một góc nhỏ.
-                <br className="desktop-break" /> Có cà phê thơm, có câu chuyện, có bình yên.
-              </p>
-              <div className="hero-actions" data-reveal="200">
-                <a className="button button-cream" href="#thuc-don">
-                  Khám phá thực đơn <Icon name="arrow" />
-                </a>
-                <a className="hero-story-link" href="#cau-chuyen">
-                  Chuyện của Nâu <Icon name="up-right" />
-                </a>
+          <div className="container hero-inner">
+            <div className="hero-heading-row">
+              <p className="eyebrow">CÀ PHÊ VIỆT. NHỊP SỐNG RIÊNG.</p>
+              <p className="hero-location">SÀI GÒN<br />07:00 — 22:00</p>
+            </div>
+            <CoffeeHeadline />
+            <div className="hero-composition">
+              <div className="hero-copy">
+                <svg className="coffee-asterisk" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="6" aria-hidden="true"><path d="M24 3v42M3 24h42M9 9l30 30M9 39 39 9" /></svg>
+                <p className="hero-description">Một tách đậm vị.<br />Một khoảng thảnh thơi.<br />Một cuộc hẹn không cần vội.</p>
+                <a className="button button-brown" href="#thuc-don">Khám phá thực đơn <Icon name="up-right" /></a>
+                <a className="hero-story-link" href="#cau-chuyen">Chuyện của Nâu <Icon name="arrow" /></a>
+                <span className="hero-side-note">RANG VỪA TỚI. PHA BẰNG TÂM.</span>
               </div>
-              <div className="hero-signature" data-reveal="240">
-                <Icon name="bean" />
-                <span>Từ hạt cà phê Việt, bằng tất cả chân thành.</span>
-              </div>
+              <HeroCoffee />
             </div>
-            <div className="coffee-seal" aria-hidden="true" data-reveal="200">
-              <span>RANG MỘC</span>
-              <Icon name="bean" />
-              <span>VỊ NGUYÊN BẢN</span>
-            </div>
-            <div className="hero-bottom" data-reveal="180">
-              <span>ĐẬM ĐÀ TỪ NHỮNG ĐIỀU GIẢN DỊ</span>
-              <a href="#thuc-don">
-                Chậm lại, khám phá thêm <Icon name="down" />
-              </a>
-            </div>
+            <div className="hero-bottom"><span>HẠT VIỆT / VỊ NGUYÊN BẢN</span><a href="#thuc-don">Chậm lại, khám phá thêm <Icon name="down" /></a></div>
           </div>
         </section>
-
-        <div className="values-strip">
-          <div className="container values-inner">
-            <span data-reveal="0">
-              <Icon name="bean" /> Hạt Việt, vị nguyên bản
-            </span>
-            <span className="strip-divider" aria-hidden="true" />
-            <span data-reveal="80">
-              <Icon name="coffee" /> Pha mỗi tách bằng tâm
-            </span>
-            <span className="strip-divider" aria-hidden="true" />
-            <span data-reveal="160">
-              <Icon name="sun" /> Một góc nhỏ, nhiều bình yên
-            </span>
-          </div>
-        </div>
+        <CoffeeMarquee />
 
         <section
           className="menu-section section-space container"
@@ -312,7 +285,7 @@ function App() {
           <div className="section-heading menu-heading" data-reveal="0">
             <div>
               <p className="eyebrow">THỰC ĐƠN NHÀ NÂU</p>
-              <h2 id="menu-title">Hôm nay, bạn uống gì?</h2>
+              <h2 id="menu-title">Chọn vị<br /><em>của bạn.</em></h2>
             </div>
             <p>
               Một chút đậm, một chút ngọt.
@@ -340,12 +313,13 @@ function App() {
           <div className="product-grid" aria-live="polite" aria-atomic="false">
             {visibleItems.map((item, index) => (
               <article className="product-card" key={item.id} data-reveal={(index % 3) * 90}>
+                <span className="product-number" aria-hidden="true">0{index + 1}</span>
                 <button
-                  className={`product-photo${item.image.includes('hero-coffee') ? ' latte-photo' : ''}`}
+                  className="product-photo"
                   onClick={() => setSelectedItem(item)}
                   aria-label={`Xem chi tiết ${item.name}`}
                 >
-                  <img src={item.image} alt={item.name} width="800" height="650" loading="lazy" />
+                  <span className="media-core"><img src={item.image} alt={item.name} width="1536" height="1024" loading="lazy" /></span>
                   {item.label && <span className="product-badge">{item.label}</span>}
                   <span className="product-photo-action">
                     <Icon name="plus" />
@@ -388,15 +362,17 @@ function App() {
 
         <section className="story-section" id="cau-chuyen" aria-labelledby="story-title">
           <div className="container story-grid">
-            <div className="story-visual" data-reveal="0">
+            <div className="story-visual">
+              <div className="story-image-shell">
               <img
                 className="story-image"
-                src="/images/cafe-interior.webp"
+                src="/images/editorial/house.webp"
                 alt="Góc quán ấm áp với quầy gỗ, những chiếc cốc sứ và đèn giấy"
                 width="1400"
                 height="1885"
                 loading="lazy"
               />
+              </div>
               <div className="story-note">
                 <Icon name="coffee" />
                 <span>
@@ -407,12 +383,12 @@ function App() {
               </div>
               <span className="photo-caption">MỘT GÓC NHỎ. MỘT CÂU CHUYỆN DÀI.</span>
             </div>
-            <div className="story-copy" data-reveal="140">
+            <div className="story-copy">
               <p className="eyebrow">CHUYỆN CỦA NÂU</p>
               <h2 id="story-title">
-                Bắt đầu từ một
+                Cà phê thật.
                 <br />
-                tách cà phê <em>tử tế.</em>
+                <em>Chuyện thật dài.</em>
               </h2>
               <p>
                 Nâu tin rằng một tách cà phê ngon không cần quá nhiều điều cầu kỳ. Chỉ cần hạt được
@@ -449,7 +425,7 @@ function App() {
           <div className="section-heading" data-reveal="0">
             <div>
               <p className="eyebrow">KHÔNG GIAN NHÀ NÂU</p>
-              <h2 id="space-title">Ở đây, thời gian chậm hơn.</h2>
+              <h2 id="space-title">Chỗ quen.<br /><em>Chuyện mới.</em></h2>
             </div>
             <p>
               Nắng qua ô cửa. Nhạc khẽ bên tai.
@@ -466,6 +442,7 @@ function App() {
                 onClick={() => setGalleryIndex(index)}
                 aria-label={`Xem ảnh ${photo.title}`}
               >
+                <span className="media-core">
                 <img
                   src={photo.image}
                   alt={photo.title}
@@ -473,6 +450,7 @@ function App() {
                   height="1100"
                   loading="lazy"
                 />
+                </span>
                 <span className="gallery-overlay">
                   <span>
                     <span className="gallery-number">0{index + 1}</span>
@@ -513,7 +491,7 @@ function App() {
                 target="_blank"
                 rel="noreferrer"
               >
-                Tìm đường đến Nâu <Icon name="up-right" />
+                Tìm đường đến Nâu <span className="action-arrow"><Icon name="up-right" /></span>
               </a>
             </div>
             <div className="visit-info">
@@ -595,7 +573,7 @@ function App() {
               <Icon name="close" />
             </button>
             <div
-              className={`dialog-image${selectedItem.image.includes('hero-coffee') ? ' latte-photo' : ''}`}
+              className="dialog-image"
             >
               <img src={selectedItem.image} alt={selectedItem.name} width="800" height="800" />
             </div>

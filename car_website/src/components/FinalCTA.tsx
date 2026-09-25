@@ -15,7 +15,7 @@ export function FinalCTA() {
         <h2 id="drive-title" className="display-heading">{booking.heading}</h2>
         <p>{booking.description}</p>
         {booking.url ? <ActionLink action={{ ...ctas.book, href: booking.url }} /> :
-          <button type="button" className="action action--primary" onClick={() => setOpen(true)} aria-haspopup="dialog"><span>{ctas.book.label}</span><ArrowUpRightIcon size={18} aria-hidden="true" /></button>}
+          <button type="button" className="action action--primary" onClick={() => setOpen(true)} aria-haspopup="dialog"><span>{ctas.book.label}</span><ArrowUpRightIcon size={18} weight="regular" aria-hidden="true" /></button>}
       </div>
       <InfoDialog id="booking-info" open={open} onClose={() => setOpen(false)} title={booking.dialogTitle} description={booking.dialogDescription} closeLabel={booking.closeLabel} />
     </section>

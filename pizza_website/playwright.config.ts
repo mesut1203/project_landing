@@ -13,7 +13,7 @@ export default defineConfig({
   use: {
     baseURL: 'http://127.0.0.1:5187',
     browserName: 'chromium',
-    channel: 'msedge',
+    channel: process.env.PLAYWRIGHT_CHANNEL,
     headless: true,
     reducedMotion: 'no-preference',
     viewport: { width: 1440, height: 900 },

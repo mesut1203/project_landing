@@ -31,18 +31,18 @@
 }
 
 :root {
-  color-scheme: dark;
-  --color-bg: #171614;
-  --color-surface: #211f1c;
-  --color-text: #f4eddf;
-  --color-muted: #b7b0a4;
-  --color-accent: #c93626;
-  --color-line: rgba(244, 237, 223, 0.18);
-  --color-button-text: #fff8eb;
+  color-scheme: light;
+  --color-bg: #f8edcf;
+  --color-surface: #efe0b9;
+  --color-text: #ac271d;
+  --color-muted: #805347;
+  --color-accent: #b92c21;
+  --color-line: rgba(172, 39, 29, 0.25);
+  --color-button-text: #fff3d5;
   --font-display: 'Barlow Condensed', sans-serif;
   --font-body: 'DM Sans', sans-serif;
-  --radius-image: 8px;
-  --radius-button: 999px;
+  --radius-image: 2px;
+  --radius-button: 0px;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -76,11 +76,12 @@
   text-decoration: none;
   white-space: normal;
   cursor: pointer;
-  transition: transform 220ms var(--ease-out), opacity 220ms var(--ease-out);
+  transition: transform 220ms var(--ease-out), background-color 220ms var(--ease-out), border-color 220ms var(--ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .button:hover { transform: translateY(-2px); }
+  .button:hover { transform: translateY(-2px); background: #982419; }
+  .button--outline:hover { background: var(--color-surface); border-color: var(--color-text); }
   .button:hover .button-arrow { transform: translateX(3px); }
 }
 
@@ -95,7 +96,7 @@
 }
 
 .button--outline {
-  border-color: rgba(244, 237, 223, 0.45);
+  border-color: rgba(104, 76, 54, 0.45);
   background: transparent;
   color: var(--color-text);
 }

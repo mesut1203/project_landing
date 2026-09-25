@@ -1,11 +1,12 @@
 import { test, expect } from '@playwright/test'
+import { createHash } from 'node:crypto'
 import AxeBuilder from '@axe-core/playwright'
-import { hero } from '../src/data/content'
+import { hero, model, performance, gallery, booking } from '../src/data/content'
 
 test('landing opens immediately and scrolls naturally without loading an intro', async ({ page }) => {
   const introRequests: string[] = []
   const errors: string[] = []
-  page.on('request', (request) => { if (/sequence|\.mp4|ScrollTrigger|gsap/i.test(request.url())) introRequests.push(request.url()) })
+  page.on('request', (request) => { if (/sequence|\.mp4/i.test(request.url())) introRequests.push(request.url()) })
   page.on('pageerror', (error) => errors.push(error.message))
   await page.goto('/')
   await expect(page.getByRole('heading', { name: 'Built for the long way.', level: 1 })).toBeInViewport()
@@ -91,7 +92,7 @@ test('reduced motion keeps the same static landing on load and when toggled', as
 test('touch phone keeps a usable landing after landscape rotation', async ({ browser }) => {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true })
   const page = await context.newPage()
-  await page.goto('http://127.0.0.1:5173/')
+  await page.goto('http://127.0.0.1:5171/')
   await page.setViewportSize({ width: 844, height: 390 })
   await expect(page.getByRole('button', { name: 'Open navigation menu' })).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy()
@@ -102,7 +103,7 @@ test('touch phone keeps a usable landing after landscape rotation', async ({ bro
 })
 
 test('unavailable hero image leaves the headline and CTA usable', async ({ page }) => {
-  await page.route('**/media/ignition-desktop.webp', (route) => route.abort())
+  await page.route('**/media/apex-coast.webp', (route) => route.abort())
   await page.goto('/')
   await expect(page.locator('.hero .image-unavailable')).toBeVisible()
   await expect(page.locator('h1')).toBeInViewport()
@@ -152,7 +153,7 @@ test('editorial sections render and detail selection changes the visual', async 
   }
   await page.getByRole('button', { name: 'Interior', exact: true }).click()
   await expect(page.getByRole('button', { name: 'Interior', exact: true })).toHaveAttribute('aria-expanded', 'true')
-  await expect(page.locator('.detail-visual.is-active img')).toHaveAttribute('src', '/media/detail-interior.webp')
+  await expect(page.locator('.detail-visual.is-active img')).toHaveAttribute('src', '/media/apex-cockpit.webp')
 })
 
 test('page and open mobile menu pass accessibility checks', async ({ page }) => {
@@ -164,4 +165,82 @@ test('page and open mobile menu pass accessibility checks', async ({ page }) => 
   await page.getByRole('button', { name: 'Open navigation menu' }).click()
   const mobile = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()
   expect(mobile.violations).toEqual([])
+})
+
+
+test('every editorial photo slot has a distinct image that loads', async ({ request }) => {
+  const photos = [hero.image, model.image, ...performance.details.map(item => item.image), ...gallery.images, booking.image]
+  expect(photos).toHaveLength(9)
+  expect(new Set(photos.map(image => image.src)).size).toBe(photos.length)
+  const hashes = new Set<string>()
+  for (const image of photos) {
+    const response = await request.get(image.src)
+    expect(response.ok(), image.src).toBeTruthy()
+    expect(response.headers()['content-type'], image.src).toContain('image/webp')
+    hashes.add(createHash('sha256').update(await response.body()).digest('hex'))
+  }
+  expect(hashes.size).toBe(photos.length)
+})
+
+test('headline assembly settles and live reduced motion removes animated structures', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/')
+  await expect(page.locator('.split-char').first()).toBeAttached()
+  await expect(page.locator('.split-char').last()).toHaveCSS('opacity', '1')
+  const titleHeight = await page.locator('h1').evaluate(element => element.getBoundingClientRect().height)
+  expect(titleHeight).toBeLessThan(350)
+  await expect(page.locator('.hero .action')).toBeInViewport()
+  await page.evaluate(() => window.scrollTo({ top: 340, behavior: 'instant' }))
+  await expect.poll(() => page.locator('.hero-visual-track').evaluate(element => getComputedStyle(element).transform)).not.toBe('none')
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await expect(page.locator('.split-char')).toHaveCount(0)
+  await expect(page.locator('.hero-visual-track')).toHaveCSS('transform', 'none')
+  await expect(page.locator('.hero-shutters')).toHaveCSS('display', 'none')
+  await expect(page.locator('.reading-progress')).toHaveCSS('display', 'none')
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await expect(page.locator('.split-char').first()).toBeAttached()
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await expect(page.locator('.split-char')).toHaveCount(0)
+  await expect(page.locator('.hero-visual-track')).toHaveCSS('transform', 'none')
+})
+
+test('keyboard focus finishes the arrival and ordinary scrolling reveals editorial content', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  const focusedOpacity = await page.locator('.engineering-rail a').first().evaluate((element: HTMLAnchorElement) => {
+    element.focus()
+    return getComputedStyle(element).opacity
+  })
+  expect(focusedOpacity).toBe('1')
+  await page.evaluate(() => {
+    (document.activeElement as HTMLElement)?.blur()
+    const intro = document.querySelector('.model-intro')!
+    window.scrollTo({ top: intro.getBoundingClientRect().top + scrollY - innerHeight * 0.55, behavior: 'instant' })
+  })
+  await page.waitForFunction(() => {
+    const opacity = Number(getComputedStyle(document.querySelector('.model-intro')!).opacity)
+    return opacity > 0 && opacity < 1
+  })
+  await expect(page.locator('.model-intro')).toHaveCSS('opacity', '1')
+})
+
+test('mobile image reveal remains inside the viewport throughout its animation', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/')
+  const result = await page.evaluate(async () => {
+    const visual = document.querySelector('.detail-visuals')!
+    window.scrollTo({ top: visual.getBoundingClientRect().top + scrollY - 200, behavior: 'instant' })
+    let maxWidth = innerWidth
+    let minOpacity = 1
+    for (let frame = 0; frame < 60; frame++) {
+      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()))
+      maxWidth = Math.max(maxWidth, document.documentElement.scrollWidth)
+      minOpacity = Math.min(minOpacity, Number(getComputedStyle(visual).opacity))
+    }
+    return { maxWidth, minOpacity }
+  })
+  expect(result.maxWidth).toBeLessThanOrEqual(390)
+  expect(result.minOpacity).toBeLessThan(1)
+  await expect(page.locator('.detail-visuals')).toHaveCSS('opacity', '1')
 })

@@ -5,6 +5,7 @@ import '@fontsource/manrope/latin-400.css'
 import '@fontsource/manrope/latin-500.css'
 import '@fontsource/manrope/latin-600.css'
 import './index.css'
+import './redesign.css'
 import App from './App'
 import { brand } from './data/content'
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { RefObject } from 'react'
-import { ArrowUpRightIcon, XIcon } from '@phosphor-icons/react'
+import { ArrowUpRightIcon } from '@phosphor-icons/react'
 import { brand, navigation, ctas } from '../data/content'
 import { focusAnchor } from '../lib/anchors'
 
@@ -44,14 +44,14 @@ export function MobileMenu({ open, onClose, triggerRef }: MobileMenuProps) {
         if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus() }
       }}>
       <div className="menu-header"><span className="wordmark">{brand.logo}</span>
-        <button ref={closeRef} type="button" className="icon-button" onClick={onClose} aria-label={navigation.closeLabel}><XIcon size={26} /></button>
+        <button ref={closeRef} type="button" className="icon-button" onClick={onClose} aria-label={navigation.closeLabel}><span className="morph-lines is-open" aria-hidden="true"><span /><span /></span></button>
       </div>
       <h2 id="menu-heading" className="sr-only">{navigation.menuLabel}</h2>
       <nav aria-label={navigation.label} className="menu-links">
         {[...navigation.links, ctas.book].map((link) => (
           <a key={link.href} href={link.href} onClick={(event) => {
             event.preventDefault(); destination.current = link.href; onClose()
-          }}><span>{link.label}</span><ArrowUpRightIcon size={30} aria-hidden="true" /></a>
+          }}><span>{link.label}</span><ArrowUpRightIcon weight="light" size={30} aria-hidden="true" /></a>
         ))}
       </nav>
       <p className="menu-signoff">{storyLine}</p>

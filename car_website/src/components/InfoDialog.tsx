@@ -27,7 +27,7 @@ export function InfoDialog({ id, open, onClose, title, description, closeLabel, 
     onCancel={(event) => { event.preventDefault(); onClose() }}
     onClick={(event) => { if (event.target === event.currentTarget) onClose() }}>
     <div className="info-dialog-inner">
-      <button type="button" className="icon-button dialog-close" aria-label={closeLabel} onClick={onClose}><XIcon size={24} /></button>
+      <button type="button" className="icon-button dialog-close" aria-label={closeLabel} onClick={onClose}><XIcon weight="light" size={24} /></button>
       <h2 id={`${id}-heading`} className="display-heading">{title}</h2>
       <p id={`${id}-description`} className="body-copy">{description}</p>
       {children}

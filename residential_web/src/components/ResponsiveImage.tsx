@@ -9,6 +9,6 @@ interface ResponsiveImageProps {
 
 export function ResponsiveImage({ image, className = '', eager = false }: ResponsiveImageProps) {
   const portrait = useMediaQuery(portraitQuery)
-  return <img src={portrait ? image.mobile : image.desktop} alt={image.alt} className={className}
-    loading={eager ? 'eager' : 'lazy'} decoding="async" fetchPriority={eager ? 'high' : 'auto'} />
+  return <div className={`image-shell ${className ? `${className}-shell` : ''}`}><img src={portrait ? image.mobile : image.desktop} alt={image.alt} className={className}
+    loading={eager ? 'eager' : 'lazy'} decoding="async" fetchPriority={eager ? 'high' : 'auto'} /></div>
 }

@@ -8,6 +8,7 @@ import { Community } from './components/Community'
 import { SignupForm } from './components/SignupForm'
 import { Footer } from './components/Footer'
 import './App.css'
+import './redesign.css'
 
 export default function App() {
   const [goal, setGoal] = useState('')

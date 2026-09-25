@@ -16,7 +16,7 @@ async function loadPageImages(page: Page) {
     }
   })
   await expect.poll(
-    () => page.locator('img').evaluateAll(images => images.every(image => image.complete && image.naturalWidth > 0)),
+    () => page.locator('img').evaluateAll(images => images.filter(image => image.getClientRects().length > 0).every(image => image.complete && image.naturalWidth > 0)),
     { timeout: 20_000, message: 'Every displayed photograph should load successfully' },
   ).toBe(true)
 }
@@ -130,6 +130,7 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 375, height: 812 
     await openLanding(page)
     const image = page.locator('.hero-media img')
     const source = await image.evaluate(image => image.currentSrc)
+    const mediaTransform = await page.locator('.hero-media').evaluate(element => getComputedStyle(element).transform)
     await expect(page.locator('.hero-stage')).toHaveCSS('position', 'relative')
     const before = await page.locator('.hero-stage').boundingBox()
     expect(before!.height).toBeLessThanOrEqual(viewport.height * 1.2)
@@ -139,7 +140,7 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 375, height: 812 
     expect(before!.y - after!.y).toBeCloseTo(400, 0)
     await loadPageImages(page)
     expect(await image.evaluate(image => image.currentSrc)).toBe(source)
-    await expect(page.locator('.hero-media')).toHaveCSS('transform', 'none')
+    await expect(page.locator('.hero-media')).toHaveCSS('transform', mediaTransform)
     expect(sequences).toEqual([])
   })
 }
@@ -199,7 +200,7 @@ test('mobile navigation works by touch and keyboard, and closes after navigation
   await expect(page).toHaveURL(/#menu$/)
   await expect(navigation).toBeHidden()
   await page.getByRole('button', { name: 'Open navigation' }).click()
-  await page.locator('#menu-heading').click()
+  await page.getByRole('button', { name: 'Close navigation' }).click()
   await expect(navigation).toBeHidden()
   await page.getByRole('button', { name: 'Open navigation' }).click()
   await page.setViewportSize({ width: 1024, height: 768 })

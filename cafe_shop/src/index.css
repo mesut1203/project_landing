@@ -1,121 +1,53 @@
 :root {
-  --color-cream: #f7f3ec;
-  --color-paper: #fffaf2;
-  --color-sand: #eee5d8;
-  --color-brown: #513626;
-  --color-espresso: #2a1c15;
-  --color-ink: #3d291e;
-  --color-muted: #6b594c;
-  --color-caramel: #a97950;
+  --color-cream: #ece7d9;
+  --color-paper: #ece7d9;
+  --color-sand: #352a22;
+  --color-brown: #d99b6b;
+  --color-espresso: #211d19;
+  --color-ink: #ece7d9;
+  --color-muted: #b9ad9e;
+  --color-caramel: #d99b6b;
   --color-light-text: #e1cebc;
-  --color-line: #dcd2c5;
-  --color-dark-line: #624a37;
-  --font-body: 'Be Vietnam Pro', 'Segoe UI', sans-serif;
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --motion-duration: 220ms;
-  --motion-ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --color-line: #b9ad9e40;
+  --color-dark-line: #b9ad9e65;
+  --font-body: 'Be Vietnam Pro', sans-serif;
+  --font-display: 'Archivo Variable', 'Be Vietnam Pro', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --motion-ease: cubic-bezier(.32,.72,0,1);
+  --layer-texture: 1;
+  --layer-nav: 5;
+  --layer-toast: 8;
+  --layer-focus: 10;
   font-family: var(--font-body);
   color: var(--color-ink);
-  background: var(--color-cream);
+  background: var(--color-espresso);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color-scheme: light;
+  color-scheme: dark;
 }
-* {
-  box-sizing: border-box;
-}
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 32px;
-}
-body {
-  margin: 0;
-  min-width: 320px;
-  font-size: 16px;
-  line-height: 1.7;
-}
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
-button,
-a {
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-button {
-  color: inherit;
-  cursor: pointer;
-  border: 0;
-  background: none;
-}
-a {
-  color: inherit;
-  text-decoration: none;
-}
-button,
-a {
-  transition:
-    color 220ms,
-    background-color 220ms,
-    border-color 220ms,
-    opacity 220ms;
-}
-button:active,
-.button:active {
-  opacity: 0.78;
-}
-:focus-visible {
-  outline: 3px solid var(--color-caramel);
-  outline-offset: 5px;
-}
-img {
-  display: block;
-  max-width: 100%;
-}
-h1,
-h2,
-h3,
-p {
-  margin: 0;
-}
-h1,
-h2,
-h3 {
-  text-wrap: balance;
-}
-h1,
-h2 {
-  font-family: var(--font-display);
-  font-weight: 500;
-}
-h2 {
-  font-size: clamp(2.5rem, 4vw, 3.5rem);
-  line-height: 1.12;
-  letter-spacing: -0.035em;
-}
-em {
-  font-weight: 400;
-}
-::selection {
-  color: var(--color-cream);
-  background: var(--color-brown);
-}
-[hidden] {
-  display: none !important;
-}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 30px; }
+body { margin: 0; min-width: 320px; font-size: 16px; line-height: 1.7; }
+body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: var(--layer-texture); opacity: .026; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.65' d='M0 0h180v180H0z'/%3E%3C/svg%3E"); }
+button, input, select, textarea { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+button { color: inherit; cursor: pointer; border: 0; background: none; }
+a { color: inherit; text-decoration: none; }
+button, a { transition: color 450ms var(--motion-ease), background-color 450ms var(--motion-ease), transform 650ms var(--motion-ease), opacity 450ms var(--motion-ease); }
+button:active, .button:active { transform: scale(.98); }
+:focus-visible { outline: 2px solid #d99b6b; outline-offset: 5px; }
+p { text-wrap: pretty; }
+img { display: block; max-width: 100%; }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { text-wrap: balance; }
+h1, h2 { font-family: var(--font-display); font-weight: 600; }
+h2 { font-size: clamp(3rem, 5vw, 5rem); line-height: .98; letter-spacing: -.06em; }
+em { font-weight: inherit; font-style: normal; }
+::selection { color: #241c14; background: #e4c69e; }
+[hidden] { display: none !important; }
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
-  }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }

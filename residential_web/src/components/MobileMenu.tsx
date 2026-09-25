@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { Cross1Icon, ArrowTopRightIcon } from '@radix-ui/react-icons'
+import { ArrowTopRightIcon } from '@radix-ui/react-icons'
 import { content } from '../data/content'
 import { Brand } from './Brand'
 
@@ -43,7 +43,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
     <div className="menu-inner">
       <div className="flex items-center justify-between">
         <div onClick={onClose}><Brand /></div>
-        <button className="icon-button" aria-label={content.navigation.close} onClick={onClose}><Cross1Icon /></button>
+        <button className="icon-button menu-toggle is-open" aria-label={content.navigation.close} onClick={onClose}><span className="menu-lines" aria-hidden="true"><i /><i /></span></button>
       </div>
       <p id="menu-title" className="mt-14 text-sm text-muted">{content.navigation.menuTitle}</p>
       <nav className="menu-links" aria-label={content.navigation.label} onKeyDown={event => {

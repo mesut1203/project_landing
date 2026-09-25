@@ -5,7 +5,6 @@ import { Hero } from './components/Hero'
 import { Rooms } from './components/Rooms'
 import { Dining } from './components/Dining'
 import { Experiences } from './components/Experiences'
-import { BookingForm } from './components/BookingForm'
 import { Footer } from './components/Footer'
 
 export default function App() {
@@ -17,7 +16,6 @@ export default function App() {
         <Rooms data={content.rooms} />
         <Dining data={content.dining} />
         <Experiences data={content.experiences} />
-        <BookingForm data={content.booking} />
       </main>
       <Footer data={content.footer} brand={content.brand} links={content.nav.links} />
     </MotionConfig>

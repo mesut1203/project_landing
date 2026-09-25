@@ -16,7 +16,7 @@ describe('Learning journey', () => {
     expect(screen.getByRole('link', { name: 'Continue to community' }).getAttribute('href')).toBe(
       '#community',
     )
-    expect(screen.getByRole('img').getAttribute('src')).toBe('/images/learning-desk.webp')
+    expect(screen.getByRole('img').getAttribute('src')).toBe('/images/learning-plan.webp')
   })
 
   it('preserves all content when reduced motion changes', () => {

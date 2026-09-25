@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { content, type DestinationCategory } from '../data/content'
 import { Arrow } from './Icon'
 import { Reveal } from './Reveal'
+import DecryptedText from './react-bits/DecryptedText'
+import ScrollReveal from './react-bits/ScrollReveal'
 export function Destinations({ onChoose }: { onChoose: (id: string) => void }) {
   const [filter, setFilter] = useState<DestinationCategory>('all')
   const { destinations, interlude } = content
@@ -49,7 +51,9 @@ export function Destinations({ onChoose }: { onChoose: (id: string) => void }) {
               {destinations.count(items.length)}
             </span>
           </div>
-          <div className="destination-grid">
+          <div
+            className={`destination-grid${items.length === 1 ? ' destination-grid-single' : ''}`}
+          >
             {items.map((item) => (
               <Reveal
                 key={`${filter}-${item.id}`}
@@ -75,19 +79,29 @@ export function Destinations({ onChoose }: { onChoose: (id: string) => void }) {
                       <Arrow diagonal />
                     </span>
                   </a>
-                  <p className="eyebrow destination-location">
-                    {item.location}
-                  </p>
-                  <h3>{item.name}</h3>
-                  <p className="destination-description">{item.description}</p>
-                  <a
-                    className="text-link"
-                    href="#plan-trip"
-                    onClick={() => onChoose(item.id)}
-                  >
-                    {destinations.choose}
-                    <Arrow />
-                  </a>
+                  <div className="destination-detail">
+                    <p className="eyebrow destination-location">
+                      <DecryptedText
+                        text={item.location}
+                        animateOn="inViewHover"
+                        speed={35}
+                        maxIterations={9}
+                        characters="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                      />
+                    </p>
+                    <h3>{item.name}</h3>
+                    <p className="destination-description">
+                      {item.description}
+                    </p>
+                    <a
+                      className="text-link"
+                      href="#plan-trip"
+                      onClick={() => onChoose(item.id)}
+                    >
+                      {destinations.choose}
+                      <Arrow />
+                    </a>
+                  </div>
                 </article>
               </Reveal>
             ))}
@@ -106,12 +120,12 @@ export function Destinations({ onChoose }: { onChoose: (id: string) => void }) {
         <div className="interlude-shade" />
         <Reveal className="interlude-content">
           <p className="eyebrow">{interlude.eyebrow}</p>
-          <p className="interlude-quote">
-            {interlude.line}
-            <br />
-            <em>{interlude.emphasis}</em>
-          </p>
+          <ScrollReveal className="interlude-quote">{`${interlude.line} ${interlude.emphasis}`}</ScrollReveal>
           <span className="interlude-line" />
+          <a className="interlude-link" href="#plan-trip">
+            Bắt đầu một hành trình
+            <Arrow diagonal />
+          </a>
         </Reveal>
       </section>
     </>

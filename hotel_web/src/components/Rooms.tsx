@@ -9,7 +9,7 @@ export function Rooms({ data }: RoomsProps) {
     <section id={data.id} className="rooms section-shell" tabIndex={-1} aria-labelledby="rooms-heading">
       <Reveal className="rooms-intro"><p className="eyebrow">{data.eyebrow}</p><h2 id="rooms-heading" className="section-heading">{data.heading}</h2><p className="body-copy">{data.description}</p></Reveal>
       <div className="rooms-grid">
-        {data.items.map((room, index) => <Reveal key={room.id} className={`room room-${index + 1}`}>
+        {data.items.map((room, index) => <Reveal key={room.id} delay={index * 0.1} className={`room room-${index + 1}`}>
           <article aria-labelledby={room.id}>
             <a href={room.cta.href} className="room-photo-link" aria-label={`${room.name}: ${room.cta.label}`}><Media asset={room.image} /><span className="image-arrow"><ArrowUpRight size={26} weight="light" aria-hidden="true" /></span></a>
             <div className="room-heading"><h3 id={room.id}>{room.name}</h3><span className="room-index" aria-hidden="true">0{index + 1}</span></div>

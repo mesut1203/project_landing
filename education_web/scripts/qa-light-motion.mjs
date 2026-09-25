@@ -4,8 +4,8 @@ import { mkdir, writeFile } from 'node:fs/promises'
 
 const directory = 'artifacts/light-motion'
 await mkdir(directory, { recursive: true })
-const browser = await chromium.launch({ channel: 'chrome', headless: true })
-const report = { viewports: [], errors: [] }
+const browser = await chromium.launch({ headless: true })
+const report = { viewports: [], motionChecks: [], errors: [] }
 const baseURL = process.env.QA_URL || 'http://127.0.0.1:5173'
 try {
   for (const viewport of [
@@ -27,6 +27,7 @@ try {
     await page.goto(baseURL)
     await page.evaluate(() => document.fonts.ready)
     assert.equal(await page.locator('video, canvas, .world-track').count(), 0)
+    await page.waitForFunction(() => document.getAnimations().filter(a => a.effect?.target?.closest?.('#home')).every(a => a.playState !== 'running'))
     await page.screenshot({
       path: directory + '/hero-' + viewport.width + 'x' + viewport.height + '.png',
     })
@@ -95,6 +96,26 @@ try {
       reducedMotion: 'passed',
       journeyEnlargedText: 'passed',
     })
+    await context.close()
+  }
+  for (const width of [1440, 390]) {
+    const context = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: 'no-preference' })
+    const page = await context.newPage()
+    await page.goto(baseURL)
+    await page.waitForFunction(() => document.querySelector('.hero-title-line')?.getAnimations().some(a => a.playState === 'running'))
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.waitForFunction(() => document.getAnimations().every(a => a.playState !== 'running'))
+    assert.equal(await page.locator('.hero-title-line').first().evaluate(el => getComputedStyle(el).transform), 'none')
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    assert.equal(await page.locator('.hero-title-line').first().evaluate(el => el.getAnimations().length), 0)
+    await page.getByRole('link', { name: 'Explore courses', exact: true }).click()
+    await page.waitForFunction(() => location.hash === '#courses')
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.locator('img').evaluateAll(images => images.forEach(image => { image.loading = 'eager' }))
+    await page.waitForFunction(() => Array.from(document.images).every(image => image.complete && image.naturalWidth > 0))
+    const sources = await page.locator('img').evaluateAll(images => images.map(image => image.currentSrc))
+    assert.equal(new Set(sources).size, sources.length, 'Every image placement must have its own photograph')
+    report.motionChecks.push({ width, liveReducedMotion: 'passed', courseNavigation: 'passed', uniqueImages: sources.length })
     await context.close()
   }
   assert.deepEqual(report.errors, [])

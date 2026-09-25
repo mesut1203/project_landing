@@ -3,7 +3,21 @@
   margin-inline: auto;
 }
 .section-space {
-  padding-block: 100px;
+  padding-block: 104px 112px;
+}
+h1, h2, h3 {
+  text-wrap: balance;
+}
+.path-content > p,
+.community-points p,
+.section-description {
+  text-wrap: pretty;
+}
+.path-action:focus-visible {
+  outline-offset: 3px;
+}
+.path-technology .path-action:focus-visible {
+  outline-color: var(--sun);
 }
 .site-shell {
   padding-top: 88px;
@@ -366,7 +380,7 @@ h2 {
   flex: 1;
 }
 .path-label {
-  font-size: 9px;
+  font-size: 11px;
   line-height: 1.8;
   letter-spacing: 1.8px;
   color: var(--muted);
@@ -399,7 +413,7 @@ h2 {
   margin-top: 20px;
 }
 .path-topics li {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
 }
 .path-technology .path-topics li {
@@ -581,7 +595,7 @@ h2 {
   margin-bottom: 7px;
 }
 .community-points p {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
   line-height: 1.85;
 }
@@ -665,6 +679,10 @@ h2 {
   padding: 13px 14px;
   color: var(--ink);
 }
+.field :is(input, select):focus-visible {
+  border-color: var(--blue);
+  outline-offset: 3px;
+}
 .field select {
   padding-right: 30px;
   cursor: pointer;
@@ -679,7 +697,7 @@ h2 {
 }
 .field-hint,
 .field-error {
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.7;
   margin-top: 8px;
 }
@@ -701,7 +719,7 @@ h2 {
 }
 .privacy-note {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.8;
   margin-top: 8px;
 }
@@ -1079,7 +1097,7 @@ h2 {
     padding: 24px;
   }
   .path-label {
-    font-size: 9px;
+    font-size: 11px;
     letter-spacing: 1.2px;
   }
   .path-content > p {

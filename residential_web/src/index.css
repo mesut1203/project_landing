@@ -33,7 +33,12 @@
 .section-heading { max-width: 700px; margin-bottom: 64px; }
 .eyebrow { color: var(--color-gold); font-size: 10px; letter-spacing: 0.22em; font-weight: 500; margin-bottom: 28px; }
 .button { min-height: 48px; display: inline-flex; align-items: center; justify-content: space-between; gap: 28px; padding: 14px 22px; font-size: 12px; font-weight: 500; white-space: nowrap; border: 1px solid #777c71; transition: transform 220ms, opacity 220ms; }
-.button:hover { opacity: 0.83; }
+.button:is(:hover, :focus-visible) { border-color: var(--color-gold); background: var(--color-ivory); color: var(--color-charcoal); }
+.nav-link:is(:hover, :focus-visible), .footer-links a:is(:hover, :focus-visible), .text-link:is(:hover, :focus-visible) { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px; }
+.icon-button:is(:hover, :focus-visible) { background: #d4bea01a; }
+.button-gold:focus-visible { outline-color: var(--color-ivory); }
+.section-description, .story-description, .residence p, .amenity p { text-wrap: pretty; }
+.residence-heading a { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
 .button:active { transform: translateY(1px); }
 .button svg { width: 17px; height: 17px; flex: none; }
 .button-gold { background: var(--color-gold); color: var(--color-charcoal); border-color: var(--color-gold); }
@@ -93,7 +98,7 @@
 .architecture-copy .section-description { max-width: 390px; }
 .architecture-details { display: grid; gap: 30px; margin-top: 50px; border-top: 1px solid #f1eee632; padding-top: 34px; }
 .architecture-details h3 { font-size: 13px; color: var(--color-gold); font-weight: 500; }
-.architecture-details p { font-size: 12px; color: var(--color-muted); line-height: 1.85; margin-top: 8px; max-width: 320px; }
+.architecture-details p { font-size: 14px; color: var(--color-muted); line-height: 1.85; margin-top: 8px; max-width: 36ch; }
 .amenities-heading { max-width: 700px; margin: 0 auto 74px; text-align: center; }
 .amenities-heading .section-description { margin-inline: auto; }
 .amenities-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 66px 32px; }
@@ -104,12 +109,12 @@
 .amenity img { width: 100%; aspect-ratio: 1.44; object-fit: cover; }
 .amenity-wellness img, .amenity-garden img { aspect-ratio: 0.88; }
 .amenity h3 { font-family: var(--font-display); font-size: 30px; font-weight: 400; margin-top: 22px; }
-.amenity p { color: var(--color-muted); font-size: 12px; line-height: 1.8; margin-top: 8px; }
+.amenity p { color: var(--color-muted); font-size: 14px; line-height: 1.8; margin-top: 10px; max-width: 48ch; }
 .visit { background: #293c33; }
 .visit-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 10vw; align-items: center; }
 .visit-copy .display-title { font-size: clamp(52px, 5.8vw, 90px); }
 .visit-copy .section-description { color: #cad0c7; max-width: 350px; }
-.viewing-form { display: grid; gap: 27px; }
+.viewing-form { display: grid; gap: 27px; border-top: 1px solid #d4bea066; padding-top: 32px; }
 .form-field { display: flex; flex-direction: column; gap: 12px; }
 .form-field label { font-size: 12px; color: #e4e7df; }
 .form-field input { width: 100%; min-width: 0; min-height: 48px; border: 0; border-bottom: 1px solid #cad0c785; background: transparent; border-radius: 0; color: var(--color-ivory); font-size: 15px; padding: 7px 0 13px; }
@@ -148,13 +153,13 @@
   .brand-wordmark { font-size: 30px; }
   .brand-descriptor { font-size: 6px; }
   .display-title { font-size: 49px; }
-  .section-description { margin-top: 19px; font-size: 13px; line-height: 1.9; }
+  .section-description { margin-top: 19px; font-size: 15px; line-height: 1.85; }
   .section-heading { margin-bottom: 40px; }
   .residences-grid { grid-template-columns: 1fr; gap: 48px; }
   .residence-1, .residence-2, .residence-3 { grid-column: auto; grid-row: auto; margin-top: 0; }
   .residence-1 .residence-image, .residence-image { aspect-ratio: 4 / 5; }
   .residence h3 { font-size: 29px; }
-  .residence p { font-size: 12px; }
+  .residence p { font-size: 14px; }
   .architecture-grid { grid-template-columns: 1fr; gap: 44px; }
   .architecture-image img { aspect-ratio: 4 / 5; }
   .architecture-details { margin-top: 32px; gap: 24px; }

@@ -26,7 +26,8 @@ ul { list-style: none; margin: 0; padding: 0; }
 .section-space { padding-block: clamp(80px, 9vw, 144px); }
 .accent-period { color: var(--color-accent); }
 .icon { flex-shrink: 0; vertical-align: middle; }
-h1, h2, h3, .food-note { font-family: var(--font-display); font-weight: 700; }
+h1, h2, h3, .food-note { font-family: var(--font-display); font-weight: 700; text-wrap: balance; }
+p { text-wrap: pretty; }
 h2 { font-size: clamp(4rem, 7.2vw, 6.75rem); letter-spacing: -.025em; line-height: 1; }
 .skip-link { position: fixed; top: 12px; left: 12px; z-index: 30; background: var(--color-text); color: var(--color-bg); padding: 14px 20px; transform: translateY(-180%); }
 .skip-link:focus { transform: translateY(0); }
@@ -100,7 +101,7 @@ h2 { font-size: clamp(4rem, 7.2vw, 6.75rem); letter-spacing: -.025em; line-heigh
 .menu-content { padding-top: 6px; }
 .menu-list { border-top: 1px solid var(--color-line); }
 .menu-list li { border-bottom: 1px solid var(--color-line); }
-.menu-row { display: flex; align-items: flex-start; gap: 20px; padding-block: 32px; }
+.menu-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: baseline; gap: 20px; padding-block: 32px; }
 .menu-number { font-size: .75rem; color: var(--color-muted); padding-top: 8px; font-variant-numeric: tabular-nums; }
 .menu-item-copy { flex: 1; min-width: 0; }
 .menu-row h3 { font-size: clamp(2rem, 3vw, 2.75rem); line-height: 1.1; letter-spacing: -.01em; }
@@ -116,14 +117,18 @@ h2 { font-size: clamp(4rem, 7.2vw, 6.75rem); letter-spacing: -.025em; line-heigh
 .visit-copy h2 { font-size: clamp(5rem, 9vw, 8rem); }
 .visit-copy > p:not(.eyebrow) { margin-top: 28px; }
 .visit-copy .button { margin-top: 32px; }
-.visit-details { width: 100%; max-width: 410px; padding-top: 64px; }
+.visit-details { width: 100%; max-width: 440px; padding: clamp(24px, 3vw, 40px); border-top: 2px solid var(--color-accent); background: rgb(23 22 20 / 88%); }
 .visit-details h3 { font-size: 2rem; line-height: 1.2; margin-bottom: 28px; }
 .hours { margin: 0; font-size: .9375rem; }
 .hours div { display: flex; justify-content: space-between; gap: 16px; padding-block: 18px; border-bottom: 1px solid var(--color-line); }
 .hours div:first-child { border-top: 1px solid var(--color-line); }
 .hours dd { margin: 0; white-space: nowrap; }
 .contact-link { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 1rem; padding-block: 26px 18px; overflow-wrap: anywhere; }
-.preview-note { color: var(--color-muted); font-size: .75rem; line-height: 1.7; }
+.preview-note { color: var(--color-muted); font-size: .8125rem; line-height: 1.7; }
+.contact-link, .footer-bottom a { text-decoration: underline; text-decoration-color: var(--color-line); text-underline-offset: 6px; transition: color var(--motion-fast), text-decoration-color var(--motion-fast); }
+.contact-link:hover, .footer-bottom a:hover { color: var(--color-text); text-decoration-color: currentColor; }
+.text-link:active, .nav-link:active, .contact-link:active { opacity: .75; }
+.hours { font-variant-numeric: tabular-nums; }
 .site-footer { padding-top: 56px; padding-bottom: env(safe-area-inset-bottom); }
 .footer-top { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .footer-top p { color: var(--color-muted); font-size: .875rem; }
@@ -197,13 +202,13 @@ h2 { font-size: clamp(4rem, 7.2vw, 6.75rem); letter-spacing: -.025em; line-heigh
   .menu-intro h2 br { display: none; }
   .menu-intro > p:not(.eyebrow) { margin-top: 24px; }
   .menu-intro .text-link { margin-top: 16px; }
-  .menu-row { padding-block: 28px; gap: 14px; }
+  .menu-row { grid-template-columns: minmax(0, 1fr) auto; padding-block: 28px; gap: 14px; }
   .menu-row h3 { font-size: 2.125rem; }
   .menu-row p { max-width: 360px; }
   .menu-number { display: none; }
   .menu-price { font-size: 1.875rem; }
   .visit-layout { grid-template-columns: 1fr; padding-block: 80px; gap: 48px; }
-  .visit-details { padding-top: 0; max-width: 480px; }
+  .visit-details { max-width: 480px; }
   .visit-background { object-position: 57% center; }
   .visit-shade { background: linear-gradient(90deg, rgb(23 22 20 / 94%), rgb(23 22 20 / 78%)); }
   .visit-copy h2 { font-size: 5.5rem; }

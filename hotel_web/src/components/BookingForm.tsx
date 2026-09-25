@@ -11,7 +11,8 @@ export function BookingForm({ data }: BookingFormProps) {
   const [checkIn, setCheckIn] = useState('')
   const [checkOut, setCheckOut] = useState('')
   const [message, setMessage] = useState('')
-  const [hasError, setHasError] = useState(false)
+  const [invalidDates, setInvalidDates] = useState({ checkIn: false, checkOut: false })
+  const hasError = invalidDates.checkIn || invalidDates.checkOut
   const arrival = useRef<HTMLInputElement>(null)
   const departure = useRef<HTMLInputElement>(null)
   const today = localDate(new Date())
@@ -20,18 +21,18 @@ export function BookingForm({ data }: BookingFormProps) {
   const minCheckout = localDate(afterArrival)
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!checkIn || !checkOut) { setMessage(data.errors.required); setHasError(true); (!checkIn ? arrival : departure).current?.focus(); return }
-    if (checkIn < localDate(new Date())) { setMessage(data.errors.past); setHasError(true); arrival.current?.focus(); return }
-    if (checkOut <= checkIn) { setMessage(data.errors.order); setHasError(true); departure.current?.focus(); return }
-    setHasError(false); setMessage(data.success)
+    if (!checkIn || !checkOut) { setMessage(data.errors.required); setInvalidDates({ checkIn: !checkIn, checkOut: !checkOut }); (!checkIn ? arrival : departure).current?.focus(); return }
+    if (checkIn < localDate(new Date())) { setMessage(data.errors.past); setInvalidDates({ checkIn: true, checkOut: false }); arrival.current?.focus(); return }
+    if (checkOut <= checkIn) { setMessage(data.errors.order); setInvalidDates({ checkIn: false, checkOut: true }); departure.current?.focus(); return }
+    setInvalidDates({ checkIn: false, checkOut: false }); setMessage(data.success)
   }
-  const clear = () => { setMessage(''); setHasError(false) }
+  const clear = () => { setMessage(''); setInvalidDates({ checkIn: false, checkOut: false }) }
   return <section id={data.id} className="booking section-shell" aria-labelledby="booking-heading">
     <Reveal><p className="eyebrow">{data.eyebrow}</p><h2 id="booking-heading" className="section-heading">{data.heading}</h2><p className="body-copy">{data.description}</p></Reveal>
     <form className="booking-form" onSubmit={submit} noValidate aria-describedby="booking-note booking-message">
       <div className="booking-fields">
-        <label htmlFor="check-in"><span>{data.labels.checkIn}</span><input ref={arrival} id="check-in" name="checkIn" type="date" min={today} value={checkIn} required aria-invalid={hasError || undefined} onChange={(event) => { setCheckIn(event.target.value); clear() }} /></label>
-        <label htmlFor="check-out"><span>{data.labels.checkOut}</span><input ref={departure} id="check-out" name="checkOut" type="date" min={minCheckout} value={checkOut} required aria-invalid={hasError || undefined} onChange={(event) => { setCheckOut(event.target.value); clear() }} /></label>
+        <label htmlFor="check-in"><span>{data.labels.checkIn}</span><input ref={arrival} id="check-in" name="checkIn" type="date" min={today} value={checkIn} required aria-invalid={invalidDates.checkIn || undefined} aria-describedby={invalidDates.checkIn ? 'booking-message' : undefined} onChange={(event) => { setCheckIn(event.target.value); clear() }} /></label>
+        <label htmlFor="check-out"><span>{data.labels.checkOut}</span><input ref={departure} id="check-out" name="checkOut" type="date" min={minCheckout} value={checkOut} required aria-invalid={invalidDates.checkOut || undefined} aria-describedby={invalidDates.checkOut ? 'booking-message' : undefined} onChange={(event) => { setCheckOut(event.target.value); clear() }} /></label>
         <label htmlFor="guests"><span>{data.labels.guests}</span><select id="guests" name="guests" defaultValue="2" onChange={clear}>{data.guests.map((guest) => <option key={guest.value} value={guest.value}>{guest.label}</option>)}</select></label>
         <button className="button-primary" type="submit">{data.labels.submit}<ArrowUpRight size={21} weight="light" aria-hidden="true" /></button>
       </div>

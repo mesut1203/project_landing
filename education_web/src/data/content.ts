@@ -149,8 +149,8 @@ export const content: SiteContent = {
     primaryCta: { label: 'Explore courses', href: '#courses' },
     secondaryCta: { label: 'How it works', href: '#how-it-works' },
     image: {
-      src: '/images/hero-student.webp',
-      alt: 'A student with earphones studying with a laptop and notebook in a library',
+      src: '/images/curiosity-library.webp',
+      alt: 'A learner making notes beside a laptop in a warm sunlit library',
       width: 960,
       height: 1100,
       position: '58% center',
@@ -174,8 +174,8 @@ export const content: SiteContent = {
         goal: 'technology',
         topics: ['Web development', 'Digital skills', 'Problem solving'],
         image: {
-          src: '/images/technology.webp',
-          alt: 'A laptop with a code editor on a bright, organized desk',
+          src: '/images/code-workshop.webp',
+          alt: 'Hands working with a code editor at an oak library desk',
           width: 1000,
           height: 640,
         },
@@ -189,10 +189,10 @@ export const content: SiteContent = {
         goal: 'languages',
         topics: ['Everyday English', 'Communication'],
         image: {
-          src: '/images/languages.webp',
-          alt: 'Open books and notes ready for a focused study session',
-          width: 720,
-          height: 800,
+          src: '/images/language-conversation.webp',
+          alt: 'Two adult learners practicing conversation with language cards in a bright studio',
+          width: 1448,
+          height: 1086,
         },
       },
       {
@@ -204,8 +204,8 @@ export const content: SiteContent = {
         goal: 'creative',
         topics: ['Visual design', 'Creative writing'],
         image: {
-          src: '/images/creative.webp',
-          alt: 'Hands writing ideas in a notebook on a sunlit wooden desk',
+          src: '/images/creative-practice.webp',
+          alt: 'A hand sketching shapes beside paint swatches and a laptop',
           width: 720,
           height: 800,
         },
@@ -220,10 +220,10 @@ export const content: SiteContent = {
     journeyLabel: 'From a little curiosity to what comes next.',
     cta: { label: 'Continue to community', href: '#community' },
     media: {
-      src: 'images/learning-desk.webp',
-      alt: 'A sunlit study desk overlooking the city',
-      width: 1280,
-      height: 720,
+      src: 'images/learning-plan.webp',
+      alt: 'Hands arranging study cards beside a cobalt notebook and laptop on a bright birch desk',
+      width: 1448,
+      height: 1086,
     },
     steps: [
       {
@@ -252,7 +252,7 @@ export const content: SiteContent = {
     description:
       'A fresh perspective can change everything. Make space for conversations, shared ideas, and learning from each other.',
     image: {
-      src: '/images/community.webp',
+      src: '/images/shared-learning.webp',
       alt: 'A group of students sharing ideas around a laptop in a sunlit library',
       width: 1100,
       height: 850,

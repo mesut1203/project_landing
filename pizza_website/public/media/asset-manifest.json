@@ -1,0 +1,30 @@
+{
+  "created": "2026-09-24",
+  "generator": "OpenAI built-in image generation",
+  "format": "WebP, quality 90",
+  "note": "Original generated concept imagery; all previous photographs and source video removed.",
+  "assets": [
+    {
+      "file": "fiamma-pizza.webp",
+      "prompt": "Original authentic Neapolitan margherita pizza on cream ceramic plate and aged wooden table. Puffy charred crust, fior di latte, rich tomato and fresh basil, soft sunny window light, editorial food photography, landscape 4:3, no text or logos."
+    },
+    {
+      "file": "fiamma-craft.webp",
+      "prompt": "Original close-up of flour-dusted hands stretching fresh pizza dough on worn wood, traditional wood-fired oven glowing in the background. Warm natural side light, linen apron, realistic tactile editorial photograph, landscape 4:3, no text or logos."
+    },
+    {
+      "file": "fiamma-room.webp",
+      "prompt": "Original intimate Italian neighborhood pizzeria at golden hour. Ivory plaster, red leather banquettes, honey-colored wood tables, glass tumblers, striped awning shadows and a glowing wood-fired oven. Design magazine photograph, landscape 4:3, no people, text or logos."
+    },
+    {
+      "file": "fiamma-table.webp",
+      "prompt": "Photorealistic premium Italian sharing table seen from above: mushroom and cheese pizza beside spicy salami and roasted pepper pizza, basil, tomatoes, ivory plates and clear tumblers on red and cream checked linen. Natural sunlight, realistic food detail, no text, logos or watermark, landscape 4:3.",
+      "source": "/Users/tupt/.codex/generated_images/01a0d297-a7da-7381-97e8-4502f6194591/exec-46e093ea-c327-4dea-ae21-43d8ef778763.png"
+    },
+    {
+      "file": "fiamma-front.webp",
+      "prompt": "Photorealistic intimate Italian pizzeria entrance at dusk: weathered terracotta facade, open timber doors, warm amber interior and red banquettes, potted basil and muted striped awning. No readable signs, people, logos or watermark; centered crop-friendly landscape 4:3.",
+      "source": "/Users/tupt/.codex/generated_images/01a0d297-a7da-7381-97e8-4502f6194591/exec-98b3419a-868e-4f30-b1ce-edd4a45d652d.png"
+    }
+  ]
+}

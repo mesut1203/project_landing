@@ -30,23 +30,25 @@ Chỉnh copy, CTA, nhãn, SEO, đường dẫn ảnh tĩnh tại
 
 - src/App.tsx: ghép các section.
 - src/components/: Navbar, Hero, Rooms, Dining, Experiences, BookingForm, Footer; Media và Reveal dùng chung.
-- src/index.css: Tailwind, tokens và giao diện responsive.
+- src/index.css: Tailwind và các quy tắc nền.
+- src/redesign.css: bố cục resort, bảng màu, responsive và tương tác hiện tại.
 - public/media/: ảnh chụp cho các section.
 - tests/landing.spec.ts: kiểm tra trên trình duyệt.
-- scripts/fetch-media.mjs: tải lại ảnh stock từ nguồn đã chọn.
 
 ## Thiết kế
 
-Quiet luxury với bố cục editorial bất đối xứng và các khung hình sắc cạnh.
+Không gian nghỉ dưỡng ven biển: hero ảnh tràn màn hình, tiêu đề serif đặt trên ảnh,
+menu trong suốt theo luồng trang và form đặt ngày ở chân hero. Nội dung tiếp nối bằng
+các ảnh không khung, khoảng trắng rộng và bố cục tạp chí xen kẽ.
 Cormorant Garamond cho tiêu đề khách sạn, Manrope cho nội dung và điều khiển.
 Font được đóng gói cục bộ, không gọi Google Fonts khi mở trang.
 
 | Token | Giá trị |
 | --- | --- |
-| Charcoal | #202520 |
-| Ivory | #f5f3ec |
-| Champagne | #d4c3a3 |
-| Forest | #35493e |
+| Charcoal | #353b33 |
+| Ivory | #faf9f4 |
+| Champagne | #c6b898 |
+| Forest | #515c47 |
 
 Design-taste: variance 7 (Rooms bất đối xứng), motion 1 (chuyển động nhẹ),
 density 3 (nhiều khoảng thở). Các vùng sáng/tối và màu sắc theo brief Aurelia.
@@ -55,16 +57,23 @@ density 3 (nhiều khoảng thở). Các vùng sáng/tối và màu sắc theo b
 
 Hero dùng ảnh tĩnh; cả bốn không gian hiển thị theo luồng trang bình thường.
 Không có canvas, ghim màn hình hay tải chuỗi frame khi cuộn.
-Reveal chạy một lần trong 250 ms, dịch 6px và tăng opacity từ 0.9 lên 1.
-Hover ảnh phóng nhẹ 1.015 lần trong 250 ms. Chế độ prefers-reduced-motion
-tắt các hiệu ứng này và được cập nhật khi người dùng đổi thiết lập.
+Trên desktop, tiêu đề hero trượt lên theo hai nhịp; ảnh mở đầu chuyển nhẹ từ cận cảnh
+ra khung rộng. Ảnh nội dung có lớp rèm mở bằng transform và chiều sâu parallax
+nhẹ trong khung cố định. Reveal dịch 40px trong 1.15 giây, giữ nguyên opacity
+để chữ và nhãn form luôn đủ tương phản.
+Hover ảnh phòng phóng nhẹ trong khung; mũi tên và đường gạch liên kết chuyển động
+nhẹ. Tabs trải nghiệm có chuyển cảnh theo chiều dọc. Mobile dùng ảnh tĩnh và
+chuyển động tiêu đề/nội dung ngắn, không có parallax hoặc lớp rèm ảnh;
+`prefers-reduced-motion` tắt chuyển động và được cập nhật ngay giữa phiên,
+gỡ cả các component parallax và tiêu đề tách từ.
 Explore the rooms đưa người dùng tới Rooms và chuyển focus.
 
-Đã xóa ZIP nguồn và bộ 170 frame không còn dùng. Bốn ảnh tĩnh được giữ tại
-public/media/arrival-{entrance,lobby,suite,view}.jpg từ bộ ảnh cũ.
-Các ảnh này có watermark và chưa xác minh là cảnh khách sạn thật.
-Ảnh các section là ảnh stock minh họa từ Unsplash, được lưu cục bộ.
-Nguồn nằm trong photoSources tại content.ts; tải lại bằng node scripts/fetch-media.mjs.
+Toàn bộ ảnh cũ đã được thay bằng ảnh minh họa mới tạo bằng image_gen.
+Mỗi vị trí dùng một ảnh riêng: aurelia-coast, aurelia-pool, aurelia-retreat,
+aurelia-balcony, aurelia-suite, aurelia-classic, aurelia-terrace-room,
+aurelia-table, aurelia-headland, aurelia-spa và aurelia-rooftop.
+Các file WebP nằm trong public/media/; đây là hình ảnh concept, không phải ảnh
+của một khách sạn đã xác minh. Script tải ảnh stock cũ đã được xóa.
 
 ## Form và tương tác
 
@@ -80,9 +89,9 @@ Menu mobile hỗ trợ Escape và trả focus về nút mở.
 
 ## Kiểm tra
 
-Playwright dùng channel msedge (Edge có sẵn trên máy).
-Máy không có Edge: chạy `npx playwright install chromium` và bỏ channel
-trong playwright.config.ts.
+Playwright dùng Chromium mặc định. Chạy `npx playwright install chromium` nếu
+chưa có trình duyệt; biến `PLAYWRIGHT_CHANNEL` cho phép chọn channel khác.
+Máy chủ kiểm tra chạy riêng trên cổng 5188.
 
 Bộ kiểm tra gồm cuộn tự nhiên, không tải sequence, liên kết và focus, form demo,
 tabs bàn phím, mobile 320px/375px, tablet, landscape, reduced motion lúc tải trang

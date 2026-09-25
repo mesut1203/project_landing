@@ -10,8 +10,6 @@
     "preview": "vite preview",
     "test": "vitest run",
     "format": "prettier --write src tests vite.config.ts vitest.config.ts",
-    "media:fetch": "node scripts/fetch-intro-media.mjs",
-    "media:build": "node scripts/build-intro.mjs",
     "test:browser": "node scripts/qa-light-motion.mjs"
   },
   "dependencies": {
@@ -25,6 +23,7 @@
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.7",
     "@types/node": "^24.13.3",

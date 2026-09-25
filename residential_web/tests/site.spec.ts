@@ -18,9 +18,11 @@ test('desktop opens immediately and scrolls through still images without video',
   await expect(page.locator('.story-section')).toHaveCount(4)
   const image = page.locator('.story-image').first()
   await expect.poll(() => image.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0)
-  const before = (await image.boundingBox())!
+  // The photographic frame scrolls naturally while its image has subtle parallax.
+  const frame = page.locator('.story-figure').first()
+  const before = (await frame.boundingBox())!
   await page.evaluate(() => window.scrollTo({ top: 250, behavior: 'instant' }))
-  await expect.poll(async () => before.y - (await image.boundingBox())!.y).toBeCloseTo(250, 0)
+  await expect.poll(async () => before.y - (await frame.boundingBox())!.y).toBeCloseTo(250, 0)
   for (const title of ['Space, considered.', 'Designed for everyday light.', 'Live with a wider view.']) {
     const heading = page.getByRole('heading', { name: title, exact: true })
     await heading.scrollIntoViewIfNeeded()
@@ -50,9 +52,13 @@ test('reduced motion exposes every section without animations', async ({ page })
 
 test('changing reduced motion keeps content and links accessible', async ({ page }) => {
   await enter(page)
+  await expect.poll(() => page.locator('#hero-title .split-word').count()).toBeGreaterThan(0)
+  await expect(page.locator('.story-image').first()).not.toHaveCSS('transform', 'none')
   await page.locator('#lobby-title').scrollIntoViewIfNeeded()
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await expect.poll(() => page.evaluate(() => document.getAnimations().length)).toBe(0)
+  await expect(page.locator('#hero-title .split-word')).toHaveCount(0)
+  await expect(page.locator('.story-image').first()).toHaveCSS('transform', 'none')
   await expect(page.locator('.story-section')).toHaveCount(4)
   await expect(page.locator('#lobby-title')).toBeVisible()
   expect(await page.evaluate(() => document.body.style.overflow)).not.toBe('hidden')
@@ -87,6 +93,8 @@ test.describe('mobile', () => {
     await enter(page)
     await expect(page.locator('video')).toHaveCount(0)
     await expect.poll(() => page.locator('.story-image').first().evaluate((img: HTMLImageElement) => img.naturalWidth > 0 && img.naturalWidth < img.naturalHeight)).toBe(true)
+    await expect(page.locator('#hero-title .split-word')).toHaveCount(0)
+    await expect(page.locator('.story-image').first()).toHaveCSS('transform', 'none')
     const trigger = page.getByRole('button', { name: 'Open menu' })
     await trigger.click()
     const dialog = page.getByRole('dialog')

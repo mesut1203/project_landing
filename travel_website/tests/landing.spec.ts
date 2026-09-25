@@ -66,8 +66,47 @@ test('destination filters and demo form validate and create a local summary', as
   expect(requests).toEqual([])
 })
 
+test('corrected name and month errors clear before resubmission', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/#plan-trip')
+  const name = page.getByLabel('Tên của bạn')
+  const month = page.getByLabel('Tháng dự kiến')
+  await name.fill('A')
+  await name.blur()
+  await expect(name).toHaveAttribute('aria-invalid', 'true')
+  await name.fill(' ')
+  await expect(page.locator('#name-error')).toBeVisible()
+  await name.fill('Minh Anh')
+  await expect(name).toHaveAttribute('aria-invalid', 'false')
+  await expect(page.locator('#name-error')).toHaveCount(0)
+  await expect(name).not.toHaveAttribute('aria-describedby')
+  await month.fill('2020-01')
+  await month.blur()
+  await expect(month).toHaveAttribute('aria-invalid', 'true')
+  await month.fill('2021-01')
+  await expect(page.locator('#month-error')).toBeVisible()
+  await month.fill('2099-12')
+  await expect(month).toHaveAttribute('aria-invalid', 'false')
+  await expect(page.locator('#month-error')).toHaveCount(0)
+  await month.fill('2020-01')
+  await month.blur()
+  await expect(page.locator('#month-error')).toBeVisible()
+  await month.fill('')
+  await expect(month).toHaveAttribute('aria-invalid', 'false')
+  await expect(month).not.toHaveAttribute('aria-describedby')
+  await expect(page.locator('#month-error')).toHaveCount(0)
+  await page.getByLabel('Khoảng trời bạn chọn').selectOption('flexible')
+  await page.getByRole('button', { name: 'Tạo ý tưởng chuyến đi' }).click()
+  await expect(page.locator('.trip-summary')).toContainText('Minh Anh')
+})
+
 for (const size of [
   { width: 375, height: 812 },
+  { width: 600, height: 800 },
+  { width: 667, height: 375 },
+  { width: 767, height: 800 },
   { width: 812, height: 375 },
   { width: 768, height: 1024 },
   { width: 1440, height: 900 },
@@ -102,6 +141,13 @@ for (const size of [
       ),
     ).toBe(true)
     await page.evaluate(() => window.scrollTo(0, 0))
+    const heroBounds = await page.locator('#top').boundingBox()
+    const scrollLinkBounds = await page
+      .locator('.hero-scroll-hint')
+      .boundingBox()
+    expect(scrollLinkBounds!.y + scrollLinkBounds!.height).toBeLessThanOrEqual(
+      heroBounds!.y + heroBounds!.height,
+    )
     if (size.width === 375) {
       await page.getByRole('button', { name: 'Mở menu' }).click()
       await expect(page.locator('#mobile-menu')).toBeVisible()
