@@ -4,15 +4,15 @@ Seven React + TypeScript + Vite sites, redesigned in their existing frameworks. 
 
 ## Deployed websites
 
-| Website | URL |
-| --- | --- |
-| Nâu Coffee | https://nau-coffee-eight.vercel.app |
-| Apex Motors | https://car-website-eight-henna.vercel.app |
-| Learn Forward | https://education-web-roan.vercel.app |
-| Aurelia | https://hotel-web-phi-two.vercel.app |
-| Fiamma | https://fiamma-pizza-house.vercel.app |
-| Luma Residences | https://luma-residences.vercel.app |
-| Nomad | https://nomad-vietnam.vercel.app |
+| Website         | URL                                         |
+| --------------- | ------------------------------------------- |
+| Nâu Coffee      | https://nau-coffee-eight.vercel.app         |
+| Apex Motors     | https://car-website-eight-henna.vercel.app/ |
+| Learn Forward   | https://education-web-roan.vercel.app       |
+| Aurelia         | https://hotel-web-phi-two.vercel.app        |
+| Fiamma          | https://fiamma-pizza-house.vercel.app       |
+| Luma Residences | https://luma-residences.vercel.app          |
+| Nomad           | https://nomad-vietnam.vercel.app            |
 
 ## Preview everything
 
@@ -24,15 +24,15 @@ node preview.mjs
 
 Open **http://127.0.0.1:5279** for the customer-facing collection page. It starts all seven independent sites. Stop with Ctrl+C. Dependencies must already be installed in each site (`npm ci` inside each folder).
 
-| Folder | Brand | Direction | Local preview |
-| --- | --- | --- | --- |
-| `cafe_shop` | Nâu Coffee | Espresso-and-copper coffee atelier, bold Swiss typography and React Bits motion | http://127.0.0.1:5270 |
-| `car_website` | Apex Motors | Graphite performance showroom, engineering rails and technical data | http://127.0.0.1:5271 |
-| `education_web` | Learn Forward | Cobalt learning institute, bold type, yellow intake bar and course index | http://127.0.0.1:5272 |
-| `hotel_web` | Aurelia | Immersive coast photography, quiet centered type and a booking strip | http://127.0.0.1:5273 |
-| `pizza_website` | Fiamma | Tomato and butter trattoria poster, expressive masthead and paper menu | http://127.0.0.1:5274 |
-| `residential_web` | Luma Residences | Architectural folio, broad exhibition image, precise grids and animated typography | http://127.0.0.1:5275 |
-| `travel_website` | Nomad | Cinematic travel journal, immersive landscapes, featured journeys and React Bits reveals | http://127.0.0.1:5276 |
+| Folder            | Brand           | Direction                                                                                | Local preview                    |
+| ----------------- | --------------- | ---------------------------------------------------------------------------------------- | -------------------------------- |
+| `cafe_shop`       | Nâu Coffee      | Espresso-and-copper coffee atelier, bold Swiss typography and React Bits motion          | http://127.0.0.1:5270            |
+| `car_website`     | Apex Motors     | Graphite performance showroom, engineering rails and technical data                      | http://127.0.0.1:5271            |
+| `education_web`   | Learn Forward   | Cobalt learning institute, bold type, yellow intake bar and course index                 | http://127.0.0.1:5272            |
+| `hotel_web`       | Aurelia         | Immersive coast photography, quiet centered type and a booking strip                     | http://127.0.0.1:5273            |
+| `pizza_website`   | Fiamma          | Tomato and butter trattoria poster, expressive masthead and paper menu                   | http://127.0.0.1:5274            |
+| `residential_web` | Luma Residences | Architectural folio, broad exhibition image, precise grids and animated typography       | http://127.0.0.1:5275            |
+| `travel_website`  | Nomad           | Cinematic travel journal, immersive landscapes, featured journeys and React Bits reveals | https://nomad-vietnam.vercel.app |
 
 The collection template is `preview.html`; its seven website captures are in `.preview/`. The launcher serves them locally alongside the independent sites.
 
@@ -58,15 +58,15 @@ All original tracked raster images have been removed. There are 68 distinct gene
 
 Generated with the built-in imagegen tool. These are concept illustrations, not photographs documenting real properties, products, or people. The brief used realistic editorial photography, natural materials, consistent light and color per category, and no embedded text or watermarks.
 
-| Site | Asset directory | Image subjects |
-| --- | --- | --- |
-| Café | `cafe_shop/public/images/editorial/` | 17 photos: twelve individual menu items, coffee ritual, interior, counter, reading corner and conversation |
-| Cars | `car_website/public/media/` | Nine views: coast, profile, handling, cockpit, bodywork, mountain pass, rear, headlight and night pavilion |
-| Education | `education_web/public/images/` | Six scenes: individual learner, creative practice, community, code workshop, language conversation and study planning |
-| Hotel | `hotel_web/public/media/` | Eleven scenes: coastline, pool, reading alcove, balcony, three rooms, dining, headland, spa and rooftop |
-| Pizza | `pizza_website/public/media/` | Five scenes: margherita, dough craft, dining room, sharing table and entrance |
-| Residential | `residential_web/public/images/desktop/` and `mobile/` | Twelve scenes: four architectural studies, three residences, materials and four amenities |
-| Travel | `travel_website/public/images/` | Eight scenes: Ha Giang dawn, terrace walk, mountain pass, coastal cove and road, Hoi An morning and riverside, tea hills |
+| Site        | Asset directory                                        | Image subjects                                                                                                           |
+| ----------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| Café        | `cafe_shop/public/images/editorial/`                   | 17 photos: twelve individual menu items, coffee ritual, interior, counter, reading corner and conversation               |
+| Cars        | `car_website/public/media/`                            | Nine views: coast, profile, handling, cockpit, bodywork, mountain pass, rear, headlight and night pavilion               |
+| Education   | `education_web/public/images/`                         | Six scenes: individual learner, creative practice, community, code workshop, language conversation and study planning    |
+| Hotel       | `hotel_web/public/media/`                              | Eleven scenes: coastline, pool, reading alcove, balcony, three rooms, dining, headland, spa and rooftop                  |
+| Pizza       | `pizza_website/public/media/`                          | Five scenes: margherita, dough craft, dining room, sharing table and entrance                                            |
+| Residential | `residential_web/public/images/desktop/` and `mobile/` | Twelve scenes: four architectural studies, three residences, materials and four amenities                                |
+| Travel      | `travel_website/public/images/`                        | Eight scenes: Ha Giang dawn, terrace walk, mountain pass, coastal cove and road, Hoi An morning and riverside, tea hills |
 
 ## Functionality
 

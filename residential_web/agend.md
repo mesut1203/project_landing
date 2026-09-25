@@ -59,6 +59,7 @@ npm run preview     # Xem bản build sau khi build thành công
 ## Kiểm tra trước khi hoàn tất
 
 - Chạy `npm run build` sau khi thay đổi mã nguồn hoặc cấu hình build.
+
 - Khi thay đổi giao diện, kiểm tra trên kích thước màn hình máy tính và điện thoại.
 - Khi thay đổi tương tác, kiểm tra trực tiếp hành vi liên quan.
 - Chạy `npm run test` cho thay đổi tương tác/media/accessibility. Dự án có Playwright và axe; chưa có script lint.
